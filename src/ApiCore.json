@@ -1,0 +1,3508 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CardanoBI API",
+    "description": "A fully open-source Business Intelligence API for Cardano.",
+    "termsOfService": "https://example.com/terms",
+    "contact": {
+      "name": "Example Contact",
+      "url": "https://example.com/contact"
+    },
+    "license": {
+      "name": "Example License",
+      "url": "https://example.com/license"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/core/addresses/info": {
+      "get": {
+        "tags": [
+          "Core",
+          "Addresses",
+          "Info"
+        ],
+        "summary": "All addresses information.",
+        "description": "Returns useful information for all addresses.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/addresses/{address}/info": {
+      "get": {
+        "tags": [
+          "Core",
+          "Addresses",
+          "Info"
+        ],
+        "summary": "One address information.",
+        "description": "Returns useful information for one given payment address or all payment addresses linked to a given stake address.",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "description": "A payment address or a stake address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/addressesinfo": {
+      "get": {
+        "tags": [
+          "Core",
+          "Addresses",
+          "Info"
+        ],
+        "summary": "All addresses information.",
+        "description": "Returns useful information for all addresses.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/addressesinfo/{address}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Addresses",
+          "Info"
+        ],
+        "summary": "One address information.",
+        "description": "Returns useful information for one given payment address or all payment addresses linked to a given stake address.",
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "description": "A payment address or a stake address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressInfo"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/bi/addresses/stats": {
+      "get": {
+        "tags": [
+          "BI",
+          "Addresses",
+          "Stats"
+        ],
+        "summary": "All stake addresses stats per epoch.",
+        "description": "Returns stake addresses statistics per epoch.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressStat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/bi/addresses/{stake_address}/stats": {
+      "get": {
+        "tags": [
+          "BI",
+          "Addresses",
+          "Stats"
+        ],
+        "summary": "One stake address stats per epoch.",
+        "description": "Returns statistics for one given stake address and for all epochs.",
+        "parameters": [
+          {
+            "name": "stake_address",
+            "in": "path",
+            "description": "Stake address",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressStat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/bi/addresses/stats/epochs/{epoch_no}": {
+      "get": {
+        "tags": [
+          "BI",
+          "Addresses",
+          "Stats"
+        ],
+        "summary": "All stake addresses stats for one epoch.",
+        "description": "Returns all stake addresses statistics for one given epoch.",
+        "parameters": [
+          {
+            "name": "epoch_no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressStat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/bi/odata/addressesstats": {
+      "get": {
+        "tags": [
+          "BI",
+          "Addresses",
+          "Stats"
+        ],
+        "summary": "All stake addresses stats per epoch.",
+        "description": "Returns stake addresses statistics per epoch.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressStat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs"
+        ],
+        "summary": "All epochs.",
+        "description": "Returns all epoch entities.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Epoch"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs/{no}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs"
+        ],
+        "summary": "One epoch by number.",
+        "description": "Returns one specific epoch given its number.",
+        "parameters": [
+          {
+            "name": "no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Epoch"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/epochs": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs"
+        ],
+        "summary": "All epochs.",
+        "description": "Returns all epoch entities.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Epoch"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/epochs/{no}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs"
+        ],
+        "summary": "One epoch by number.",
+        "description": "Returns one specific epoch given its number.",
+        "parameters": [
+          {
+            "name": "no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Epoch"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs/params": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Parameters"
+        ],
+        "summary": "All epoch params.",
+        "description": "Returns the parameters for all epoch.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EpochParam"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs/{no}/params": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Parameters"
+        ],
+        "summary": "One epoch params by number.",
+        "description": "Returns the parameters of one specific epoch given its number.",
+        "parameters": [
+          {
+            "name": "no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EpochParam"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/epochsparams": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Parameters"
+        ],
+        "summary": "All epoch params.",
+        "description": "Returns the parameters for all epoch.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EpochParam"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/epochsparams/{no}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Parameters"
+        ],
+        "summary": "One epoch params by number.",
+        "description": "Returns the parameters of one specific epoch given its number.",
+        "parameters": [
+          {
+            "name": "no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EpochParam"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs/stakes": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Stakes"
+        ],
+        "summary": "All epoch stake distributions.",
+        "description": "Returns stake distributions for all epochs and all pools.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EpochStake"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs/{no}/stakes": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Stakes"
+        ],
+        "summary": "One epoch stake distributions.",
+        "description": "Returns the stake distribution for one epoch given its number.",
+        "parameters": [
+          {
+            "name": "no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EpochStake"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs/stakes/pools/{pool_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Stakes"
+        ],
+        "summary": "One pool stake distributions.",
+        "description": "Returns the stake distribution for one pool across all epochs given its Bech32 pool hash.",
+        "parameters": [
+          {
+            "name": "pool_hash",
+            "in": "path",
+            "description": "Bech32 pool hash",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EpochStake"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/epochs/{no}/stakes/pools/{pool_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Stakes"
+        ],
+        "summary": "One epoch and one pool stake distributions.",
+        "description": "Returns the stake distribution for one epoch given its number, and for one pool given its Bech32 pool hash.",
+        "parameters": [
+          {
+            "name": "no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "pool_hash",
+            "in": "path",
+            "description": "Bech32 pool hash",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EpochStake"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/epochsstakes": {
+      "get": {
+        "tags": [
+          "Core",
+          "Epochs",
+          "Stakes"
+        ],
+        "summary": "All epoch stake distributions.",
+        "description": "Returns stake distributions for all epochs and all pools.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EpochStake"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/$metadata": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "api/core/odata/$metadata",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bi/odata/$metadata": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "api/bi/odata/$metadata",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IEdmModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/core/odata": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "api/core/odata/",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bi/odata": {
+      "get": {
+        "tags": [
+          "Metadata"
+        ],
+        "operationId": "api/bi/odata/",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json;odata.metadata=minimal;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=minimal;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=minimal": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=full;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=full": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=none;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.metadata=none": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.streaming=true": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json;odata.streaming=false": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ODataServiceDocument"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/core/pools/hashes": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Hashes"
+        ],
+        "summary": "All pool key hash.",
+        "description": "Returns every unique pool key hash.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolHash"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolshashes": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Hashes"
+        ],
+        "summary": "All pool key hash.",
+        "description": "Returns every unique pool key hash.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolHash"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/metadata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Metadata"
+        ],
+        "summary": "All pool metadata.",
+        "description": "Returns all on-chain references to off-chain pool metadata.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/{pool_id}/metadata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Metadata"
+        ],
+        "summary": "One pool metadata by pool id.",
+        "description": "Returns the on-chain references to off-chain pool metadata for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/metadata/hashes/{meta_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Metadata"
+        ],
+        "summary": "One pool metadata by pool metadata hash.",
+        "description": "Returns the on-chain references to off-chain pool metadata for one pool given its metadata hash.",
+        "parameters": [
+          {
+            "name": "meta_hash",
+            "in": "path",
+            "description": "Pool metadata hash",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsmetadata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Metadata"
+        ],
+        "summary": "All pool metadata.",
+        "description": "Returns all on-chain references to off-chain pool metadata.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsmetadata/{pool_id}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Metadata"
+        ],
+        "summary": "One pool metadata by pool id.",
+        "description": "Returns the on-chain references to off-chain pool metadata for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolMetadata"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/offlinedata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "OfflineData"
+        ],
+        "summary": "All pool offline data.",
+        "description": "Returns all pool offline (ie not on chain) data.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineData"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/{pool_id}/offlinedata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "OfflineData"
+        ],
+        "summary": "One pool offline data by pool id.",
+        "description": "Returns the offline (ie not on chain) data for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineData"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/{ticker}/offlinedata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "OfflineData"
+        ],
+        "summary": "One pool offline data by pool ticker.",
+        "description": "Returns the offline (ie not on chain) data for one pool given its ticker.",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "path",
+            "description": "Pool ticker",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineData"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/metadata/{meta_hash}/offlinedata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "OfflineData"
+        ],
+        "summary": "One pool offline data by pool metadata hash.",
+        "description": "Returns the offline (ie not on chain) data for one pool given its metadata hash.",
+        "parameters": [
+          {
+            "name": "meta_hash",
+            "in": "path",
+            "description": "Pool metadata hash",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineData"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsofflinedata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "OfflineData"
+        ],
+        "summary": "All pool offline data.",
+        "description": "Returns all pool offline (ie not on chain) data.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineData"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsofflinedata/{pool_id}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "OfflineData"
+        ],
+        "summary": "One pool offline data by pool id.",
+        "description": "Returns the offline (ie not on chain) data for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineData"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/offlinefetcherrors": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "FetchErrors"
+        ],
+        "summary": "All pool offline fetch errors.",
+        "description": "Returns all pool offline fetch errors.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineFetchError"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/{pool_id}/offlinefetcherrors": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "FetchErrors"
+        ],
+        "summary": "One pool offline fetch errors by pool id.",
+        "description": "Returns the offline fetch errors for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineFetchError"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsofflinefetcherrors": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "FetchErrors"
+        ],
+        "summary": "All pool offline fetch errors.",
+        "description": "Returns all pool offline fetch errors.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineFetchError"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsofflinefetcherrors/{pool_id}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "FetchErrors"
+        ],
+        "summary": "One pool offline fetch errors by pool id.",
+        "description": "Returns the offline fetch errors for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolOfflineFetchError"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/relays/updates": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Relays"
+        ],
+        "summary": "All relays.",
+        "description": "Returns all pool relays.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolRelay"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/relays/updates/{update_id}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Relays"
+        ],
+        "summary": "One pool relays by pool update unique identifier.",
+        "description": "Returns the relays for one pool given a pool update unique identifier.",
+        "parameters": [
+          {
+            "name": "update_id",
+            "in": "path",
+            "description": "The pool update unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolRelay"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/{vrf_key_hash}/relays/updates": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Relays"
+        ],
+        "summary": "One pool relays by VRF key hash.",
+        "description": "Returns the relays for one pool given its VRF key hash.",
+        "parameters": [
+          {
+            "name": "vrf_key_hash",
+            "in": "path",
+            "description": "The pool VRF key in HEX format.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolRelay"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsrelays": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Relays"
+        ],
+        "summary": "All relays.",
+        "description": "Returns all pool relays.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolRelay"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsrelays/{update_id}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Relays"
+        ],
+        "summary": "One pool relays by pool update unique identifier.",
+        "description": "Returns the relays for one pool given a pool update unique identifier.",
+        "parameters": [
+          {
+            "name": "update_id",
+            "in": "path",
+            "description": "The pool update unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolRelay"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/bi/pools/stats": {
+      "get": {
+        "tags": [
+          "BI",
+          "Pools",
+          "Stats"
+        ],
+        "summary": "All pools statistics per epoch.",
+        "description": "Pools activity statistics per epoch number.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolStat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/bi/pools/{pool_hash}/stats": {
+      "get": {
+        "tags": [
+          "BI",
+          "Pools",
+          "Stats"
+        ],
+        "summary": "One pool statistics per epoch.",
+        "description": "Pool activity statistics for a given pool per epoch number.",
+        "parameters": [
+          {
+            "name": "pool_hash",
+            "in": "path",
+            "description": "The Bech32 encoding of a given pool hash",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolStat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/bi/odata/poolsstats": {
+      "get": {
+        "tags": [
+          "BI",
+          "Pools",
+          "Stats"
+        ],
+        "summary": "All pools statistics per epoch.",
+        "description": "Pools activity statistics per epoch number.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolStat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/updates": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Updates"
+        ],
+        "summary": "All on-chain pool updates.",
+        "description": "Returns all on-chain pool updates.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolUpdate"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/{pool_id}/updates": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Updates"
+        ],
+        "summary": "One pool on-chain updates.",
+        "description": "Returns the on-chain updates for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolUpdate"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/pools/{vrf_key_hash}/updates": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Updates"
+        ],
+        "summary": "One pool on-chain updates.",
+        "description": "Returns the on-chain updates for one pool given its VRF key hash.",
+        "parameters": [
+          {
+            "name": "vrf_key_hash",
+            "in": "path",
+            "description": "The pool VRF key in HEX format.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolUpdate"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsupdates": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Updates"
+        ],
+        "summary": "All on-chain pool updates.",
+        "description": "Returns all on-chain pool updates.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolUpdate"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/poolsupdates/{pool_id}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Pools",
+          "Updates"
+        ],
+        "summary": "One pool on-chain updates.",
+        "description": "Returns the on-chain updates for one pool given its unique identifier.",
+        "parameters": [
+          {
+            "name": "pool_id",
+            "in": "path",
+            "description": "Pool unique identifier",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PoolUpdate"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AddressInfo": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "The address.",
+            "nullable": true
+          },
+          "stake_address_id": {
+            "type": "integer",
+            "description": "The stake addres unique identifier.",
+            "format": "int64",
+            "nullable": true
+          },
+          "stake_address": {
+            "type": "string",
+            "description": "The stake address.",
+            "nullable": true
+          },
+          "script_hash": {
+            "type": "string",
+            "description": "The script hash in HEX form in case this address is locked by a script.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AddressStat": {
+        "type": "object",
+        "properties": {
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "stake_address": {
+            "type": "string",
+            "description": "The stake address.",
+            "nullable": true
+          },
+          "tx_count": {
+            "type": "integer",
+            "description": "The transaction count.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EdmContainerElementKind": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EdmExpressionKind": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EdmSchemaElementKind": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EdmTypeKind": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Epoch": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The epoch unique identifier.",
+            "format": "int64"
+          },
+          "out_sum": {
+            "type": "number",
+            "description": "The sum of the transaction output values (in Lovelace) in this epoch.",
+            "format": "double"
+          },
+          "fees": {
+            "type": "number",
+            "description": "The sum of the fees (in Lovelace) in this epoch.",
+            "format": "double"
+          },
+          "tx_count": {
+            "type": "integer",
+            "description": "The number of transactions in this epoch.",
+            "format": "int32"
+          },
+          "blk_count": {
+            "type": "integer",
+            "description": "The number of blocks in this epoch.",
+            "format": "int32"
+          },
+          "no": {
+            "type": "integer",
+            "description": "The epoch number.",
+            "format": "int32"
+          },
+          "start_time": {
+            "type": "string",
+            "description": "The epoch start time.",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "description": "The epoch end time.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EpochParam": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The epoch param unique identifier.",
+            "format": "int64"
+          },
+          "epoch_no": {
+            "type": "integer",
+            "description": "The first epoch for which these parameters are valid.",
+            "format": "int32"
+          },
+          "min_fee_a": {
+            "type": "integer",
+            "description": "The 'a' parameter to calculate the minimum transaction fee.",
+            "format": "int32"
+          },
+          "min_fee_b": {
+            "type": "integer",
+            "description": "The 'b' parameter to calculate the minimum transaction fee.",
+            "format": "int32"
+          },
+          "max_block_size": {
+            "type": "integer",
+            "description": "The maximum block size (in bytes).",
+            "format": "int32"
+          },
+          "max_tx_size": {
+            "type": "integer",
+            "description": "The maximum transaction size (in bytes).",
+            "format": "int32"
+          },
+          "max_bh_size": {
+            "type": "integer",
+            "description": "The maximum block header size (in bytes).",
+            "format": "int32"
+          },
+          "key_deposit": {
+            "type": "number",
+            "description": "The amount (in Lovelace) require for a deposit to register a StakeAddress.",
+            "format": "double"
+          },
+          "pool_deposit": {
+            "type": "number",
+            "description": "The amount (in Lovelace) require for a deposit to register a stake pool.",
+            "format": "double"
+          },
+          "max_epoch": {
+            "type": "integer",
+            "description": "The maximum number of epochs in the future that a pool retirement is allowed to be scheduled for.",
+            "format": "int32"
+          },
+          "optimal_pool_count": {
+            "type": "integer",
+            "description": "The optimal number of stake pools.",
+            "format": "int32"
+          },
+          "influence": {
+            "type": "number",
+            "description": "The influence of the pledge on a stake pool's probability on minting a block.",
+            "format": "double"
+          },
+          "monetary_expand_rate": {
+            "type": "number",
+            "description": "The monetary expansion rate.",
+            "format": "double"
+          },
+          "treasury_growth_rate": {
+            "type": "number",
+            "description": "The treasury growth rate.",
+            "format": "double"
+          },
+          "decentralisation": {
+            "type": "number",
+            "description": "The decentralisation parameter (1 fully centralised, 0 fully decentralised).",
+            "format": "double"
+          },
+          "protocol_major": {
+            "type": "integer",
+            "description": "The protocol major number.",
+            "format": "int32"
+          },
+          "protocol_minor": {
+            "type": "integer",
+            "description": "The protocol minor number.",
+            "format": "int32"
+          },
+          "min_utxo_value": {
+            "type": "number",
+            "description": "The minimum value of a UTxO entry.",
+            "format": "double"
+          },
+          "min_pool_cost": {
+            "type": "number",
+            "description": "The minimum pool cost.",
+            "format": "double"
+          },
+          "nonce": {
+            "type": "string",
+            "description": "The nonce value for this epoch.",
+            "format": "byte",
+            "nullable": true
+          },
+          "cost_model_id": {
+            "type": "integer",
+            "description": "The CostModel table index for the params.",
+            "format": "int64",
+            "nullable": true
+          },
+          "price_mem": {
+            "type": "number",
+            "description": "The per word cost of script memory usage.",
+            "format": "double",
+            "nullable": true
+          },
+          "price_step": {
+            "type": "number",
+            "description": "The cost of script execution step usage.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_tx_ex_mem": {
+            "type": "number",
+            "description": "The maximum number of execution memory allowed to be used in a single transaction.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_tx_ex_steps": {
+            "type": "number",
+            "description": "The maximum number of execution steps allowed to be used in a single transaction.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_block_ex_mem": {
+            "type": "number",
+            "description": "The maximum number of execution memory allowed to be used in a single block.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_block_ex_steps": {
+            "type": "number",
+            "description": "The maximum number of execution steps allowed to be used in a single block.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_val_size": {
+            "type": "number",
+            "description": "The maximum Val size.",
+            "format": "double",
+            "nullable": true
+          },
+          "collateral_percent": {
+            "type": "integer",
+            "description": "The percentage of the txfee which must be provided as collateral when including non-native scripts.",
+            "format": "int32",
+            "nullable": true
+          },
+          "max_collateral_inputs": {
+            "type": "integer",
+            "description": "The maximum number of collateral inputs allowed in a transaction.",
+            "format": "int32",
+            "nullable": true
+          },
+          "block_id": {
+            "type": "integer",
+            "description": "The Block table index for the first block where these parameters are valid.",
+            "format": "int64"
+          },
+          "extra_entropy": {
+            "type": "string",
+            "description": "The 32 byte string of extra random-ness to be added into the protocol's entropy pool.",
+            "format": "byte",
+            "nullable": true
+          },
+          "coins_per_utxo_size": {
+            "type": "number",
+            "description": "For Alonzo this is the cost per UTxO word. For Babbage and later per UTxO byte.",
+            "format": "double",
+            "nullable": true
+          },
+          "nonce_hex": {
+            "type": "string",
+            "description": "The nonce value for this epoch in hexadecimal form.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EpochStake": {
+        "type": "object",
+        "properties": {
+          "epoch_stake_id": {
+            "type": "integer",
+            "description": "The epoch stake unique identifier.",
+            "format": "int64",
+            "nullable": true
+          },
+          "epoch_stake_amount": {
+            "type": "number",
+            "description": "The amount (in Lovelace) being staked.",
+            "format": "double",
+            "nullable": true
+          },
+          "epoch_stake_epoch_no": {
+            "type": "integer",
+            "description": "The epoch number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "pool_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the pool hash.",
+            "nullable": true
+          },
+          "pool_hash": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool hash.",
+            "nullable": true
+          },
+          "stake_address": {
+            "type": "string",
+            "description": "The Bech32 encoded version of the stake address hash.",
+            "nullable": true
+          },
+          "stake_address_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the stake address hash.",
+            "nullable": true
+          },
+          "stake_address_script_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the script hash, in case this address is locked by a script.",
+            "nullable": true
+          },
+          "stake_address_id": {
+            "type": "integer",
+            "description": "The stake address unique identifier.",
+            "format": "int64",
+            "nullable": true
+          },
+          "stake_address_tx_id": {
+            "type": "integer",
+            "description": "The Tx table index of the transaction in which this address first appeared.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmDirectValueAnnotationsManager": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "IEdmEntityContainer": {
+        "type": "object",
+        "properties": {
+          "elements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IEdmEntityContainerElement"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "schemaElementKind": {
+            "$ref": "#/components/schemas/EdmSchemaElementKind"
+          },
+          "namespace": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmEntityContainerElement": {
+        "type": "object",
+        "properties": {
+          "containerElementKind": {
+            "$ref": "#/components/schemas/EdmContainerElementKind"
+          },
+          "container": {
+            "$ref": "#/components/schemas/IEdmEntityContainer"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmExpression": {
+        "type": "object",
+        "properties": {
+          "expressionKind": {
+            "$ref": "#/components/schemas/EdmExpressionKind"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmModel": {
+        "type": "object",
+        "properties": {
+          "schemaElements": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IEdmSchemaElement"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "vocabularyAnnotations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IEdmVocabularyAnnotation"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "referencedModels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IEdmModel"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "declaredNamespaces": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "directValueAnnotationsManager": {
+            "$ref": "#/components/schemas/IEdmDirectValueAnnotationsManager"
+          },
+          "entityContainer": {
+            "$ref": "#/components/schemas/IEdmEntityContainer"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmSchemaElement": {
+        "type": "object",
+        "properties": {
+          "schemaElementKind": {
+            "$ref": "#/components/schemas/EdmSchemaElementKind"
+          },
+          "namespace": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmTerm": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/IEdmTypeReference"
+          },
+          "appliesTo": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "defaultValue": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "schemaElementKind": {
+            "$ref": "#/components/schemas/EdmSchemaElementKind"
+          },
+          "namespace": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmType": {
+        "type": "object",
+        "properties": {
+          "typeKind": {
+            "$ref": "#/components/schemas/EdmTypeKind"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmTypeReference": {
+        "type": "object",
+        "properties": {
+          "isNullable": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "definition": {
+            "$ref": "#/components/schemas/IEdmType"
+          }
+        },
+        "additionalProperties": false
+      },
+      "IEdmVocabularyAnnotatable": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "IEdmVocabularyAnnotation": {
+        "type": "object",
+        "properties": {
+          "qualifier": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "term": {
+            "$ref": "#/components/schemas/IEdmTerm"
+          },
+          "target": {
+            "$ref": "#/components/schemas/IEdmVocabularyAnnotatable"
+          },
+          "value": {
+            "$ref": "#/components/schemas/IEdmExpression"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ODataEntitySetInfo": {
+        "type": "object",
+        "properties": {
+          "typeAnnotation": {
+            "$ref": "#/components/schemas/ODataTypeAnnotation"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ODataFunctionImportInfo": {
+        "type": "object",
+        "properties": {
+          "typeAnnotation": {
+            "$ref": "#/components/schemas/ODataTypeAnnotation"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ODataServiceDocument": {
+        "type": "object",
+        "properties": {
+          "typeAnnotation": {
+            "$ref": "#/components/schemas/ODataTypeAnnotation"
+          },
+          "entitySets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ODataEntitySetInfo"
+            },
+            "nullable": true
+          },
+          "singletons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ODataSingletonInfo"
+            },
+            "nullable": true
+          },
+          "functionImports": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ODataFunctionImportInfo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ODataSingletonInfo": {
+        "type": "object",
+        "properties": {
+          "typeAnnotation": {
+            "$ref": "#/components/schemas/ODataTypeAnnotation"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ODataTypeAnnotation": {
+        "type": "object",
+        "properties": {
+          "typeName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolHash": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The pool hash unique identifier.",
+            "format": "int64"
+          },
+          "hash_raw": {
+            "type": "string",
+            "description": "The raw bytes of the pool hash.",
+            "format": "byte",
+            "nullable": true
+          },
+          "view": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool hash.",
+            "nullable": true
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the pool hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolMetadata": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The pool metadata ref unique identifier.",
+            "format": "int64"
+          },
+          "pool_id": {
+            "type": "integer",
+            "description": "The PoolHash table index of the pool for this reference.",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL for the location of the off-chain data.",
+            "nullable": true
+          },
+          "hash": {
+            "type": "string",
+            "description": "The expected hash for the off-chain data.",
+            "format": "byte",
+            "nullable": true
+          },
+          "registered_tx_id": {
+            "type": "integer",
+            "description": "The Tx table index of the transaction in which provided this metadata reference.",
+            "format": "int64"
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the expected hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolOfflineData": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The pool offline data unique identifier.",
+            "format": "int64"
+          },
+          "pool_id": {
+            "type": "integer",
+            "description": "The PoolHash table index for the pool this offline data refers.",
+            "format": "int64"
+          },
+          "ticker_name": {
+            "type": "string",
+            "description": "The pool's ticker name (as many as 5 characters).",
+            "nullable": true
+          },
+          "hash": {
+            "type": "string",
+            "description": "The hash of the offline data.",
+            "format": "byte",
+            "nullable": true
+          },
+          "json": {
+            "type": "string",
+            "description": "The payload as JSON.",
+            "nullable": true
+          },
+          "bytes": {
+            "type": "string",
+            "description": "The raw bytes of the payload.",
+            "format": "byte",
+            "nullable": true
+          },
+          "pmr_id": {
+            "type": "integer",
+            "description": "The PoolMetadataRef table index for this offline data.",
+            "format": "int64"
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the offline data hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolOfflineFetchError": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The pool offline fetch error unique identifier.",
+            "format": "int64"
+          },
+          "pool_id": {
+            "type": "integer",
+            "description": "The PoolHash table index for the pool this offline fetch error refers.",
+            "format": "int64"
+          },
+          "fetch_time": {
+            "type": "string",
+            "description": "The UTC time stamp of the error.",
+            "format": "date-time"
+          },
+          "pmr_id": {
+            "type": "integer",
+            "description": "The PoolMetadataRef table index for this offline data.",
+            "format": "int64"
+          },
+          "fetch_error": {
+            "type": "string",
+            "description": "The text of the error.",
+            "nullable": true
+          },
+          "retry_count": {
+            "type": "integer",
+            "description": "The number of retries.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolRelay": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The pool relay unique identifier.",
+            "format": "int64"
+          },
+          "update_id": {
+            "type": "integer",
+            "description": "The PoolUpdate table index this PoolRelay entry refers to.",
+            "format": "int64"
+          },
+          "ipv4": {
+            "type": "string",
+            "description": "The IPv4 address of the relay.",
+            "nullable": true
+          },
+          "ipv6": {
+            "type": "string",
+            "description": "The IPv6 address of the relay.",
+            "nullable": true
+          },
+          "dns_name": {
+            "type": "string",
+            "description": "The DNS name of the relay.",
+            "nullable": true
+          },
+          "dns_srv_name": {
+            "type": "string",
+            "description": "The DNS service name of the relay.",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "description": "The port number of relay.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolStat": {
+        "type": "object",
+        "properties": {
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "pool_hash": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool hash.",
+            "nullable": true
+          },
+          "tx_count": {
+            "type": "integer",
+            "description": "The transaction count.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolUpdate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The pool update unique identifier.",
+            "format": "int64"
+          },
+          "hash_id": {
+            "type": "integer",
+            "description": "The PoolHash table index of the pool this update refers to.",
+            "format": "int64"
+          },
+          "cert_index": {
+            "type": "integer",
+            "description": "The index of this pool update within the certificates of this transaction.",
+            "format": "int32"
+          },
+          "vrf_key_hash": {
+            "type": "string",
+            "description": "The hash of the pool's VRF key.",
+            "format": "byte",
+            "nullable": true
+          },
+          "pledge": {
+            "type": "number",
+            "description": "The amount (in Lovelace) the pool owner pledges to the pool.",
+            "format": "double"
+          },
+          "active_epoch_no": {
+            "type": "integer",
+            "description": "The epoch number where this update becomes active.",
+            "format": "int64"
+          },
+          "meta_id": {
+            "type": "integer",
+            "description": "The PoolMetadataRef table index this pool update refers to.",
+            "format": "int64",
+            "nullable": true
+          },
+          "margin": {
+            "type": "number",
+            "description": "The margin (as a percentage) this pool charges.",
+            "format": "double"
+          },
+          "fixed_cost": {
+            "type": "number",
+            "description": "The fixed per epoch fee (in ADA) this pool charges.",
+            "format": "double"
+          },
+          "registered_tx_id": {
+            "type": "integer",
+            "description": "The Tx table index of the transaction in which provided this pool update.",
+            "format": "int64"
+          },
+          "reward_addr_id": {
+            "type": "integer",
+            "description": "The StakeAddress table index of this pool's rewards address. New in v13: Replaced reward_addr.",
+            "format": "int64"
+          },
+          "vrf_key_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the VRF key hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "oauth2",
+        "description": "JWT Authorization header using the Bearer scheme."
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

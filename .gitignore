@@ -11,6 +11,11 @@ CHECKLIST.md
 *.sln.docstates
 .vscode/
 
+# App generated logs
+src/logs
+
+# App generated code working dir
+src/tmp
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
