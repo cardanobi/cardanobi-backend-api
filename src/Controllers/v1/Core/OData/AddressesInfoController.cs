@@ -15,7 +15,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace ApiCore.Controllers.Odata
 {
     [Route("api/core/odata/addressesinfo")]
-    [Authorize(Policy = "bi-read")]
+    [Authorize(Policy = "core-read")]
     [Produces("application/json")]
     public class AddressesInfoController : ODataController
     {

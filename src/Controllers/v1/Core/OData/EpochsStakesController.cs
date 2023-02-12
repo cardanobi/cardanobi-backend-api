@@ -26,24 +26,24 @@ namespace ApiCore.Controllers.Odata
             _context = context;
         }
 
-        /// <summary>All epoch stake distributions.</summary>
-        /// <remarks>Returns stake distributions for all epochs and all pools.</remarks>
-        /// <response code="200">OK: Successful request.</response>
-        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
-        /// <response code="401">Unauthorized: No valid API key provided.</response>
-        /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        // GET: api/EpochStake
-        [EnableQuery(PageSize = 20)]
-        [HttpGet]
-        [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake()
-        {
-          if (_context.EpochStake == null)
-          {
-              return NotFound();
-          }
-            return await _context.EpochStake.OrderBy(b => b.epoch_stake_id).ToListAsync();
-        }
+        // /// <summary>All epoch stake distributions.</summary>
+        // /// <remarks>Returns stake distributions for all epochs and all pools.</remarks>
+        // /// <response code="200">OK: Successful request.</response>
+        // /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        // /// <response code="401">Unauthorized: No valid API key provided.</response>
+        // /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // // GET: api/EpochStake
+        // [EnableQuery(PageSize = 20)]
+        // [HttpGet]
+        // [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
+        // public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake()
+        // {
+        //   if (_context.EpochStake == null)
+        //   {
+        //       return NotFound();
+        //   }
+        //     return await _context.EpochStake.ToListAsync();
+        // }
 
         /// <summary>One epoch stake distributions.</summary>
         /// <remarks>Returns the stake distribution for one epoch given its number.</remarks>
@@ -52,25 +52,25 @@ namespace ApiCore.Controllers.Odata
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        // // GET: api/EpochStake/5
-        // [EnableQuery(PageSize = 20)]
-        // [HttpGet("api/core/epochs/{no}/stakes")]
-        // [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        // public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? no)
-        // {
-        //   if (_context.EpochStake == null)
-        //   {
-        //       return NotFound();
-        //   }
-        //     var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == no).ToListAsync();
+        // GET: api/EpochStake/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("{no}")]
+        [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
+        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? no)
+        {
+          if (_context.EpochStake == null)
+          {
+              return NotFound();
+          }
+            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == no).ToListAsync();
 
-        //     if (epochStake == null)
-        //     {
-        //         return NotFound();
-        //     }
+            if (epochStake == null)
+            {
+                return NotFound();
+            }
 
-        //     return epochStake;
-        // }
+            return epochStake;
+        }
 
         /// <summary>One pool stake distributions.</summary>
         /// <remarks>Returns the stake distribution for one pool across all epochs given its Bech32 pool hash.</remarks>

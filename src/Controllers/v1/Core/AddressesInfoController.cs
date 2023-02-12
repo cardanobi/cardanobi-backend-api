@@ -16,7 +16,7 @@ using Serilog;
 namespace ApiCore.Controllers
 {
     [ApiController]
-    [Authorize(Policy = "bi-read")]
+    [Authorize(Policy = "core-read")]
     [Produces("application/json")]
     public class AddressesInfoController : ControllerBase
     {

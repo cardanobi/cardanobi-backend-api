@@ -652,41 +652,6 @@
         }
       }
     },
-    "/api/core/epochs/stakes": {
-      "get": {
-        "tags": [
-          "Core",
-          "Epochs",
-          "Stakes"
-        ],
-        "summary": "All epoch stake distributions.",
-        "description": "Returns stake distributions for all epochs and all pools.",
-        "responses": {
-          "200": {
-            "description": "OK: Successful request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/EpochStake"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
-          },
-          "401": {
-            "description": "Unauthorized: No valid API key provided."
-          },
-          "404": {
-            "description": "Not Found: The requested resource cannot be found."
-          }
-        }
-      }
-    },
     "/api/core/epochs/{no}/stakes": {
       "get": {
         "tags": [
@@ -836,15 +801,27 @@
         }
       }
     },
-    "/api/core/odata/epochsstakes": {
+    "/api/core/odata/epochsstakes/{no}": {
       "get": {
         "tags": [
           "Core",
           "Epochs",
           "Stakes"
         ],
-        "summary": "All epoch stake distributions.",
-        "description": "Returns stake distributions for all epochs and all pools.",
+        "summary": "One epoch stake distributions.",
+        "description": "Returns the stake distribution for one epoch given its number.",
+        "parameters": [
+          {
+            "name": "no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK: Successful request.",

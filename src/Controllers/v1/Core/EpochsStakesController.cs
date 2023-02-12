@@ -34,17 +34,17 @@ namespace ApiCore.Controllers
         /// <response code="401">Unauthorized: No valid API key provided.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         // GET: api/EpochStake
-        [EnableQuery(PageSize = 20)]
-        [HttpGet("api/core/epochs/stakes")]
-        [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake()
-        {
-          if (_context.EpochStake == null)
-          {
-              return NotFound();
-          }
-            return await _context.EpochStake.OrderBy(b => b.epoch_stake_id).ToListAsync();
-        }
+        // [EnableQuery(PageSize = 20)]
+        // [HttpGet("api/core/epochs/stakes")]
+        // [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
+        // public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake()
+        // {
+        //   if (_context.EpochStake == null)
+        //   {
+        //       return NotFound();
+        //   }
+        //     return await _context.EpochStake.ToListAsync();
+        // }
 
         /// <summary>One epoch stake distributions.</summary>
         /// <remarks>Returns the stake distribution for one epoch given its number.</remarks>
@@ -90,7 +90,7 @@ namespace ApiCore.Controllers
             {
                 return NotFound();
             }
-            var epochStake = await _context.EpochStake.Where(b => b.pool_hash == pool_hash).ToListAsync();
+            var epochStake = await _context.EpochStake.Where(b => b.pool_hash == pool_hash).OrderBy(b => b.epoch_stake_epoch_no).ToListAsync();
 
             if (epochStake == null)
             {

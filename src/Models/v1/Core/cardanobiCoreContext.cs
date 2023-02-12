@@ -48,13 +48,13 @@ namespace ApiCore.Models
             {
                 entity.ToView("address_info_view");
             });
+            modelBuilder.Entity<EpochStake>(entity =>
+            {
+                entity.ToView("epoch_stake_view");
+            });
 
             // Ignore derived fields for the relevant entities
             modelBuilder.Entity<EpochParam>().Ignore(e => e.nonce_hex);
-            modelBuilder.Entity<EpochStake>(entity =>
-                {
-                    entity.ToView("epoch_stake_view");
-                });
             modelBuilder.Entity<PoolHash>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<PoolMetadata>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<PoolOfflineData>().Ignore(e => e.hash_hex);
