@@ -20,9 +20,9 @@ namespace ApiCore.Controllers
     // [ApiExplorerSettings(GroupName = "EpochsStakes")]
     public class EpochsStakesController : ControllerBase
     {
-        private readonly cardanobiBIContext _context;
+        private readonly cardanobiCoreContext _context;
 
-        public EpochsStakesController(cardanobiBIContext context)
+        public EpochsStakesController(cardanobiCoreContext context)
         {
             _context = context;
         }

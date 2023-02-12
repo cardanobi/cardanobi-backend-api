@@ -17,7 +17,6 @@ namespace ApiCore.Models
         {
         }
 
-        public virtual DbSet<EpochStake> EpochStake { get; set; } = null!;
         public virtual DbSet<PoolStat> PoolStat { get; set; } = null!;
         public virtual DbSet<AddressStat> AddressStat { get; set; } = null!;
         
@@ -37,11 +36,6 @@ namespace ApiCore.Models
                 .HasPostgresEnum("scriptpurposetype", new[] { "spend", "mint", "cert", "reward" })
                 .HasPostgresEnum("scripttype", new[] { "multisig", "timelock", "plutusV1", "plutusV2" })
                 .HasPostgresEnum("syncstatetype", new[] { "lagging", "following" });
-
-            modelBuilder.Entity<EpochStake>(entity =>
-                   {
-                       entity.ToView("epoch_stake_view");
-                   });
 
             modelBuilder.Entity<PoolStat>(entity =>
                    {

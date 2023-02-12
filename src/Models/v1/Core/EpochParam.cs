@@ -9,7 +9,6 @@ namespace ApiCore.Models
     [Table("epoch_param")]
     [Index("block_id", Name = "idx_epoch_param_block_id")]
     [Index("cost_model_id", Name = "idx_epoch_param_cost_model_id")]
-    [Index("epoch_no", "block_id", Name = "unique_epoch_param", IsUnique = true)]
     public partial class EpochParam
     {
         /// <summary>The epoch param unique identifier.</summary>

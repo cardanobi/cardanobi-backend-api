@@ -2867,11 +2867,6 @@
             "format": "int32",
             "nullable": true
           },
-          "pool_hash_hex": {
-            "type": "string",
-            "description": "The hexadecimal encoding of the pool hash.",
-            "nullable": true
-          },
           "pool_hash": {
             "type": "string",
             "description": "The Bech32 encoding of the pool hash.",
@@ -2882,11 +2877,6 @@
             "description": "The Bech32 encoded version of the stake address hash.",
             "nullable": true
           },
-          "stake_address_hash_hex": {
-            "type": "string",
-            "description": "The hexadecimal encoding of the stake address hash.",
-            "nullable": true
-          },
           "stake_address_script_hash_hex": {
             "type": "string",
             "description": "The hexadecimal encoding of the script hash, in case this address is locked by a script.",
@@ -2895,12 +2885,6 @@
           "stake_address_id": {
             "type": "integer",
             "description": "The stake address unique identifier.",
-            "format": "int64",
-            "nullable": true
-          },
-          "stake_address_tx_id": {
-            "type": "integer",
-            "description": "The Tx table index of the transaction in which this address first appeared.",
             "format": "int64",
             "nullable": true
           }

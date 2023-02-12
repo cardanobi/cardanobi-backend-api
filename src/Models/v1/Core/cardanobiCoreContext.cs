@@ -19,6 +19,7 @@ namespace ApiCore.Models
 
         public virtual DbSet<Epoch> Epoch { get; set; } = null!;
         public virtual DbSet<EpochParam> EpochParam { get; set; } = null!;
+        public virtual DbSet<EpochStake> EpochStake { get; set; } = null!;
         public virtual DbSet<PoolHash> PoolHash { get; set; } = null!;
         public virtual DbSet<PoolMetadata> PoolMetadata { get; set; } = null!;
         public virtual DbSet<PoolOfflineData> PoolOfflineData { get; set; } = null!;
@@ -50,6 +51,10 @@ namespace ApiCore.Models
 
             // Ignore derived fields for the relevant entities
             modelBuilder.Entity<EpochParam>().Ignore(e => e.nonce_hex);
+            modelBuilder.Entity<EpochStake>(entity =>
+                {
+                    entity.ToView("epoch_stake_view");
+                });
             modelBuilder.Entity<PoolHash>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<PoolMetadata>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<PoolOfflineData>().Ignore(e => e.hash_hex);

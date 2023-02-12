@@ -19,9 +19,9 @@ namespace ApiCore.Controllers.Odata
     // [ApiExplorerSettings(GroupName = "OData/EpochsStakes")]
     public class EpochsStakesController : ODataController
     {
-        private readonly cardanobiBIContext _context;
+        private readonly cardanobiCoreContext _context;
 
-        public EpochsStakesController(cardanobiBIContext context)
+        public EpochsStakesController(cardanobiCoreContext context)
         {
             _context = context;
         }

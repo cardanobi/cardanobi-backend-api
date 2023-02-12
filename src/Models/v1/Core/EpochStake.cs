@@ -21,9 +21,6 @@ namespace ApiCore.Models
         /// <summary>The epoch number.</summary>
         public int? epoch_stake_epoch_no { get; set; }
 
-        /// <summary>The hexadecimal encoding of the pool hash.</summary>
-        public string? pool_hash_hex { get; set; }
-
         /// <summary>The Bech32 encoding of the pool hash.</summary>
         [Column(TypeName = "character varying")]
         public string? pool_hash { get; set; }
@@ -32,16 +29,10 @@ namespace ApiCore.Models
         [Column(TypeName = "character varying")]
         public string? stake_address { get; set; }
 
-        /// <summary>The hexadecimal encoding of the stake address hash.</summary>
-        public string? stake_address_hash_hex { get; set; }
-
         /// <summary>The hexadecimal encoding of the script hash, in case this address is locked by a script.</summary>
         public string? stake_address_script_hash_hex { get; set; }
 
         /// <summary>The stake address unique identifier.</summary>
         public long? stake_address_id { get; set; }
-
-        /// <summary>The Tx table index of the transaction in which this address first appeared.</summary>
-        public long? stake_address_tx_id { get; set; }
     }
 }
