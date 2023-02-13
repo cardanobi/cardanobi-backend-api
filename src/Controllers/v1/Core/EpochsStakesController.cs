@@ -21,10 +21,12 @@ namespace ApiCore.Controllers
     public class EpochsStakesController : ControllerBase
     {
         private readonly cardanobiCoreContext _context;
+        private readonly ILogger<AddressesInfoController> _logger;
 
-        public EpochsStakesController(cardanobiCoreContext context)
+        public EpochsStakesController(cardanobiCoreContext context, ILogger<AddressesInfoController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>All epoch stake distributions.</summary>
@@ -54,15 +56,16 @@ namespace ApiCore.Controllers
         /// <response code="401">Unauthorized: No valid API key provided.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         // GET: api/EpochStake/5
-        [EnableQuery(PageSize = 20)]
+        [EnableQuery(PageSize = 20, EnsureStableOrdering = false)]
         [HttpGet("api/core/epochs/{no}/stakes")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
         public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? no)
         {
-          if (_context.EpochStake == null)
-          {
-              return NotFound();
-          }
+            if (_context.EpochStake == null)
+            {
+                return NotFound();
+            }
+
             var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == no).ToListAsync();
 
             if (epochStake == null)
@@ -70,7 +73,7 @@ namespace ApiCore.Controllers
                 return NotFound();
             }
 
-            return epochStake;
+            return Ok(epochStake);
         }
 
         /// <summary>One pool stake distributions.</summary>

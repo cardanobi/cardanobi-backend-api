@@ -52,6 +52,7 @@ namespace ApiCore.Models
             {
                 entity.ToView("epoch_stake_view");
             });
+            modelBuilder.Entity<EpochStake>().HasKey(c => new { c.epoch_stake_id });
 
             // Ignore derived fields for the relevant entities
             modelBuilder.Entity<EpochParam>().Ignore(e => e.nonce_hex);

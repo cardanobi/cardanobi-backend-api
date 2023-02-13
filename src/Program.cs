@@ -50,8 +50,16 @@ static IEdmModel GetEdmModel()
 
 // Add services to the container.
 // https://docs.microsoft.com/en-gb/ef/core/performance/advanced-performance-topics?tabs=with-di%2Cwith-constant#dbcontext-pooling
-builder.Services.AddDbContextPool<cardanobiCoreContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase")));
-builder.Services.AddDbContextPool<cardanobiBIContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase")));
+builder.Services.AddDbContextPool<cardanobiCoreContext>(options => 
+    options
+        .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+);
+builder.Services.AddDbContextPool<cardanobiBIContext>(options => 
+    options
+        .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+);
 
 // builder.Services.AddControllers();
 builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("api/core/odata", GetEdmModel()).Select().Filter().OrderBy().SetMaxTop(20).Count());
