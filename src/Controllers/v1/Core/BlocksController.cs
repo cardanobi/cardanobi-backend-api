@@ -153,6 +153,7 @@ namespace ApiCore.Controllers
         /// <summary>Block preceding history.</summary>
         /// <remarks>Returns the history of blocks preceding given block number.</remarks>
         /// <param name="block_no">Block Number</param>
+        /// <param name="depth">Number of blocks to return - defaults to 5 - max 20</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -161,43 +162,24 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/blocks/history/prev/{block_no}")]
         [SwaggerOperation(Tags = new []{"Core", "Blocks"})]
-        public async Task<ActionResult<IEnumerable<Block>>> GetBlockHistory(long block_no)
+        public async Task<ActionResult<IEnumerable<Block>>> GetBlockHistory(long block_no, [FromQuery] int? depth)
         {
             if (_context.Block == null)
             {
                 return NotFound();
             }
 
-            // _logger.LogInformation($"BlocksController.GetBlockHistory: block_no {block_no}");
-            // return await _context.Block.Where(b => b.block_no < block_no).OrderByDescending(b => b.id).ToListAsync();
+            int histDepth = depth == null ? 5 : Math.Min(20, (int)depth);
 
-            var last5 = (
+            var lastN = (
                  from b in _context.Block
                  where b.block_no < block_no
                  orderby b.block_no descending
-                 select new { b.id}).Take(5).ToArray();
-            long[] last5a = new long[5];
-            int i=0;
-            foreach (var bl in last5)
-            {
-                // last5a[i] = bl;
-                i++;
-            }
+                 select new { b.id}).Take(histDepth).ToList().Select(x => x.id).ToArray();
 
-            // long[] last5a=new long[]{8403529,8403528,8403527,8403526,8403525};
+            _logger.LogInformation($"BlocksController.GetBlockHistory: lastN {lastN}");
 
-            _logger.LogInformation($"BlocksController.GetBlockHistory: last5 {last5}");
-
-            return await _context.Block.Where(b => last5a.Contains(b.id)).OrderByDescending(b => b.id).ToListAsync();
-
-            // var block = await (
-            //     from b in _context.Block
-            //     where b.block_no < block_no
-            //     orderby b.block_no descending
-            //     select b).ToListAsync();
-
-            // if (block == null) return NotFound();
-            // return block;
+            return await _context.Block.Where(b => lastN.Contains(b.id)).OrderByDescending(b => b.id).ToListAsync();
         }
 
         /// <summary>Latest block for a given pool.</summary>
