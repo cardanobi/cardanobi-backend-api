@@ -27,6 +27,8 @@ namespace ApiCore.Models
         public virtual DbSet<PoolUpdate> PoolUpdate { get; set; } = null!;
         public virtual DbSet<PoolRelay> PoolRelay { get; set; } = null!;
         public virtual DbSet<AddressInfo> AddressInfo { get; set; } = null!;
+        public virtual DbSet<Block> Block { get; set; } = null!;
+        public virtual DbSet<SlotLeader> SlotLeader { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -60,6 +62,9 @@ namespace ApiCore.Models
             modelBuilder.Entity<PoolMetadata>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<PoolOfflineData>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<PoolUpdate>().Ignore(e => e.vrf_key_hash_hex);
+            modelBuilder.Entity<Block>().Ignore(e => e.hash_hex);
+            modelBuilder.Entity<Block>().Ignore(e => e.op_cert_hex);
+            modelBuilder.Entity<SlotLeader>().Ignore(e => e.hash_hex);
 
             OnModelCreatingPartial(modelBuilder);
         }

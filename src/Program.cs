@@ -45,6 +45,8 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<PoolStat>("PoolsStats");
     builder.EntitySet<AddressStat>("AddressesStats");
     builder.EntitySet<AddressInfo>("AddressesInfo");
+    builder.EntitySet<Block>("Blocks");
+    builder.EntitySet<SlotLeader>("SlotsLeaders");
     return builder.GetEdmModel();
 }
 

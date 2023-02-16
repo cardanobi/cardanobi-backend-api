@@ -21,9 +21,9 @@ namespace ApiCore.Controllers
     public class EpochsStakesController : ControllerBase
     {
         private readonly cardanobiCoreContext _context;
-        private readonly ILogger<AddressesInfoController> _logger;
+        private readonly ILogger<EpochsStakesController> _logger;
 
-        public EpochsStakesController(cardanobiCoreContext context, ILogger<AddressesInfoController> logger)
+        public EpochsStakesController(cardanobiCoreContext context, ILogger<EpochsStakesController> logger)
         {
             _context = context;
             _logger = logger;
