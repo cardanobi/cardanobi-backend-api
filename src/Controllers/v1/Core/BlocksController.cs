@@ -153,8 +153,8 @@ namespace ApiCore.Controllers
         
         /// <summary>Block history.</summary>
         /// <remarks>Returns the history of blocks starting from the latest block.</remarks>
-        /// /// <param name="block_no">Block number to search from - defaults to the latest known block</param>
-        /// /// <param name="depth">Number of blocks to return - defaults to 20 - max 100</param>
+        /// <param name="block_no">Block number to search from - defaults to the latest known block</param>
+        /// <param name="depth">Number of blocks to return - defaults to 20 - max 100</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
