@@ -47,6 +47,7 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<AddressInfo>("AddressesInfo");
     builder.EntitySet<Block>("Blocks");
     builder.EntitySet<SlotLeader>("SlotsLeaders");
+    builder.EntitySet<Transaction>("Transactions");
     return builder.GetEdmModel();
 }
 

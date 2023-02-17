@@ -29,6 +29,7 @@ namespace ApiCore.Models
         public virtual DbSet<AddressInfo> AddressInfo { get; set; } = null!;
         public virtual DbSet<Block> Block { get; set; } = null!;
         public virtual DbSet<SlotLeader> SlotLeader { get; set; } = null!;
+        public virtual DbSet<Transaction> Transaction { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,6 +66,7 @@ namespace ApiCore.Models
             modelBuilder.Entity<Block>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<Block>().Ignore(e => e.op_cert_hex);
             modelBuilder.Entity<SlotLeader>().Ignore(e => e.hash_hex);
+            modelBuilder.Entity<Transaction>().Ignore(e => e.hash_hex);
 
             OnModelCreatingPartial(modelBuilder);
         }

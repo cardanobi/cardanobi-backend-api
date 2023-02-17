@@ -340,6 +340,614 @@
         }
       }
     },
+    "/api/core/blocks/latest": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks"
+        ],
+        "summary": "Latest block.",
+        "description": "Returns the latest block i.e. the tip of the blockchain.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Block"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/{block_no}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks"
+        ],
+        "summary": "One block by block number.",
+        "description": "Returns one specific block given its number.",
+        "parameters": [
+          {
+            "name": "block_no",
+            "in": "path",
+            "description": "Block number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Block"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/{block_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks"
+        ],
+        "summary": "One block by block hash.",
+        "description": "Returns one specific block given its hash.",
+        "parameters": [
+          {
+            "name": "block_hash",
+            "in": "path",
+            "description": "Block hash",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Block"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/epochs/{epoch_no}/slots/{slot_no}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks"
+        ],
+        "summary": "One block by epoch and slot number.",
+        "description": "Returns one specific block given its epoch and slot numbers.",
+        "parameters": [
+          {
+            "name": "epoch_no",
+            "in": "path",
+            "description": "Epoch number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "slot_no",
+            "in": "path",
+            "description": "Slot number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Block"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/history": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "History"
+        ],
+        "summary": "Block history.",
+        "description": "Returns the history of blocks starting from the latest block.",
+        "parameters": [
+          {
+            "name": "block_no",
+            "in": "query",
+            "description": "Block number to search from - defaults to the latest known block",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "description": "Number of blocks to return - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Block"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/history/prev/{block_no}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "History"
+        ],
+        "summary": "Block preceding history.",
+        "description": "Returns the history of blocks preceding a given block number.",
+        "parameters": [
+          {
+            "name": "block_no",
+            "in": "path",
+            "description": "Block Number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "description": "Number of blocks to return - defaults to 5 - max 20",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Block"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/history/next/{block_no}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "History"
+        ],
+        "summary": "Block following history.",
+        "description": "Returns the history of blocks following a given block number.",
+        "parameters": [
+          {
+            "name": "block_no",
+            "in": "path",
+            "description": "Block Number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "description": "Number of blocks to return - defaults to 5 - max 20",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Block"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/latest/pools/{pool_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "Pools"
+        ],
+        "summary": "Latest block for a given pool.",
+        "description": "Returns the latest block forged by a pool given its pool identifier.",
+        "parameters": [
+          {
+            "name": "pool_hash",
+            "in": "path",
+            "description": "The Bech32 or HEX encoding of the pool hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Block"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/history/pools/{pool_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "Pools"
+        ],
+        "summary": "Block history for a given pool.",
+        "description": "Returns the history of blocks forged by a pool given its pool identifier.",
+        "parameters": [
+          {
+            "name": "pool_hash",
+            "in": "path",
+            "description": "The Bech32 or HEX encoding of the pool hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Block"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/latest/transactions": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "Transactions"
+        ],
+        "summary": "Latest block transactions.",
+        "description": "Returns the transactions within the latest block i.e. the tip of the blockchain.",
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/{block_no}/transactions": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "Transactions"
+        ],
+        "summary": "Transactions for a given block by block number.",
+        "description": "Returns the transactions within one specific block given its number.",
+        "parameters": [
+          {
+            "name": "block_no",
+            "in": "path",
+            "description": "Block number",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/blocks/{block_hash}/transactions": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "Transactions"
+        ],
+        "summary": "Transactions for a given block by block hash.",
+        "description": "Returns the transactions within one specific block given its hash.",
+        "parameters": [
+          {
+            "name": "block_hash",
+            "in": "path",
+            "description": "Block hash",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/odata/blocks": {
+      "get": {
+        "tags": [
+          "Core",
+          "Blocks",
+          "History"
+        ],
+        "summary": "Block history.",
+        "description": "Returns the history of blocks starting from the latest block.",
+        "parameters": [
+          {
+            "name": "block_no",
+            "in": "query",
+            "description": "Block number to search from - defaults to the latest known block",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "description": "Number of blocks to return - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Block"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
     "/api/core/epochs": {
       "get": {
         "tags": [
@@ -2517,6 +3125,110 @@
         },
         "additionalProperties": false
       },
+      "Block": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The block unique identifier.",
+            "format": "int64"
+          },
+          "hash": {
+            "type": "string",
+            "description": "The hash identifier of the block.",
+            "format": "byte",
+            "nullable": true
+          },
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "slot_no": {
+            "type": "integer",
+            "description": "The slot number.",
+            "format": "int64",
+            "nullable": true
+          },
+          "epoch_slot_no": {
+            "type": "integer",
+            "description": "The slot number within an epoch (resets to zero at the start of each epoch).",
+            "format": "int32",
+            "nullable": true
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "previous_id": {
+            "type": "integer",
+            "description": "The Block table index of the previous block.",
+            "format": "int64",
+            "nullable": true
+          },
+          "slot_leader_id": {
+            "type": "integer",
+            "description": "The SlotLeader table index of the creator of this block.",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "The block size (in bytes). Note, this size value is not expected to be the same as the sum of the tx sizes due to the fact that txs being stored in segwit format and oddities in the CBOR encoding.",
+            "format": "int32"
+          },
+          "time": {
+            "type": "string",
+            "description": "The block time (UTCTime).",
+            "format": "date-time"
+          },
+          "tx_count": {
+            "type": "integer",
+            "description": "The number of transactions in this block.",
+            "format": "int64"
+          },
+          "proto_major": {
+            "type": "integer",
+            "description": "The block's major protocol number.",
+            "format": "int32"
+          },
+          "proto_minor": {
+            "type": "integer",
+            "description": "The block's major protocol number.",
+            "format": "int32"
+          },
+          "vrf_key": {
+            "type": "string",
+            "description": "The VRF key of the creator of this block.",
+            "nullable": true
+          },
+          "op_cert": {
+            "type": "string",
+            "description": "The hash of the operational certificate of the block producer.",
+            "format": "byte",
+            "nullable": true
+          },
+          "op_cert_counter": {
+            "type": "integer",
+            "description": "The value of the counter used to produce the operational certificate.",
+            "format": "int64",
+            "nullable": true
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the block hash.",
+            "nullable": true
+          },
+          "op_cert_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the block producer operational certificate's hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "EdmContainerElementKind": {
         "enum": [
           0,
@@ -3448,6 +4160,79 @@
           "vrf_key_hash_hex": {
             "type": "string",
             "description": "The hexadecimal encoding of the VRF key hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The transaction unique identifier.",
+            "format": "int64"
+          },
+          "hash": {
+            "type": "string",
+            "description": "The hash identifier of the transaction.",
+            "format": "byte",
+            "nullable": true
+          },
+          "block_id": {
+            "type": "integer",
+            "description": "The Block table index of the block that contains this transaction.",
+            "format": "int64"
+          },
+          "block_index": {
+            "type": "integer",
+            "description": "The index of this transaction with the block (zero based).",
+            "format": "int32"
+          },
+          "out_sum": {
+            "type": "number",
+            "description": "The sum of the transaction outputs (in Lovelace).",
+            "format": "double"
+          },
+          "fee": {
+            "type": "number",
+            "description": "The fees paid for this transaction.",
+            "format": "double"
+          },
+          "deposit": {
+            "type": "integer",
+            "description": "Deposit (or deposit refund) in this transaction. Deposits are positive, refunds negative.",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "The size of the transaction in bytes.",
+            "format": "int32"
+          },
+          "invalid_before": {
+            "type": "number",
+            "description": "Transaction in invalid before this slot number.",
+            "format": "double",
+            "nullable": true
+          },
+          "invalid_hereafter": {
+            "type": "number",
+            "description": "Transaction in invalid at or after this slot number.",
+            "format": "double",
+            "nullable": true
+          },
+          "valid_contract": {
+            "type": "boolean",
+            "description": "False if the contract is invalid. True if the contract is valid or there is no contract."
+          },
+          "script_size": {
+            "type": "integer",
+            "description": "The sum of the script sizes (in bytes) of scripts in the transaction.",
+            "format": "int32"
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the transaction.",
             "nullable": true
           }
         },
