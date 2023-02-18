@@ -577,7 +577,7 @@
           {
             "name": "block_no",
             "in": "path",
-            "description": "Block Number",
+            "description": "Block number",
             "required": true,
             "schema": {
               "type": "integer",
@@ -633,7 +633,7 @@
           {
             "name": "block_no",
             "in": "path",
-            "description": "Block Number",
+            "description": "Block number",
             "required": true,
             "schema": {
               "type": "integer",
@@ -719,7 +719,7 @@
         }
       }
     },
-    "/api/core/blocks/history/pools/{pool_hash}": {
+    "/api/core/blocks/pools/{pool_hash}/history": {
       "get": {
         "tags": [
           "Core",
@@ -732,7 +732,7 @@
           {
             "name": "pool_hash",
             "in": "path",
-            "description": "The Bech32 or HEX encoding of the pool hash.",
+            "description": "The Bech32 or HEX encoding of the pool hash",
             "required": true,
             "schema": {
               "type": "string"
