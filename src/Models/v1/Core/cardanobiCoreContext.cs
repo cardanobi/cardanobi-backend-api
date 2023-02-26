@@ -30,6 +30,9 @@ namespace ApiCore.Models
         public virtual DbSet<Block> Block { get; set; } = null!;
         public virtual DbSet<SlotLeader> SlotLeader { get; set; } = null!;
         public virtual DbSet<Transaction> Transaction { get; set; } = null!;
+        public virtual DbSet<TransactionOutput> TransactionOutput { get; set; } = null!;
+        public virtual DbSet<MultiAsset> MultiAsset { get; set; } = null!;
+        public virtual DbSet<MultiAssetTransactionOutput> MultiAssetTransactionOutput { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -67,6 +70,8 @@ namespace ApiCore.Models
             modelBuilder.Entity<Block>().Ignore(e => e.op_cert_hex);
             modelBuilder.Entity<SlotLeader>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<Transaction>().Ignore(e => e.hash_hex);
+            modelBuilder.Entity<TransactionOutput>().Ignore(e => e.data_hash_hex);
+            modelBuilder.Entity<MultiAsset>().Ignore(e => e.policy_hex);
 
             OnModelCreatingPartial(modelBuilder);
         }
