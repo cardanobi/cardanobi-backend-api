@@ -3071,6 +3071,90 @@
           }
         }
       }
+    },
+    "/api/core/transactions/{transaction_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions"
+        ],
+        "summary": "Details of a given transaction.",
+        "description": "Returns details of a transaction given its hash.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/utxos": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions"
+        ],
+        "summary": "Inputs and Unspent Outputs of a given transaction.",
+        "description": "Returns all Inputs and Unspent Outputs (UTXOs) of a transaction given its hash.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionUtxoDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -4233,6 +4317,369 @@
           "hash_hex": {
             "type": "string",
             "description": "The hexadecimal encoding of the hash identifier of the transaction.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionAmountDTO": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "The Lovelace or Multi Asset denominated value of this input/output.",
+            "format": "double"
+          },
+          "unit": {
+            "type": "string",
+            "description": "Lovelace or name of the Multi Asset denominating this value.",
+            "nullable": true
+          },
+          "asset_fingerprint": {
+            "type": "string",
+            "description": "The CIP14 fingerprint for the Multi Asset.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionDTO": {
+        "type": "object",
+        "properties": {
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the transaction.",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "The transaction unique identifier.",
+            "format": "int64"
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "slot_no": {
+            "type": "integer",
+            "description": "The slot number.",
+            "format": "int64",
+            "nullable": true
+          },
+          "block_time": {
+            "type": "string",
+            "description": "The block time (UTCTime).",
+            "format": "date-time"
+          },
+          "block_index": {
+            "type": "integer",
+            "description": "The index of this transaction with the block (zero based).",
+            "format": "int32"
+          },
+          "out_sum": {
+            "type": "number",
+            "description": "The sum of the transaction outputs (in Lovelace).",
+            "format": "double"
+          },
+          "fee": {
+            "type": "number",
+            "description": "The fees paid for this transaction.",
+            "format": "double"
+          },
+          "deposit": {
+            "type": "integer",
+            "description": "Deposit (or deposit refund) in this transaction. Deposits are positive, refunds negative.",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "The size of the transaction in bytes.",
+            "format": "int32"
+          },
+          "invalid_before": {
+            "type": "number",
+            "description": "Transaction in invalid before this slot number.",
+            "format": "double",
+            "nullable": true
+          },
+          "invalid_hereafter": {
+            "type": "number",
+            "description": "Transaction in invalid at or after this slot number.",
+            "format": "double",
+            "nullable": true
+          },
+          "valid_contract": {
+            "type": "boolean",
+            "description": "False if the contract is invalid. True if the contract is valid or there is no contract."
+          },
+          "script_size": {
+            "type": "integer",
+            "description": "The sum of the script sizes (in bytes) of scripts in the transaction.",
+            "format": "int32"
+          },
+          "output_amounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionAmountDTO"
+            },
+            "description": "The list of transaction output amounts.",
+            "nullable": true
+          },
+          "withdrawalCount": {
+            "type": "integer",
+            "description": "The count of withdrawals from a reward account in this transaction.",
+            "format": "int32"
+          },
+          "assetMintCount": {
+            "type": "integer",
+            "description": "The count of Multi-Asset mint events in this transaction.",
+            "format": "int32"
+          },
+          "metadataCount": {
+            "type": "integer",
+            "description": "The count of metadata attached to this transaction.",
+            "format": "int32"
+          },
+          "stakeRegistrationCount": {
+            "type": "integer",
+            "description": "The count of stake address registration in this transaction.",
+            "format": "int32"
+          },
+          "stakeDeregistrationCount": {
+            "type": "integer",
+            "description": "The count of stake address deregistration in this transaction.",
+            "format": "int32"
+          },
+          "delegationCount": {
+            "type": "integer",
+            "description": "The count of delegation from a stake address to a stake pool in this transaction.",
+            "format": "int32"
+          },
+          "treasuryCount": {
+            "type": "integer",
+            "description": "The count of payments from the treasury to a stake address in this transaction.",
+            "format": "int32"
+          },
+          "reserveCount": {
+            "type": "integer",
+            "description": "The count of payments from the reserves to a stake address in this transaction.",
+            "format": "int32"
+          },
+          "potTransferCount": {
+            "type": "integer",
+            "description": "The count of transfers between the reserves pot and the treasury pot in this transaction.",
+            "format": "int32"
+          },
+          "paramProposalCount": {
+            "type": "integer",
+            "description": "The count of Cardano parameter change proposals in this transaction.",
+            "format": "int32"
+          },
+          "poolRetireCount": {
+            "type": "integer",
+            "description": "The count of pool retirement notifications in this transaction.",
+            "format": "int32"
+          },
+          "poolUpdateCount": {
+            "type": "integer",
+            "description": "The count of on-chain pool updates in this transaction.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionInputDTO": {
+        "type": "object",
+        "properties": {
+          "output_index": {
+            "type": "integer",
+            "description": "The index of this transaction output within the transaction.",
+            "format": "int64"
+          },
+          "address": {
+            "type": "string",
+            "description": "The human readable encoding of the input address. Will be Base58 for Byron era addresses and Bech32 for Shelley era.",
+            "nullable": true
+          },
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the transaction.",
+            "nullable": true
+          },
+          "is_collateral": {
+            "type": "boolean",
+            "description": "Flag which shows if this input is a collateral consumed in case of a script validation failure."
+          },
+          "is_reference": {
+            "type": "boolean",
+            "description": "Flag which shows if this input is a reference transaction input."
+          },
+          "data_hash": {
+            "type": "string",
+            "description": "The hash of the transaction output datum. (NULL for Txs without scripts).",
+            "nullable": true
+          },
+          "inline_datum_cbor": {
+            "type": "string",
+            "description": "The actual datum data in CBOR format.",
+            "nullable": true
+          },
+          "reference_script_hash": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash of the reference script of the input.",
+            "nullable": true
+          },
+          "amounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionAmountDTO"
+            },
+            "description": "The list of transaction amounts.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionOutputDTO": {
+        "type": "object",
+        "properties": {
+          "output_index": {
+            "type": "integer",
+            "description": "The index of this transaction output within the transaction.",
+            "format": "int64"
+          },
+          "address": {
+            "type": "string",
+            "description": "The human readable encoding of the output address. Will be Base58 for Byron era addresses and Bech32 for Shelley era.",
+            "nullable": true
+          },
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the transaction.",
+            "nullable": true
+          },
+          "is_collateral": {
+            "type": "boolean",
+            "description": "Flag which shows if this output is a collateral output."
+          },
+          "data_hash": {
+            "type": "string",
+            "description": "The hash of the transaction output datum. (NULL for Txs without scripts).",
+            "nullable": true
+          },
+          "inline_datum_cbor": {
+            "type": "string",
+            "description": "The actual datum data in CBOR format.",
+            "nullable": true
+          },
+          "reference_script_hash": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash of the reference script of the output.",
+            "nullable": true
+          },
+          "amounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionAmountDTO"
+            },
+            "description": "The list of transaction amounts.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionUtxoDTO": {
+        "type": "object",
+        "properties": {
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the transaction.",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "The transaction unique identifier.",
+            "format": "int64"
+          },
+          "slot_no": {
+            "type": "integer",
+            "description": "The slot number.",
+            "format": "int64",
+            "nullable": true
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "block_time": {
+            "type": "string",
+            "description": "The block time (UTCTime).",
+            "format": "date-time"
+          },
+          "block_index": {
+            "type": "integer",
+            "description": "The index of this transaction with the block (zero based).",
+            "format": "int32"
+          },
+          "out_sum": {
+            "type": "number",
+            "description": "The sum of the transaction outputs (in Lovelace).",
+            "format": "double"
+          },
+          "fee": {
+            "type": "number",
+            "description": "The fees paid for this transaction.",
+            "format": "double"
+          },
+          "deposit": {
+            "type": "integer",
+            "description": "Deposit (or deposit refund) in this transaction. Deposits are positive, refunds negative.",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "description": "The size of the transaction in bytes.",
+            "format": "int32"
+          },
+          "invalid_before": {
+            "type": "number",
+            "description": "Transaction in invalid before this slot number.",
+            "format": "double",
+            "nullable": true
+          },
+          "invalid_hereafter": {
+            "type": "number",
+            "description": "Transaction in invalid at or after this slot number.",
+            "format": "double",
+            "nullable": true
+          },
+          "valid_contract": {
+            "type": "boolean",
+            "description": "False if the contract is invalid. True if the contract is valid or there is no contract."
+          },
+          "script_size": {
+            "type": "integer",
+            "description": "The sum of the script sizes (in bytes) of scripts in the transaction.",
+            "format": "int32"
+          },
+          "outputs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionOutputDTO"
+            },
+            "description": "The list of transaction outputs.",
+            "nullable": true
+          },
+          "inputs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TransactionInputDTO"
+            },
+            "description": "The list of transaction inputs.",
             "nullable": true
           }
         },

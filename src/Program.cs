@@ -51,6 +51,23 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<TransactionOutput>("TransactionsOutputs");
     builder.EntitySet<MultiAsset>("MultiAssets");
     builder.EntitySet<MultiAssetTransactionOutput>("MultiAssetsTransactoinsOutputs");
+    builder.EntitySet<TransactionInput>("TransactionInputs");
+    builder.EntitySet<Datum>("Datums");
+    builder.EntitySet<Script>("Scripts");
+    builder.EntitySet<CollateralTransactionInput>("CollateralTransactionInputs");
+    builder.EntitySet<CollateralTransactionOutput>("CollateralTransactionOutputs");
+    builder.EntitySet<ReferenceTransactionInput>("ReferenceTransactionInputs");
+    builder.EntitySet<Withdrawal>("Withdrawals");
+    builder.EntitySet<MultiAssetTransactionMint>("MultiAssetTransactionMints");
+    builder.EntitySet<TransactionMetadata>("TransactionMetadata");
+    builder.EntitySet<StakeRegistration>("StakeRegistrations");
+    builder.EntitySet<StakeDeregistration>("StakeDeregistrations");
+    builder.EntitySet<Delegation>("Delegations");
+    builder.EntitySet<Treasury>("TreasuryPayments");
+    builder.EntitySet<Reserve>("ReservePayments");
+    builder.EntitySet<PotTransfer>("PotTransfers");
+    builder.EntitySet<ParamProposal>("ParamProposals");
+    builder.EntitySet<PoolRetire>("PoolRetirements");
     return builder.GetEdmModel();
 }
 
@@ -167,7 +184,7 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
         // TODO: move domain to appsettings!
-        options.Authority = "https://mainnet.cardanobi.io:5000";
+        options.Authority = "https://preprod.cardanobi.io:5000";
         // options.RequireHttpsMetadata = false; // to support non https request in dev
 
         options.TokenValidationParameters.ValidateAudience = false;

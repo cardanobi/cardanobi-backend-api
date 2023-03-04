@@ -33,6 +33,23 @@ namespace ApiCore.Models
         public virtual DbSet<TransactionOutput> TransactionOutput { get; set; } = null!;
         public virtual DbSet<MultiAsset> MultiAsset { get; set; } = null!;
         public virtual DbSet<MultiAssetTransactionOutput> MultiAssetTransactionOutput { get; set; } = null!;
+        public virtual DbSet<TransactionInput> TransactionInput { get; set; } = null!;
+        public virtual DbSet<Datum> Datum { get; set; } = null!;
+        public virtual DbSet<Script> Script { get; set; } = null!;
+        public virtual DbSet<CollateralTransactionInput> CollateralTransactionInput { get; set; } = null!;
+        public virtual DbSet<CollateralTransactionOutput> CollateralTransactionOutput { get; set; } = null!;
+        public virtual DbSet<ReferenceTransactionInput> ReferenceTransactionInput { get; set; } = null!;
+        public virtual DbSet<Withdrawal> Withdrawal { get; set; } = null!;
+        public virtual DbSet<MultiAssetTransactionMint> MultiAssetTransactionMint { get; set; } = null!;
+        public virtual DbSet<TransactionMetadata> TransactionMetadata { get; set; } = null!;
+        public virtual DbSet<StakeRegistration> StakeRegistration { get; set; } = null!;
+        public virtual DbSet<StakeDeregistration> StakeDeregistration { get; set; } = null!;
+        public virtual DbSet<Delegation> Delegation { get; set; } = null!;
+        public virtual DbSet<Treasury> Treasury { get; set; } = null!;
+        public virtual DbSet<Reserve> Reserve { get; set; } = null!;
+        public virtual DbSet<PotTransfer> PotTransfer { get; set; } = null!;
+        public virtual DbSet<ParamProposal> ParamProposal { get; set; } = null!;
+        public virtual DbSet<PoolRetire> PoolRetire { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -72,6 +89,10 @@ namespace ApiCore.Models
             modelBuilder.Entity<Transaction>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<TransactionOutput>().Ignore(e => e.data_hash_hex);
             modelBuilder.Entity<MultiAsset>().Ignore(e => e.policy_hex);
+            modelBuilder.Entity<Datum>().Ignore(e => e.hash_hex);
+            modelBuilder.Entity<Script>().Ignore(e => e.hash_hex);
+            modelBuilder.Entity<CollateralTransactionOutput>().Ignore(e => e.data_hash_hex);
+            modelBuilder.Entity<ParamProposal>().Ignore(e => e.key_hex);
 
             OnModelCreatingPartial(modelBuilder);
         }
