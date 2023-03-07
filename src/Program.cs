@@ -68,12 +68,25 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<PotTransfer>("PotTransfers");
     builder.EntitySet<ParamProposal>("ParamProposals");
     builder.EntitySet<PoolRetire>("PoolRetirements");
+    builder.EntitySet<Redeemer>("Redeemers");
+    builder.EntitySet<RedeemerData>("RedeemerData");
+    builder.EntitySet<StakeAddress>("StakeAddresses");
     return builder.GetEdmModel();
 }
 
 // Add services to the container.
 // https://docs.microsoft.com/en-gb/ef/core/performance/advanced-performance-topics?tabs=with-di%2Cwith-constant#dbcontext-pooling
 builder.Services.AddDbContextPool<cardanobiCoreContext>(options => 
+    options
+        .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+);
+builder.Services.AddDbContextPool<cardanobiCoreContext2>(options => 
+    options
+        .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+);
+builder.Services.AddDbContextPool<cardanobiCoreContext3>(options => 
     options
         .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
@@ -184,7 +197,7 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
         // TODO: move domain to appsettings!
-        options.Authority = "https://preprod.cardanobi.io:5000";
+        options.Authority = "https://mainnet.cardanobi.io:5000";
         // options.RequireHttpsMetadata = false; // to support non https request in dev
 
         options.TokenValidationParameters.ValidateAudience = false;

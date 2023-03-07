@@ -216,6 +216,12 @@ namespace ApiCore.DTO
         /// <summary>The list of transaction output amounts.</summary>
         public List<TransactionAmountDTO> output_amounts { get; set; } = null!;
 
+        /// <summary>The count of inputs in this transaction.</summary>
+        public int inputCount { get; set; }
+
+        /// <summary>The count of outputs in this transaction.</summary>
+        public int outputCount { get; set; }
+
         /// <summary>The count of withdrawals from a reward account in this transaction.</summary>
         public int withdrawalCount { get; set; }
 
@@ -251,6 +257,9 @@ namespace ApiCore.DTO
 
         /// <summary>The count of on-chain pool updates in this transaction.</summary>
         public int poolUpdateCount { get; set; }
+
+        /// <summary>The count of redeemers in this transaction.</summary>
+        public int redeemerCount { get; set; }
     }
 
     public partial class TransactionUtxoDTO
@@ -307,5 +316,24 @@ namespace ApiCore.DTO
 
         /// <summary>The list of transaction inputs.</summary>
         public List<TransactionInputDTO> inputs { get; set; }
+    }
+
+    public partial class TransactionStakeAddressDTO 
+    {
+        /// <summary>The index of this stake registration within the certificates of this transaction.</summary>
+        public int cert_index { get; set; }
+
+        /// <summary>The epoch in which the registration took place.</summary>
+        public int epoch_no { get; set; }
+
+        /// <summary>The Bech32 encoded version of the stake address.</summary>
+        [Column(TypeName = "character varying")]
+        public string stake_address { get; set; } = null!;
+
+        /// <summary>The hexadecimal encoding of the script hash, in case this address is locked by a script.</summary>
+        public string script_hash_hex { get; set; }
+
+        /// <summary>True if the transaction is a registration, False if it is a deregistration.</summary>
+        public bool is_registration { get; set; }
     }
 }

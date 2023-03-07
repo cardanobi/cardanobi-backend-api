@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ApiCore.Models
 {
-    public partial class cardanobiCoreContext : DbContext
+    public partial class cardanobiCoreContext2 : DbContext
     {
-        // public cardanobiCoreContext()
+        // public cardanobiCoreContext2()
         // {
         // }
 
-        public cardanobiCoreContext(DbContextOptions<cardanobiCoreContext> options)
+        public cardanobiCoreContext2(DbContextOptions<cardanobiCoreContext2> options)
             : base(options)
         {
         }
