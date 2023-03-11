@@ -917,10 +917,10 @@ namespace ApiCore.Controllers
         /// <response code="401">Unauthorized: No valid API key provided.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         // GET: api/Block/5
-        [EnableQuery(PageSize = 1)]
+        [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/transactions/{transaction_hash:length(64)}/updating_pools")]
         [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Certificates" })]
-        public async Task<ActionResult<TransactionUpdatingPoolDTO>> GetTransactionUpdatingPool(string transaction_hash)
+        public async Task<ActionResult<IEnumerable<TransactionUpdatingPoolDTO>>> GetTransactionUpdatingPool(string transaction_hash)
         {
             if (
                 _context.PoolUpdate == null ||
@@ -943,26 +943,31 @@ namespace ApiCore.Controllers
                 return NotFound();
             }
 
-            var pool_update = await (
+            var pool_updates = await (
                 from pu in _context.PoolUpdate
                 join tx in _context.Transaction on pu.registered_tx_id equals tx.id
                 where tx.hash == Convert.FromHexString(transaction_hash)
-                select pu
-                ).SingleOrDefaultAsync();
+                select pu.id
+                ).ToListAsync();
 
-            if (pool_update == null)
+            if (pool_updates == null)
             {
                 return NotFound();
             }
 
-            Task<TransactionUpdatingPoolDTO?> t_pool_update_details = Task<TransactionUpdatingPoolDTO>.Run(() =>
+            List<TransactionUpdatingPoolDTO> pool_updates_combined = new List<TransactionUpdatingPoolDTO>();
+
+            foreach (long pui in pool_updates)
             {
-                var pool_update_details = (
-                    from pu in _context.PoolUpdate
-                    join ph in _context.PoolHash on pu.hash_id equals ph.id
-                    join sa in _context.StakeAddress on pu.reward_addr_id equals sa.id
-                    where pu.id == pool_update.id
-                    select new TransactionUpdatingPoolDTO()
+
+                Task<TransactionUpdatingPoolDTO?> t_pool_update_details = Task<TransactionUpdatingPoolDTO>.Run(() =>
+                {
+                    var pool_update_details = (
+                        from pu in _context.PoolUpdate
+                        join ph in _context.PoolHash on pu.hash_id equals ph.id
+                        join sa in _context.StakeAddress on pu.reward_addr_id equals sa.id
+                        where pu.id == pui
+                        select new TransactionUpdatingPoolDTO()
                         {
                             cert_index = pu.cert_index,
                             pool_hash_bech32 = ph.view,
@@ -975,28 +980,28 @@ namespace ApiCore.Controllers
                             active_epoch_no = pu.active_epoch_no
                         }).SingleOrDefault();
 
-                if (pool_update_details!=null) 
+                    if (pool_update_details != null)
+                    {
+                        var owners_addresses = (
+                            from po in _context.PoolOwner
+                            join sa in _context.StakeAddress on po.addr_id equals sa.id
+                            where po.pool_update_id == pui
+                            select sa.view).ToList();
+
+                        pool_update_details.owners_addresses = owners_addresses;
+                    }
+
+                    return pool_update_details;
+                });
+
+                Task<PoolOfflineDataDTO?> t_pool_offline_data = Task<PoolOfflineDataDTO>.Run(() =>
                 {
-                    var owners_addresses = (
-                        from po in _context.PoolOwner
-                        join sa in _context.StakeAddress on po.addr_id equals sa.id
-                        where po.pool_update_id == pool_update.id
-                        select sa.view).ToList();
-
-                    pool_update_details.owners_addresses = owners_addresses;
-                }
-
-                return pool_update_details;
-            });
-
-            Task<PoolOfflineDataDTO?> t_pool_offline_data = Task<PoolOfflineDataDTO>.Run(() =>
-            {
-                var pool_offline_data = (
-                    from pu in _context2.PoolUpdate
-                    join pmr in _context2.PoolMetadata on pu.meta_id equals pmr.id
-                    join pod in _context2.PoolOfflineData on pmr.id equals pod.pmr_id
-                    where pu.id == pool_update.id
-                    select new PoolOfflineDataDTO()
+                    var pool_offline_data = (
+                        from pu in _context2.PoolUpdate
+                        join pmr in _context2.PoolMetadata on pu.meta_id equals pmr.id
+                        join pod in _context2.PoolOfflineData on pmr.id equals pod.pmr_id
+                        where pu.id == pui
+                        select new PoolOfflineDataDTO()
                         {
                             ticker_name = pod.ticker_name,
                             url = pmr.url,
@@ -1005,14 +1010,14 @@ namespace ApiCore.Controllers
                         }).SingleOrDefault();
 
                     return pool_offline_data;
-            });
+                });
 
-            Task<List<PoolRelayDTO>> t_pool_relays = Task<List<PoolRelayDTO>>.Run(() =>
-            {
-                var pool_relays = (
-                    from pr in _context3.PoolRelay
-                    where pr.update_id == pool_update.id
-                    select new PoolRelayDTO()
+                Task<List<PoolRelayDTO>> t_pool_relays = Task<List<PoolRelayDTO>>.Run(() =>
+                {
+                    var pool_relays = (
+                        from pr in _context3.PoolRelay
+                        where pr.update_id == pui
+                        select new PoolRelayDTO()
                         {
                             ipv4 = pr.ipv4,
                             ipv6 = pr.ipv6,
@@ -1022,22 +1027,25 @@ namespace ApiCore.Controllers
                         }).ToList();
 
                     return pool_relays;
-            });
+                });
 
-            Task.WaitAll(t_pool_update_details, t_pool_offline_data, t_pool_relays);
+                Task.WaitAll(t_pool_update_details, t_pool_offline_data, t_pool_relays);
 
-            // get results from these tasks
-            var pool_update_full = t_pool_update_details.Result;
-            if (pool_update_full!=null && t_pool_relays!=null)
-            {
-                pool_update_full.relays = t_pool_relays.Result;
+                // get results from these tasks
+                var pool_update_full = t_pool_update_details.Result;
+                if (pool_update_full != null && t_pool_relays != null)
+                {
+                    pool_update_full.relays = t_pool_relays.Result;
+                }
+                if (pool_update_full != null && t_pool_offline_data != null && t_pool_offline_data.Result != null)
+                {
+                    pool_update_full.offline_data = t_pool_offline_data.Result;
+                }
+
+                pool_updates_combined.Add(pool_update_full);
             }
-            if (pool_update_full!=null && t_pool_offline_data!=null && t_pool_offline_data.Result!=null)
-            {
-                pool_update_full.offline_data = t_pool_offline_data.Result;
-            }
 
-            return Ok(pool_update_full);
+            return Ok(pool_updates_combined);
         }
 
         /// <summary>Metadata attached to a transaction.</summary>
