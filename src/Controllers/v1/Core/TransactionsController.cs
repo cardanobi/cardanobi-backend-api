@@ -537,9 +537,9 @@ namespace ApiCore.Controllers
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 1)]
-        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/stake_address_certs")]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/stake_address_registrations")]
         [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Certificates" })]
-        public async Task<ActionResult<TransactionDTO>> GetTransactionStakeAddressCert(string transaction_hash)
+        public async Task<ActionResult<TransactionStakeAddressDTO>> GetTransactionStakeAddressRegistration(string transaction_hash)
         {
             if (
                 _context.StakeRegistration == null ||
@@ -561,7 +561,7 @@ namespace ApiCore.Controllers
                 return NotFound();
             }
 
-            Task<TransactionStakeAddressDTO> t_registration = Task<TransactionStakeAddressDTO>.Run(() =>
+            Task<TransactionStakeAddressDTO?> t_registration = Task<TransactionStakeAddressDTO>.Run(() =>
             {
                 var stake_registration = (
                     from sr in _context.StakeRegistration
@@ -575,13 +575,13 @@ namespace ApiCore.Controllers
                         stake_address = sa.view,
                         script_hash_hex = sa.script_hash_hex,
                         is_registration = true
-                    }).Single();
+                    }).FirstOrDefault();
 
                 return stake_registration;
             });
 
 
-            Task<TransactionStakeAddressDTO> t_deregistration = Task<TransactionStakeAddressDTO>.Run(() =>
+            Task<TransactionStakeAddressDTO?> t_deregistration = Task<TransactionStakeAddressDTO>.Run(() =>
             {
                 var stake_deregistration = (
                     from sr in _context2.StakeDeregistration
@@ -595,7 +595,7 @@ namespace ApiCore.Controllers
                         stake_address = sa.view,
                         script_hash_hex = sa.script_hash_hex,
                         is_registration = false
-                    }).Single();
+                    }).FirstOrDefault();
 
                 return stake_deregistration;
             });
@@ -609,6 +609,589 @@ namespace ApiCore.Controllers
                 return Ok(t_deregistration.Result);
 
             return NotFound();
+        }
+
+        /// <summary>Stake address delegation transactions.</summary>
+        /// <remarks>Returns details of a transaction used to delegate a given stake address to a pool.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 1)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/stake_address_delegations")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Certificates" })]
+        public async Task<ActionResult<TransactionStakeAddressDelegationDTO>> GetTransactionStakeAddressDelegation(string transaction_hash)
+        {
+            if (
+                _context.Delegation == null ||
+                _context.StakeAddress == null ||
+                _context.PoolHash == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var stake_delegation = await (
+                from de in _context.Delegation
+                join sa in _context.StakeAddress on de.addr_id equals sa.id
+                join ph in _context.PoolHash on de.pool_hash_id equals ph.id
+                join tx in _context.Transaction on de.tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new TransactionStakeAddressDelegationDTO()
+                {
+                    cert_index = de.cert_index,
+                    active_epoch_no = de.active_epoch_no,
+                    stake_address = sa.view,
+                    pool_hash_bech32 = ph.view,
+                    pool_hash_hex = ph.hash_hex
+                }).SingleOrDefaultAsync();
+
+            if (stake_delegation == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(stake_delegation);
+        }
+
+        /// <summary>Reward account withdrawal transactions.</summary>
+        /// <remarks>Returns details of a transaction used to withdraw rewards given its staked address.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/withdrawals")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Withdrawals" })]
+        public async Task<ActionResult<IEnumerable<TransactionStakeAddressWithdrawalDTO>>> GetTransactionWithdrawal(string transaction_hash)
+        {
+            if (
+                _context.Withdrawal == null ||
+                _context.StakeAddress == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var withdrawal = await (
+                from w in _context.Withdrawal
+                join sa in _context.StakeAddress on w.addr_id equals sa.id
+                join tx in _context.Transaction on w.tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new TransactionStakeAddressWithdrawalDTO()
+                {
+                    stake_address = sa.view,
+                    amount = w.amount,
+                    redeemer_id = w.redeemer_id
+                }).ToListAsync();
+
+            if (withdrawal == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(withdrawal);
+        }
+
+        /// <summary>Transactions for treasury payments to a stake address.</summary>
+        /// <remarks>Returns details of a transaction used for payments between the treasury and a stake address.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/treasury")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Pots" })]
+        public async Task<ActionResult<IEnumerable<TransactionTreasuryDTO>>> GetTransactionTreasury(string transaction_hash)
+        {
+            if (
+                _context.Treasury == null ||
+                _context.StakeAddress == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var treasury = await (
+                from t in _context.Treasury
+                join sa in _context.StakeAddress on t.addr_id equals sa.id
+                join tx in _context.Transaction on t.tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new TransactionTreasuryDTO()
+                {
+                    cert_index = t.cert_index,
+                    stake_address = sa.view,
+                    amount = t.amount
+                }).ToListAsync();
+
+            if (treasury == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(treasury);
+        }
+
+        /// <summary>Transactions for reserves payments to a stake address.</summary>
+        /// <remarks>Returns details of a transaction used for payments between the reserves and a stake address.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/reserves")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Pots" })]
+        public async Task<ActionResult<IEnumerable<TransactionTreasuryDTO>>> GetTransactionReserve(string transaction_hash)
+        {
+            if (
+                _context.Reserve == null ||
+                _context.StakeAddress == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var reserve = await (
+                from r in _context.Reserve
+                join sa in _context.StakeAddress on r.addr_id equals sa.id
+                join tx in _context.Transaction on r.tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new TransactionTreasuryDTO()
+                {
+                    cert_index = r.cert_index,
+                    stake_address = sa.view,
+                    amount = r.amount
+                }).ToListAsync();
+
+            if (reserve == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(reserve);
+        }
+
+        /// <summary>Transactions for block chain parameter change proposals.</summary>
+        /// <remarks>Returns details of a transaction used for block chain parameter change proposals.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/param_proposals")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Blockchain" })]
+        public async Task<ActionResult<IEnumerable<ParamProposal>>> GetTransactionParamProposal(string transaction_hash)
+        {
+            if (
+                _context.ParamProposal == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var param_proposal = await (
+                from pp in _context.ParamProposal
+                join tx in _context.Transaction on pp.registered_tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select pp).ToListAsync();
+
+            if (param_proposal == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(param_proposal);
+        }
+
+        /// <summary>Pool retirement transactions.</summary>
+        /// <remarks>Returns details of a transaction used to retire a stake pool.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 1)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/retiring_pools")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Certificates" })]
+        public async Task<ActionResult<TransactionRetiringPoolDTO>> GetTransactionRetiringPool(string transaction_hash)
+        {
+            if (
+                _context.PoolRetire == null ||
+                _context.PoolHash == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var stake_delegation = await (
+                from pr in _context.PoolRetire
+                join ph in _context.PoolHash on pr.hash_id equals ph.id
+                join tx in _context.Transaction on pr.announced_tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new TransactionRetiringPoolDTO()
+                {
+                    cert_index = pr.cert_index,
+                    pool_hash_bech32 = ph.view,
+                    pool_hash_hex = ph.hash_hex,
+                    retiring_epoch = pr.retiring_epoch
+                }).SingleOrDefaultAsync();
+
+            if (stake_delegation == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(stake_delegation);
+        }
+
+        /// <summary>On-chain pool update transactions.</summary>
+        /// <remarks>Returns details of a transaction used to update a stake pool.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 1)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/updating_pools")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Certificates" })]
+        public async Task<ActionResult<TransactionUpdatingPoolDTO>> GetTransactionUpdatingPool(string transaction_hash)
+        {
+            if (
+                _context.PoolUpdate == null ||
+                _context.Transaction == null ||
+                _context.PoolHash == null ||
+                _context.StakeAddress == null ||
+                _context.PoolOwner == null ||
+                _context.PoolMetadata == null || 
+                _context.PoolOfflineData == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var pool_update = await (
+                from pu in _context.PoolUpdate
+                join tx in _context.Transaction on pu.registered_tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select pu
+                ).SingleOrDefaultAsync();
+
+            if (pool_update == null)
+            {
+                return NotFound();
+            }
+
+            Task<TransactionUpdatingPoolDTO?> t_pool_update_details = Task<TransactionUpdatingPoolDTO>.Run(() =>
+            {
+                var pool_update_details = (
+                    from pu in _context.PoolUpdate
+                    join ph in _context.PoolHash on pu.hash_id equals ph.id
+                    join sa in _context.StakeAddress on pu.reward_addr_id equals sa.id
+                    where pu.id == pool_update.id
+                    select new TransactionUpdatingPoolDTO()
+                        {
+                            cert_index = pu.cert_index,
+                            pool_hash_bech32 = ph.view,
+                            pool_hash_hex = ph.hash_hex,
+                            vrf_key_hash_hex = pu.vrf_key_hash_hex,
+                            reward_addr_hash_hex = sa.hash_hex,
+                            pledge = pu.pledge,
+                            margin = pu.margin,
+                            fixed_cost = pu.fixed_cost,
+                            active_epoch_no = pu.active_epoch_no
+                        }).SingleOrDefault();
+
+                if (pool_update_details!=null) 
+                {
+                    var owners_addresses = (
+                        from po in _context.PoolOwner
+                        join sa in _context.StakeAddress on po.addr_id equals sa.id
+                        where po.pool_update_id == pool_update.id
+                        select sa.view).ToList();
+
+                    pool_update_details.owners_addresses = owners_addresses;
+                }
+
+                return pool_update_details;
+            });
+
+            Task<PoolOfflineDataDTO?> t_pool_offline_data = Task<PoolOfflineDataDTO>.Run(() =>
+            {
+                var pool_offline_data = (
+                    from pu in _context2.PoolUpdate
+                    join pmr in _context2.PoolMetadata on pu.meta_id equals pmr.id
+                    join pod in _context2.PoolOfflineData on pmr.id equals pod.pmr_id
+                    where pu.id == pool_update.id
+                    select new PoolOfflineDataDTO()
+                        {
+                            ticker_name = pod.ticker_name,
+                            url = pmr.url,
+                            hash_hex = pmr.hash_hex,
+                            json = pod.json
+                        }).SingleOrDefault();
+
+                    return pool_offline_data;
+            });
+
+            Task<List<PoolRelayDTO>> t_pool_relays = Task<List<PoolRelayDTO>>.Run(() =>
+            {
+                var pool_relays = (
+                    from pr in _context3.PoolRelay
+                    where pr.update_id == pool_update.id
+                    select new PoolRelayDTO()
+                        {
+                            ipv4 = pr.ipv4,
+                            ipv6 = pr.ipv6,
+                            dns_name = pr.dns_name,
+                            dns_srv_name = pr.dns_srv_name,
+                            port = pr.port
+                        }).ToList();
+
+                    return pool_relays;
+            });
+
+            Task.WaitAll(t_pool_update_details, t_pool_offline_data, t_pool_relays);
+
+            // get results from these tasks
+            var pool_update_full = t_pool_update_details.Result;
+            if (pool_update_full!=null && t_pool_relays!=null)
+            {
+                pool_update_full.relays = t_pool_relays.Result;
+            }
+            if (pool_update_full!=null && t_pool_offline_data!=null && t_pool_offline_data.Result!=null)
+            {
+                pool_update_full.offline_data = t_pool_offline_data.Result;
+            }
+
+            return Ok(pool_update_full);
+        }
+
+        /// <summary>Metadata attached to a transaction.</summary>
+        /// <remarks>Returns the metadata attached to a transaction given its hash.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/metadata")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Metadata" })]
+        public async Task<ActionResult<IEnumerable<TransactionMetadataDTO>>> GetTransactionMetadata(string transaction_hash)
+        {
+            if (
+                _context.TransactionMetadata == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var metadata = await (
+                from tm in _context.TransactionMetadata
+                join tx in _context.Transaction on tm.tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new TransactionMetadataDTO()
+                {
+                    key = tm.key,
+                    json = tm.json
+                }).ToListAsync();
+
+            if (metadata == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(metadata);
+        }
+
+        /// <summary>Multi-asset mint events attached to a transaction.</summary>
+        /// <remarks>Returns the details of a multi-asset mint event attached to a transaction given its hash.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/assetmints")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Assets" })]
+        public async Task<ActionResult<IEnumerable<MultiAssetTransactionMintDTO>>> GetTransactionAssetMint(string transaction_hash)
+        {
+            if (
+                _context.MultiAssetTransactionMint == null ||
+                _context.MultiAsset == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var asset_mint = await (
+                from mtm in _context.MultiAssetTransactionMint
+                join ma in _context.MultiAsset on mtm.ident equals ma.id
+                join tx in _context.Transaction on mtm.tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new MultiAssetTransactionMintDTO()
+                {
+                    quantity = mtm.quantity,
+                    policy_hex = ma.policy_hex,
+                    name = Encoding.Default.GetString(ma.name),
+                    fingerprint = ma.fingerprint
+                }).ToListAsync();
+
+            if (asset_mint == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(asset_mint);
+        }
+
+        /// <summary>Redeemers attached to a transaction.</summary>
+        /// <remarks>Returns redeemers information attached to a transaction given its hash.</remarks>
+        /// <param name="transaction_hash">The transaction hash.</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // GET: api/Block/5
+        [EnableQuery(PageSize = 20)]
+        [HttpGet("api/core/transactions/{transaction_hash:length(64)}/redeemers")]
+        [SwaggerOperation(Tags = new[] { "Core", "Transactions", "Contracts" })]
+        public async Task<ActionResult<IEnumerable<RedeemerDTO>>> GetTransactionRedeemer(string transaction_hash)
+        {
+            if (
+                _context.Redeemer == null ||
+                _context.RedeemerData == null ||
+                _context.Transaction == null
+                )
+            {
+                return NotFound();
+            }
+            try
+            {
+                byte[] _res = Convert.FromHexString(transaction_hash);
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+
+            var asset_mint = await (
+                from r in _context.Redeemer
+                join rd in _context.RedeemerData on r.redeemer_data_id equals rd.id
+                join tx in _context.Transaction on r.tx_id equals tx.id
+                where tx.hash == Convert.FromHexString(transaction_hash)
+                select new RedeemerDTO()
+                {
+                    unit_mem = r.unit_mem,
+                    unit_steps = r.unit_steps,
+                    fee = r.fee,
+                    purpose = r.purpose,
+                    index = r.index,
+                    script_hash_hex = r.script_hash_hex,
+                    hash_hex = rd.hash_hex,
+                    data_json = rd.value,
+                    data_cbor = rd.bytes_hex
+                }).ToListAsync();
+
+            if (asset_mint == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(asset_mint);
         }
 
     }

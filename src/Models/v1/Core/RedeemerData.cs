@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace ApiCore.Models
 {
@@ -32,5 +33,7 @@ namespace ApiCore.Models
         /// <summary>The hexadecimal encoding of the Plutus Data hash.</summary>
         public string hash_hex { get { return Convert.ToHexString(hash).ToLower(); } set { } }
 
+        /// <summary>The hexadecimal encoding of the actual data in CBOR format</summary>
+        public string bytes_hex { get { return Convert.ToHexString(bytes).ToLower(); } set { } }
     }
 }

@@ -71,6 +71,7 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<Redeemer>("Redeemers");
     builder.EntitySet<RedeemerData>("RedeemerData");
     builder.EntitySet<StakeAddress>("StakeAddresses");
+    builder.EntitySet<PoolOwner>("PoolOwners");
     return builder.GetEdmModel();
 }
 
@@ -197,7 +198,7 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
         // TODO: move domain to appsettings!
-        options.Authority = "https://mainnet.cardanobi.io:5000";
+        options.Authority = "https://preprod.cardanobi.io:5000";
         // options.RequireHttpsMetadata = false; // to support non https request in dev
 
         options.TokenValidationParameters.ValidateAudience = false;

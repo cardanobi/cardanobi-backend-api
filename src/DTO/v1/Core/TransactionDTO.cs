@@ -336,4 +336,213 @@ namespace ApiCore.DTO
         /// <summary>True if the transaction is a registration, False if it is a deregistration.</summary>
         public bool is_registration { get; set; }
     }
+
+    public partial class TransactionStakeAddressDelegationDTO 
+    {
+        /// <summary>The index of this delegation within the certificates of this transaction.</summary>
+        public int cert_index { get; set; }
+
+        /// <summary>The epoch number where this delegation becomes active.</summary>
+        public long active_epoch_no	 { get; set; }
+
+        /// <summary>The Bech32 encoded version of the stake address.</summary>
+        [Column(TypeName = "character varying")]
+        public string stake_address { get; set; } = null!;
+
+        /// <summary>The Bech32 encoding of the pool hash.</summary>
+        [Column(TypeName = "character varying")]
+        public string pool_hash_bech32 { get; set; } = null!;
+
+        /// <summary>The hexadecimal encoding of the pool hash.</summary>
+        public string pool_hash_hex {  get; set; } = null!;
+    }
+
+    public partial class TransactionStakeAddressWithdrawalDTO 
+    {
+        /// <summary>The Bech32 encoded version of the stake address.</summary>
+        public string stake_address { get; set; } = null!;
+
+        /// <summary>The withdrawal amount (in Lovelace).</summary>
+        [Precision(20, 0)]
+        public decimal amount { get; set; }
+
+        /// <summary>The Redeemer table index that is related with this withdrawal.</summary>
+        public long? redeemer_id { get; set; }
+    }
+
+    public partial class TransactionTreasuryDTO 
+    {
+        /// <summary>The index of this payment certificate within the certificates of this transaction.</summary>
+        public int cert_index { get; set; }
+
+        /// <summary>The Bech32 encoded version of the stake address.</summary>
+        public string stake_address { get; set; } = null!;
+
+        /// <summary>The treasury payment amount (in Lovelace).</summary>
+        [Precision(20, 0)]
+        public decimal amount { get; set; }
+    }
+
+    public partial class TransactionReserveDTO 
+    {
+        /// <summary>The index of this payment certificate within the certificates of this transaction.</summary>
+        public int cert_index { get; set; }
+
+        /// <summary>The Bech32 encoded version of the stake address.</summary>
+        public string stake_address { get; set; } = null!;
+
+        /// <summary>The reserves payment amount (in Lovelace).</summary>
+        [Precision(20, 0)]
+        public decimal amount { get; set; }
+    }
+
+    public partial class TransactionRetiringPoolDTO 
+    {
+        /// <summary>The index of this pool retirement within the certificates of this transaction.</summary>
+        public int cert_index { get; set; }
+
+        /// <summary>The Bech32 encoding of the pool hash.</summary>
+        [Column(TypeName = "character varying")]
+        public string pool_hash_bech32 { get; set; } = null!;
+
+        /// <summary>The hexadecimal encoding of the pool hash.</summary>
+        public string pool_hash_hex {  get; set; } = null!;
+
+        /// <summary>The epoch where this pool retires.</summary>
+        public int retiring_epoch { get; set; }
+    }
+
+    public partial class PoolRelayDTO
+    {
+        /// <summary>The IPv4 address of the relay.</summary>
+        [Column(TypeName = "character varying")]
+        public string? ipv4 { get; set; }
+
+        /// <summary>The IPv6 address of the relay.</summary>
+        [Column(TypeName = "character varying")]
+        public string? ipv6 { get; set; }
+
+        /// <summary>The DNS name of the relay.</summary>
+        [Column(TypeName = "character varying")]
+        public string? dns_name { get; set; }
+
+        /// <summary>The DNS service name of the relay.</summary>
+        [Column(TypeName = "character varying")]
+        public string? dns_srv_name { get; set; }
+
+        /// <summary>The port number of relay.</summary>
+        public int? port { get; set; }
+    }
+    public partial class PoolOfflineDataDTO
+    {
+        /// <summary>The pool's ticker name (as many as 5 characters).</summary>
+        public string ticker_name { get; set; } = null!;
+
+        /// <summary>The URL for the location of the off-chain data.</summary>
+        public string url { get; set; } = null!;
+
+        /// <summary>The hexadecimal encoding of the offline data hash.</summary>
+        public string hash_hex { get; set; } = null!;
+
+        /// <summary>The payload as JSON.</summary>
+        public string json { get; set; } = null!;
+
+    }
+    public partial class TransactionUpdatingPoolDTO 
+    {
+        /// <summary>The index of this pool update within the certificates of this transaction.</summary>
+        public int cert_index { get; set; }
+
+        /// <summary>The Bech32 encoding of the pool hash.</summary>
+        public string pool_hash_bech32 { get; set; } = null!;
+
+        /// <summary>The hexadecimal encoding of the pool hash.</summary>
+        public string pool_hash_hex { get; set; } = null!;
+
+        /// <summary>The hexadecimal encoding of the VRF key hash.</summary>
+        public string vrf_key_hash_hex { get; set; }
+
+        /// <summary>The hexadecimal encoding of the pool reward address hash.</summary>
+        public string reward_addr_hash_hex { get; set; } = null!;
+
+        /// <summary>The amount (in Lovelace) the pool owner pledges to the pool.</summary>
+        [Precision(20, 0)]
+        public decimal pledge { get; set; }
+
+         /// <summary>The margin (as a percentage) this pool charges.</summary>
+        public double margin { get; set; }
+
+        /// <summary>The fixed per epoch fee (in ADA) this pool charges.</summary>
+        [Precision(20, 0)]
+        public decimal fixed_cost { get; set; }
+
+        /// <summary>The epoch number where this update becomes active.</summary>
+        public long active_epoch_no { get; set; }
+
+        /// <summary>The list of pool owners stake addresses.</summary>
+        public List<string> owners_addresses { get; set; }
+
+        /// <summary>The pool relays updates.</summary>
+        public List<PoolRelayDTO> relays { get; set; }
+
+        /// <summary>The pool offline metadata.</summary>
+        public PoolOfflineDataDTO offline_data { get; set; }
+    }
+
+    public partial class TransactionMetadataDTO
+    {
+        /// <summary>The metadata key (a Word64/unsigned 64 bit number).</summary>
+        [Precision(20, 0)]
+        public decimal key { get; set; }
+
+        /// <summary>The JSON payload if it can be decoded as JSON.</summary>
+        public string? json { get; set; }
+    }
+
+    public partial class MultiAssetTransactionMintDTO
+    {
+        /// <summary>The amount of the Multi Asset to mint (can be negative to "burn" assets).</summary>
+        [Precision(20, 0)]
+        public decimal quantity { get; set; }
+
+        /// <summary>The hexadecimal encoding of the MultiAsset policy hash.</summary>
+        public string policy_hex { get; set; } = null!;
+
+        /// <summary>The MultiAsset name.</summary>
+        public string name { get; set; } = null!;
+
+        /// <summary>The CIP14 fingerprint for the MultiAsset.</summary>
+        public string fingerprint { get; set; } = null!;
+    }
+
+    public partial class RedeemerDTO
+    {
+        /// <summary>The budget in Memory to run a script.</summary>
+        public long unit_mem { get; set; }
+
+        /// <summary>The budget in Cpu steps to run a script.</summary>
+        public long unit_steps { get; set; }
+
+        /// <summary>The budget in fees to run a script. The fees depend on the ExUnits and the current prices. Is null when --disable-ledger is enabled. New in v13: became nullable.</summary>
+        [Precision(20, 0)]
+        public decimal? fee { get; set; }
+
+        /// <summary>What kind of validation this redeemer is used for. It can be one of 'spend', 'mint', 'cert', 'reward'.</summary>
+        public string purpose { get; set; }
+
+        /// <summary>The index of the redeemer pointer in the transaction.</summary>
+        public int index { get; set; }
+
+        /// <summary>The hexadecimal encoding of the script hash this redeemer is used for.</summary>
+        public string script_hash_hex { get; set; }
+
+        /// <summary>The hexadecimal encoding of the Plutus Data hash.</summary>
+        public string hash_hex { get; set; }
+
+        /// <summary>The actual Plutus data in JSON format (detailed schema)</summary>
+        public string? data_json { get; set; }
+
+        /// <summary>The actual Plutus data in CBOR format</summary>
+        public string data_cbor { get; set; } = null!;
+    }
 }

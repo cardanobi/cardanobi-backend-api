@@ -27,7 +27,7 @@ namespace ApiCore.Models
         [Precision(20, 0)]
         public decimal? fee { get; set; }
 
-        /// <summary>What kind pf validation this redeemer is used for. It can be one of 'spend', 'mint', 'cert', 'reward'.</summary>
+        /// <summary>What kind of validation this redeemer is used for. It can be one of 'spend', 'mint', 'cert', 'reward'.</summary>
         public string purpose { get; set; }
 
         /// <summary>The index of the redeemer pointer in the transaction.</summary>
@@ -42,6 +42,5 @@ namespace ApiCore.Models
         // Derived fields
         /// <summary>The hexadecimal encoding of the script hash.</summary>
         public string script_hash_hex { get { return Convert.ToHexString(script_hash).ToLower(); } set { } }
-
     }
 }

@@ -54,6 +54,5 @@ namespace ApiCore.Models
         // Derived fields
         /// <summary>The hexadecimal encoding of the VRF key hash.</summary>
         public string vrf_key_hash_hex { get { return Convert.ToHexString(vrf_key_hash).ToLower(); } set { } }
-
     }
 }

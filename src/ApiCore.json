@@ -3155,6 +3155,500 @@
           }
         }
       }
+    },
+    "/api/core/transactions/{transaction_hash}/stake_address_registrations": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Certificates"
+        ],
+        "summary": "Stake address certificate transactions.",
+        "description": "Returns details of a transaction used to register a stake address given its hash.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionStakeAddressDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/stake_address_delegations": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Certificates"
+        ],
+        "summary": "Stake address delegation transactions.",
+        "description": "Returns details of a transaction used to delegate a given stake address to a pool.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionStakeAddressDelegationDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/withdrawals": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Withdrawals"
+        ],
+        "summary": "Reward account withdrawal transactions.",
+        "description": "Returns details of a transaction used to withdraw rewards given its staked address.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransactionStakeAddressWithdrawalDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/treasury": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Pots"
+        ],
+        "summary": "Transactions for treasury payments to a stake address.",
+        "description": "Returns details of a transaction used for payments between the treasury and a stake address.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransactionTreasuryDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/reserves": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Pots"
+        ],
+        "summary": "Transactions for reserves payments to a stake address.",
+        "description": "Returns details of a transaction used for payments between the reserves and a stake address.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransactionTreasuryDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/param_proposals": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Blockchain"
+        ],
+        "summary": "Transactions for block chain parameter change proposals.",
+        "description": "Returns details of a transaction used for block chain parameter change proposals.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ParamProposal"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/retiring_pools": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Certificates"
+        ],
+        "summary": "Pool retirement transactions.",
+        "description": "Returns details of a transaction used to retire a stake pool.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionRetiringPoolDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/updating_pools": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Certificates"
+        ],
+        "summary": "On-chain pool update transactions.",
+        "description": "Returns details of a transaction used to update a stake pool.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransactionUpdatingPoolDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/metadata": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Metadata"
+        ],
+        "summary": "Metadata attached to a transaction.",
+        "description": "Returns the metadata attached to a transaction given its hash.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransactionMetadataDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/assetmints": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Assets"
+        ],
+        "summary": "Multi-asset mint events attached to a transaction.",
+        "description": "Returns the details of a multi-asset mint event attached to a transaction given its hash.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MultiAssetTransactionMintDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
+    },
+    "/api/core/transactions/{transaction_hash}/redeemers": {
+      "get": {
+        "tags": [
+          "Core",
+          "Transactions",
+          "Contracts"
+        ],
+        "summary": "Redeemers attached to a transaction.",
+        "description": "Returns redeemers information attached to a transaction given its hash.",
+        "parameters": [
+          {
+            "name": "transaction_hash",
+            "in": "path",
+            "description": "The transaction hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RedeemerDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -3862,6 +4356,32 @@
         },
         "additionalProperties": false
       },
+      "MultiAssetTransactionMintDTO": {
+        "type": "object",
+        "properties": {
+          "quantity": {
+            "type": "number",
+            "description": "The amount of the Multi Asset to mint (can be negative to \"burn\" assets).",
+            "format": "double"
+          },
+          "policy_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the MultiAsset policy hash.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The MultiAsset name.",
+            "nullable": true
+          },
+          "fingerprint": {
+            "type": "string",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ODataEntitySetInfo": {
         "type": "object",
         "properties": {
@@ -3963,6 +4483,212 @@
         "properties": {
           "typeName": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ParamProposal": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The transaction unique identifier.",
+            "format": "int64"
+          },
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch for which this parameter proposal in intended to become active.",
+            "format": "int32"
+          },
+          "key": {
+            "type": "string",
+            "description": "The hash of the crypto key used to sign this proposal.",
+            "format": "byte",
+            "nullable": true
+          },
+          "min_fee_a": {
+            "type": "number",
+            "description": "The 'a' parameter to calculate the minimum transaction fee.",
+            "format": "double",
+            "nullable": true
+          },
+          "min_fee_b": {
+            "type": "number",
+            "description": "The 'b' parameter to calculate the minimum transaction fee.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_block_size": {
+            "type": "number",
+            "description": "The maximum block size (in bytes).",
+            "format": "double",
+            "nullable": true
+          },
+          "max_tx_size": {
+            "type": "number",
+            "description": "The maximum transaction size (in bytes).",
+            "format": "double",
+            "nullable": true
+          },
+          "max_bh_size": {
+            "type": "number",
+            "description": "The maximum block header size (in bytes).",
+            "format": "double",
+            "nullable": true
+          },
+          "key_deposit": {
+            "type": "number",
+            "description": "The amount (in Lovelace) require for a deposit to register a StakeAddress.",
+            "format": "double",
+            "nullable": true
+          },
+          "pool_deposit": {
+            "type": "number",
+            "description": "The amount (in Lovelace) require for a deposit to register a stake pool.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_epoch": {
+            "type": "number",
+            "description": "The maximum number of epochs in the future that a pool retirement is allowed to be scheduled for.",
+            "format": "double",
+            "nullable": true
+          },
+          "optimal_pool_count": {
+            "type": "number",
+            "description": "The optimal number of stake pools.",
+            "format": "double",
+            "nullable": true
+          },
+          "influence": {
+            "type": "number",
+            "description": "The influence of the pledge on a stake pool's probability on minting a block.",
+            "format": "double",
+            "nullable": true
+          },
+          "monetary_expand_rate": {
+            "type": "number",
+            "description": "The monetary expansion rate.",
+            "format": "double",
+            "nullable": true
+          },
+          "treasury_growth_rate": {
+            "type": "number",
+            "description": "The treasury growth rate.",
+            "format": "double",
+            "nullable": true
+          },
+          "decentralisation": {
+            "type": "number",
+            "description": "The decentralisation parameter (1 fully centralised, 0 fully decentralised).",
+            "format": "double",
+            "nullable": true
+          },
+          "entropy": {
+            "type": "string",
+            "description": "The 32 byte string of extra random-ness to be added into the protocol's entropy pool.",
+            "format": "byte",
+            "nullable": true
+          },
+          "protocol_major": {
+            "type": "integer",
+            "description": "The protocol major number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "protocol_minor": {
+            "type": "integer",
+            "description": "The protocol minor number.",
+            "format": "int32",
+            "nullable": true
+          },
+          "min_utxo_value": {
+            "type": "number",
+            "description": "The minimum value of a UTxO entry.",
+            "format": "double",
+            "nullable": true
+          },
+          "min_pool_cost": {
+            "type": "number",
+            "description": "The minimum pool cost.",
+            "format": "double",
+            "nullable": true
+          },
+          "cost_model_id": {
+            "type": "integer",
+            "description": "The CostModel table index for the proposal.",
+            "format": "int64",
+            "nullable": true
+          },
+          "price_mem": {
+            "type": "number",
+            "description": "The per word cost of script memory usage.",
+            "format": "double",
+            "nullable": true
+          },
+          "price_step": {
+            "type": "number",
+            "description": "The cost of script execution step usage.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_tx_ex_mem": {
+            "type": "number",
+            "description": "The maximum number of execution memory allowed to be used in a single transaction.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_tx_ex_steps": {
+            "type": "number",
+            "description": "The maximum number of execution steps allowed to be used in a single transaction.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_block_ex_mem": {
+            "type": "number",
+            "description": "The maximum number of execution memory allowed to be used in a single block.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_block_ex_steps": {
+            "type": "number",
+            "description": "The maximum number of execution steps allowed to be used in a single block.",
+            "format": "double",
+            "nullable": true
+          },
+          "max_val_size": {
+            "type": "number",
+            "description": "The maximum Val size.",
+            "format": "double",
+            "nullable": true
+          },
+          "collateral_percent": {
+            "type": "integer",
+            "description": "The percentage of the txfee which must be provided as collateral when including non-native scripts.",
+            "format": "int32",
+            "nullable": true
+          },
+          "max_collateral_inputs": {
+            "type": "integer",
+            "description": "The maximum number of collateral inputs allowed in a transaction.",
+            "format": "int32",
+            "nullable": true
+          },
+          "registered_tx_id": {
+            "type": "integer",
+            "description": "The Tx table index for the transaction that contains this parameter proposal.",
+            "format": "int64"
+          },
+          "coins_per_utxo_size": {
+            "type": "number",
+            "description": "For Alonzo this is the cost per UTxO word. For Babbage and later per UTxO byte. New in v13: Renamed from coins_per_utxo_word.",
+            "format": "double",
+            "nullable": true
+          },
+          "key_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash of the crypto key used to sign this proposal.",
             "nullable": true
           }
         },
@@ -4080,6 +4806,32 @@
         },
         "additionalProperties": false
       },
+      "PoolOfflineDataDTO": {
+        "type": "object",
+        "properties": {
+          "ticker_name": {
+            "type": "string",
+            "description": "The pool's ticker name (as many as 5 characters).",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "The URL for the location of the off-chain data.",
+            "nullable": true
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the offline data hash.",
+            "nullable": true
+          },
+          "json": {
+            "type": "string",
+            "description": "The payload as JSON.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "PoolOfflineFetchError": {
         "type": "object",
         "properties": {
@@ -4129,6 +4881,38 @@
             "description": "The PoolUpdate table index this PoolRelay entry refers to.",
             "format": "int64"
           },
+          "ipv4": {
+            "type": "string",
+            "description": "The IPv4 address of the relay.",
+            "nullable": true
+          },
+          "ipv6": {
+            "type": "string",
+            "description": "The IPv6 address of the relay.",
+            "nullable": true
+          },
+          "dns_name": {
+            "type": "string",
+            "description": "The DNS name of the relay.",
+            "nullable": true
+          },
+          "dns_srv_name": {
+            "type": "string",
+            "description": "The DNS service name of the relay.",
+            "nullable": true
+          },
+          "port": {
+            "type": "integer",
+            "description": "The port number of relay.",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolRelayDTO": {
+        "type": "object",
+        "properties": {
           "ipv4": {
             "type": "string",
             "description": "The IPv4 address of the relay.",
@@ -4244,6 +5028,58 @@
           "vrf_key_hash_hex": {
             "type": "string",
             "description": "The hexadecimal encoding of the VRF key hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RedeemerDTO": {
+        "type": "object",
+        "properties": {
+          "unit_mem": {
+            "type": "integer",
+            "description": "The budget in Memory to run a script.",
+            "format": "int64"
+          },
+          "unit_steps": {
+            "type": "integer",
+            "description": "The budget in Cpu steps to run a script.",
+            "format": "int64"
+          },
+          "fee": {
+            "type": "number",
+            "description": "The budget in fees to run a script. The fees depend on the ExUnits and the current prices. Is null when --disable-ledger is enabled. New in v13: became nullable.",
+            "format": "double",
+            "nullable": true
+          },
+          "purpose": {
+            "type": "string",
+            "description": "What kind of validation this redeemer is used for. It can be one of 'spend', 'mint', 'cert', 'reward'.",
+            "nullable": true
+          },
+          "index": {
+            "type": "integer",
+            "description": "The index of the redeemer pointer in the transaction.",
+            "format": "int32"
+          },
+          "script_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the script hash this redeemer is used for.",
+            "nullable": true
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the Plutus Data hash.",
+            "nullable": true
+          },
+          "data_json": {
+            "type": "string",
+            "description": "The actual Plutus data in JSON format (detailed schema)",
+            "nullable": true
+          },
+          "data_cbor": {
+            "type": "string",
+            "description": "The actual Plutus data in CBOR format",
             "nullable": true
           }
         },
@@ -4427,6 +5263,16 @@
             "description": "The list of transaction output amounts.",
             "nullable": true
           },
+          "inputCount": {
+            "type": "integer",
+            "description": "The count of inputs in this transaction.",
+            "format": "int32"
+          },
+          "outputCount": {
+            "type": "integer",
+            "description": "The count of outputs in this transaction.",
+            "format": "int32"
+          },
           "withdrawalCount": {
             "type": "integer",
             "description": "The count of withdrawals from a reward account in this transaction.",
@@ -4486,6 +5332,11 @@
             "type": "integer",
             "description": "The count of on-chain pool updates in this transaction.",
             "format": "int32"
+          },
+          "redeemerCount": {
+            "type": "integer",
+            "description": "The count of redeemers in this transaction.",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -4542,6 +5393,22 @@
         },
         "additionalProperties": false
       },
+      "TransactionMetadataDTO": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "number",
+            "description": "The metadata key (a Word64/unsigned 64 bit number).",
+            "format": "double"
+          },
+          "json": {
+            "type": "string",
+            "description": "The JSON payload if it can be decoded as JSON.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TransactionOutputDTO": {
         "type": "object",
         "properties": {
@@ -4586,6 +5453,206 @@
             },
             "description": "The list of transaction amounts.",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionRetiringPoolDTO": {
+        "type": "object",
+        "properties": {
+          "cert_index": {
+            "type": "integer",
+            "description": "The index of this pool retirement within the certificates of this transaction.",
+            "format": "int32"
+          },
+          "pool_hash_bech32": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool hash.",
+            "nullable": true
+          },
+          "pool_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the pool hash.",
+            "nullable": true
+          },
+          "retiring_epoch": {
+            "type": "integer",
+            "description": "The epoch where this pool retires.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionStakeAddressDelegationDTO": {
+        "type": "object",
+        "properties": {
+          "cert_index": {
+            "type": "integer",
+            "description": "The index of this delegation within the certificates of this transaction.",
+            "format": "int32"
+          },
+          "active_epoch_no": {
+            "type": "integer",
+            "description": "The epoch number where this delegation becomes active.",
+            "format": "int64"
+          },
+          "stake_address": {
+            "type": "string",
+            "description": "The Bech32 encoded version of the stake address.",
+            "nullable": true
+          },
+          "pool_hash_bech32": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool hash.",
+            "nullable": true
+          },
+          "pool_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the pool hash.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionStakeAddressDTO": {
+        "type": "object",
+        "properties": {
+          "cert_index": {
+            "type": "integer",
+            "description": "The index of this stake registration within the certificates of this transaction.",
+            "format": "int32"
+          },
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch in which the registration took place.",
+            "format": "int32"
+          },
+          "stake_address": {
+            "type": "string",
+            "description": "The Bech32 encoded version of the stake address.",
+            "nullable": true
+          },
+          "script_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the script hash, in case this address is locked by a script.",
+            "nullable": true
+          },
+          "is_registration": {
+            "type": "boolean",
+            "description": "True if the transaction is a registration, False if it is a deregistration."
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionStakeAddressWithdrawalDTO": {
+        "type": "object",
+        "properties": {
+          "stake_address": {
+            "type": "string",
+            "description": "The Bech32 encoded version of the stake address.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "description": "The withdrawal amount (in Lovelace).",
+            "format": "double"
+          },
+          "redeemer_id": {
+            "type": "integer",
+            "description": "The Redeemer table index that is related with this withdrawal.",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionTreasuryDTO": {
+        "type": "object",
+        "properties": {
+          "cert_index": {
+            "type": "integer",
+            "description": "The index of this payment certificate within the certificates of this transaction.",
+            "format": "int32"
+          },
+          "stake_address": {
+            "type": "string",
+            "description": "The Bech32 encoded version of the stake address.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "description": "The treasury payment amount (in Lovelace).",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TransactionUpdatingPoolDTO": {
+        "type": "object",
+        "properties": {
+          "cert_index": {
+            "type": "integer",
+            "description": "The index of this pool update within the certificates of this transaction.",
+            "format": "int32"
+          },
+          "pool_hash_bech32": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool hash.",
+            "nullable": true
+          },
+          "pool_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the pool hash.",
+            "nullable": true
+          },
+          "vrf_key_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the VRF key hash.",
+            "nullable": true
+          },
+          "reward_addr_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the pool reward address hash.",
+            "nullable": true
+          },
+          "pledge": {
+            "type": "number",
+            "description": "The amount (in Lovelace) the pool owner pledges to the pool.",
+            "format": "double"
+          },
+          "margin": {
+            "type": "number",
+            "description": "The margin (as a percentage) this pool charges.",
+            "format": "double"
+          },
+          "fixed_cost": {
+            "type": "number",
+            "description": "The fixed per epoch fee (in ADA) this pool charges.",
+            "format": "double"
+          },
+          "active_epoch_no": {
+            "type": "integer",
+            "description": "The epoch number where this update becomes active.",
+            "format": "int64"
+          },
+          "owners_addresses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The list of pool owners stake addresses.",
+            "nullable": true
+          },
+          "relays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PoolRelayDTO"
+            },
+            "description": "The pool relays updates.",
+            "nullable": true
+          },
+          "offline_data": {
+            "$ref": "#/components/schemas/PoolOfflineDataDTO"
           }
         },
         "additionalProperties": false
