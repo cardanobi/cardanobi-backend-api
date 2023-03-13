@@ -34,6 +34,7 @@ namespace ApiCore.Controllers.Odata
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/EpochStake
         // [EnableQuery(PageSize = 20)]
         // [HttpGet]
@@ -56,6 +57,7 @@ namespace ApiCore.Controllers.Odata
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/EpochStake/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("{no}")]
@@ -85,6 +87,7 @@ namespace ApiCore.Controllers.Odata
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // // GET: api/EpochStake/5
         // [EnableQuery(PageSize = 20)]
         // [HttpGet("api/core/epochs/stakes/pool/{pool_hash}")]
@@ -115,6 +118,7 @@ namespace ApiCore.Controllers.Odata
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // // GET: api/EpochStake/5
         // [EnableQuery(PageSize = 20)]
         // [HttpGet("api/core/epochs/{no}/stakes/pool/{pool_hash}")]

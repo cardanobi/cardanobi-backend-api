@@ -35,6 +35,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block
         [EnableQuery(PageSize = 1)]
         [HttpGet("api/core/blocks/latest")]
@@ -68,6 +69,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 1)]
         [HttpGet("api/core/blocks/{block_no:long}")]
@@ -97,6 +99,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 1)]
         [HttpGet("api/core/blocks/{block_hash:length(64)}")]
@@ -134,6 +137,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 1)]
         [HttpGet("api/core/blocks/epochs/{epoch_no:long}/slots/{slot_no:long}")]
@@ -169,6 +173,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/blocks/history")]
@@ -204,6 +209,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/blocks/history/prev/{block_no}")]
@@ -238,6 +244,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/blocks/history/next/{block_no}")]
@@ -271,6 +278,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 1)]
         [HttpGet("api/core/blocks/latest/pools/{pool_hash}")]
@@ -327,6 +335,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/blocks/pools/{pool_hash}/history")]
@@ -402,6 +411,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/blocks/latest/transactions")]
@@ -435,6 +445,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/blocks/{block_no:long}/transactions")]
@@ -465,6 +476,7 @@ namespace ApiCore.Controllers
         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Block/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/blocks/{block_hash:length(64)}/transactions")]
