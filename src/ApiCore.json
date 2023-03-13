@@ -44,6 +44,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -90,6 +96,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -124,6 +136,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -170,6 +188,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -365,6 +389,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -408,6 +438,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -449,6 +485,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -502,6 +544,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -557,6 +605,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -614,6 +668,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -670,6 +730,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -712,6 +778,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -759,6 +831,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -793,6 +871,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -841,6 +925,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -886,6 +976,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -942,6 +1038,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -975,6 +1077,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1019,6 +1127,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -1052,6 +1166,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1096,6 +1216,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -1130,6 +1256,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1175,6 +1307,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -1209,6 +1347,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1253,6 +1397,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1301,6 +1451,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -1346,6 +1502,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1403,6 +1565,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -1449,6 +1617,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1865,6 +2039,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -1900,6 +2080,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -1934,6 +2120,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -1982,6 +2174,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2028,6 +2226,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2062,6 +2266,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2110,6 +2320,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2144,6 +2360,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2192,6 +2414,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2237,6 +2465,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2284,6 +2518,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2318,6 +2558,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2366,6 +2612,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2400,6 +2652,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2448,6 +2706,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2482,6 +2746,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2530,6 +2800,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2564,6 +2840,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2612,6 +2894,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2658,6 +2946,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2692,6 +2986,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2739,6 +3039,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -2891,6 +3197,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2938,6 +3250,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -2984,6 +3302,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3018,6 +3342,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -3066,6 +3396,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3108,6 +3444,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3149,6 +3491,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -3193,6 +3541,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3235,6 +3589,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -3282,6 +3642,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3327,6 +3693,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -3374,6 +3746,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3420,6 +3798,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3463,6 +3847,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3495,7 +3885,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TransactionUpdatingPoolDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TransactionUpdatingPoolDTO"
+                  }
                 }
               }
             }
@@ -3505,6 +3898,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
@@ -3552,6 +3951,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3598,6 +4003,12 @@
           "401": {
             "description": "Unauthorized: No valid API key provided."
           },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
           "404": {
             "description": "Not Found: The requested resource cannot be found."
           }
@@ -3643,6 +4054,12 @@
           },
           "401": {
             "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
           },
           "404": {
             "description": "Not Found: The requested resource cannot be found."

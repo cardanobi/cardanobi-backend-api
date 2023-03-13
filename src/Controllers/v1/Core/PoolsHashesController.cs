@@ -32,6 +32,8 @@ namespace ApiCore.Controllers
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         // GET: api/PoolHash
         [EnableQuery(PageSize = 20)]
