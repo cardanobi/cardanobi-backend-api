@@ -40,12 +40,15 @@ namespace ApiCore.Controllers.Odata
         [EnableQuery(PageSize = 20)]
         [HttpGet]
         [SwaggerOperation(Tags = new[] { "BI", "Pools", "Stats" })]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<PoolStat>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat([FromQuery] long? epoch_no, [FromQuery] string? pool_hash)
         {
             if (_context.PoolStat == null)
             {
                 return NotFound();
             }
+            if (epoch_no is null && pool_hash is null) return BadRequest("epoch_no or pool_hash should not be null!");
 
             if (epoch_no is not null && pool_hash is null)
                 return await _context.PoolStat.Where(b => b.epoch_no == epoch_no).OrderBy(b => b.pool_hash).ToListAsync();

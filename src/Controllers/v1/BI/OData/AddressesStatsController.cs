@@ -39,12 +39,16 @@ namespace ApiCore.Controllers.Odata
         [EnableQuery(PageSize = 20)]
         [HttpGet]
         [SwaggerOperation(Tags = new []{"BI", "Addresses", "Stats" })]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<AddressStat>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<IEnumerable<AddressStat>>> GetAddressStatForStakeAddress([FromQuery] string? stake_address, [FromQuery] long? epoch_no)
         {
             if (_context.AddressStat == null)
             {
                 return NotFound();
             }
+            if (stake_address is null && epoch_no is null) return BadRequest("stake_address or epoch_no should not be null!");
+
             if (stake_address is not null && epoch_no is null)
                 return await _context.AddressStat.Where(b => b.stake_address == stake_address).OrderBy(b => b.epoch_no).ToListAsync();
             else if (stake_address is null && epoch_no is not null)

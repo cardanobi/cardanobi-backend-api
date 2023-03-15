@@ -198,7 +198,7 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
         // TODO: move domain to appsettings!
-        options.Authority = "https://mainnet.cardanobi.io:5000";
+        options.Authority = "https://preprod.cardanobi.io:5000";
         // options.RequireHttpsMetadata = false; // to support non https request in dev
 
         options.TokenValidationParameters.ValidateAudience = false;
