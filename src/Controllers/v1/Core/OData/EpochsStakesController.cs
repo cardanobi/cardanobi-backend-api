@@ -42,7 +42,7 @@ namespace ApiCore.Controllers.Odata
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EpochStake>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? epoch_no, string? pool_hash)
+        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake([FromQuery] long? epoch_no, [FromQuery] string? pool_hash)
         {
             if (_context.EpochStake == null)
             {

@@ -26,6 +26,38 @@ namespace ApiCore.Controllers
             _context = context;
         }
 
+        /// <summary>Latest epoch params.</summary>
+        /// <remarks>Returns the parameters for the latest epoch.</remarks>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
+        // GET: api/Block
+        [EnableQuery(PageSize = 1)]
+        [HttpGet("api/core/epochs/params/latest")]
+        [SwaggerOperation(Tags = new []{"Core", "Epochs", "Parameters"})]
+        public async Task<ActionResult<EpochParam>> GetLatestEpochParam()
+        {
+            if (_context.EpochParam == null)
+            {
+                return NotFound();
+            }
+
+            long latestEpochParamId = _context.EpochParam.Max(b => b.id);
+
+            var epochParam = await _context.EpochParam.Where(b => b.id == latestEpochParamId).SingleOrDefaultAsync();
+
+            if (epochParam == null)
+            {
+                return NotFound();
+            }
+
+            return epochParam;
+        }
+
         /// <summary>All epoch params.</summary>
         /// <remarks>Returns the parameters for all epoch.</remarks>
         /// <response code="200">OK: Successful request.</response>
