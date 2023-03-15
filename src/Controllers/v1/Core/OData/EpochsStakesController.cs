@@ -26,8 +26,10 @@ namespace ApiCore.Controllers.Odata
             _context = context;
         }
 
-        /// <summary>All epoch stake distributions.</summary>
-        /// <remarks>Returns stake distributions for all epochs and all pools.</remarks>
+        /// <summary>One epoch and one pool stake distributions.</summary>
+        /// <remarks>Returns the stake distribution for one epoch given its number, and for one pool given its Bech32 pool hash.</remarks>
+        /// <param name="epoch_no">Epoch number</param>
+        /// <param name="pool_hash">Bech32 pool hash</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -35,40 +37,20 @@ namespace ApiCore.Controllers.Odata
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // GET: api/EpochStake
-        // [EnableQuery(PageSize = 20)]
-        // [HttpGet]
-        // [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        // public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake()
-        // {
-        //   if (_context.EpochStake == null)
-        //   {
-        //       return NotFound();
-        //   }
-        //     return await _context.EpochStake.ToListAsync();
-        // }
-
-        /// <summary>One epoch stake distributions.</summary>
-        /// <remarks>Returns the stake distribution for one epoch given its number.</remarks>
-        /// <param name="no">Epoch number</param>
-        /// <response code="200">OK: Successful request.</response>
-        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
-        /// <response code="401">Unauthorized: No valid API key provided.</response>
-        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
-        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
-        /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // GET: api/EpochStake/5
         [EnableQuery(PageSize = 20)]
-        [HttpGet("{epoch_no}")]
+        [HttpGet]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? epoch_no)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EpochStake>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? epoch_no, string? pool_hash)
         {
-          if (_context.EpochStake == null)
-          {
-              return NotFound();
-          }
-            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == epoch_no).ToListAsync();
+            if (_context.EpochStake == null)
+            {
+                return NotFound();
+            }
+            if (epoch_no is null || pool_hash is null) return BadRequest("epoch_no and pool_hash should not be null!");
+
+            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == epoch_no &&  b.pool_hash == pool_hash).ToListAsync();
 
             if (epochStake == null)
             {
@@ -77,66 +59,5 @@ namespace ApiCore.Controllers.Odata
 
             return epochStake;
         }
-
-        /// <summary>One pool stake distributions.</summary>
-        /// <remarks>Returns the stake distribution for one pool across all epochs given its Bech32 pool hash.</remarks>
-        /// <param name="pool_hash">Bech32 pool hash</param>
-        /// <response code="200">OK: Successful request.</response>
-        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
-        /// <response code="401">Unauthorized: No valid API key provided.</response>
-        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
-        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
-        /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // // GET: api/EpochStake/5
-        // [EnableQuery(PageSize = 20)]
-        // [HttpGet("api/core/epochs/stakes/pool/{pool_hash}")]
-        // [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        // public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(string? pool_hash)
-        // {
-        //     if (_context.EpochStake == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     var epochStake = await _context.EpochStake.Where(b => b.pool_hash == pool_hash).ToListAsync();
-
-        //     if (epochStake == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     return epochStake;
-        // }
-
-        /// <summary>One epoch and one pool stake distributions.</summary>
-        /// <remarks>Returns the stake distribution for one epoch given its number, and for one pool given its Bech32 pool hash.</remarks>
-        /// <param name="no">Epoch number</param>
-        /// <param name="pool_hash">Bech32 pool hash</param>
-        /// <response code="200">OK: Successful request.</response>
-        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
-        /// <response code="401">Unauthorized: No valid API key provided.</response>
-        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
-        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
-        /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // // GET: api/EpochStake/5
-        // [EnableQuery(PageSize = 20)]
-        // [HttpGet("api/core/epochs/{no}/stakes/pool/{pool_hash}")]
-        // [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        // public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? no, string? pool_hash)
-        // {
-        //     if (_context.EpochStake == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == no &&  b.pool_hash == pool_hash).ToListAsync();
-
-        //     if (epochStake == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     return epochStake;
-        // }
     }
 }
