@@ -52,7 +52,7 @@ namespace ApiCore.Controllers
 
         /// <summary>One epoch by number.</summary>
         /// <remarks>Returns one specific epoch given its number.</remarks>
-        /// <param name="no">Epoch number</param>
+        /// <param name="epoch_no">Epoch number</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -64,13 +64,13 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 1)]
         [HttpGet("{no}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs"})]
-        public async Task<ActionResult<Epoch>> GetEpoch(int no)
+        public async Task<ActionResult<Epoch>> GetEpoch(int epoch_no)
         {
             if (_context.Epoch == null)
             {
                 return NotFound();
             }
-            var epoch = await _context.Epoch.Where(b => b.no == no).SingleOrDefaultAsync();
+            var epoch = await _context.Epoch.Where(b => b.no == epoch_no).SingleOrDefaultAsync();
 
             if (epoch == null)
             {

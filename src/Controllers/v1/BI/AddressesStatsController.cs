@@ -25,24 +25,26 @@ namespace ApiCore.Controllers
             _context = context;
         }
 
-        /// <summary>All stake addresses stats per epoch.</summary>
-        /// <remarks>Returns stake addresses statistics per epoch.</remarks>
-        /// <response code="200">OK: Successful request.</response>
-        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
-        /// <response code="401">Unauthorized: No valid API key provided.</response>
-        /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        // GET: api/AddressStat
-        [EnableQuery(PageSize = 20)]
-        [HttpGet("api/bi/addresses/stats")]
-        [SwaggerOperation(Tags = new []{"BI", "Addresses", "Stats" })]
-        public async Task<ActionResult<IEnumerable<AddressStat>>> GetAddressStat()
-        {
-            if (_context.AddressStat == null)
-            {
-                return NotFound();
-            }
-            return await _context.AddressStat.OrderBy(b => b.epoch_no).ThenBy(b => b.stake_address).ToListAsync();
-        }
+        // /// <summary>All stake addresses stats per epoch.</summary>
+        // /// <remarks>Returns stake addresses statistics per epoch.</remarks>
+        // // /// <response code="200">OK: Successful request.</response>
+        // // /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        // // /// <response code="401">Unauthorized: No valid API key provided.</response>
+        // // /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        // // /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
+        // // /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        // // /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
+        // [EnableQuery(PageSize = 20)]
+        // [HttpGet("api/bi/addresses/stats")]
+        // [SwaggerOperation(Tags = new []{"BI", "Addresses", "Stats" })]
+        // public async Task<ActionResult<IEnumerable<AddressStat>>> GetAddressStat()
+        // {
+        //     if (_context.AddressStat == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     return await _context.AddressStat.OrderBy(b => b.epoch_no).ThenBy(b => b.stake_address).ToListAsync();
+        // }
 
         /// <summary>One stake address stats per epoch.</summary>
         /// <remarks>Returns statistics for one given stake address and for all epochs.</remarks>
@@ -50,8 +52,10 @@ namespace ApiCore.Controllers
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        // GET: api/AddressStat
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/bi/addresses/{stake_address}/stats")]
         [SwaggerOperation(Tags = new []{"BI", "Addresses", "Stats" })]
@@ -70,8 +74,10 @@ namespace ApiCore.Controllers
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        // GET: api/AddressStat
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/bi/addresses/stats/epochs/{epoch_no}")]
         [SwaggerOperation(Tags = new []{"BI", "Addresses", "Stats" })]

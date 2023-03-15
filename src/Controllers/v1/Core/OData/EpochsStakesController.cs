@@ -60,15 +60,15 @@ namespace ApiCore.Controllers.Odata
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/EpochStake/5
         [EnableQuery(PageSize = 20)]
-        [HttpGet("{no}")]
+        [HttpGet("{epoch_no}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? no)
+        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? epoch_no)
         {
           if (_context.EpochStake == null)
           {
               return NotFound();
           }
-            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == no).ToListAsync();
+            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == epoch_no).ToListAsync();
 
             if (epochStake == null)
             {

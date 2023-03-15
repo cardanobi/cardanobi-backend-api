@@ -64,15 +64,15 @@ namespace ApiCore.Controllers.Odata
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // // GET: api/Epoch/5
         [EnableQuery(PageSize = 1)]
-        [HttpGet("{no}")]
+        [HttpGet("{epoch_no}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs"})]
-        public async Task<ActionResult<Epoch>> GetEpoch(int no)
+        public async Task<ActionResult<Epoch>> GetEpoch(int epoch_no)
         {
             if (_context.Epoch == null)
             {
                 return NotFound();
             }
-            var epoch = await _context.Epoch.Where(b => b.no == no).SingleOrDefaultAsync();
+            var epoch = await _context.Epoch.Where(b => b.no == epoch_no).SingleOrDefaultAsync();
 
             if (epoch == null)
             {
@@ -81,25 +81,5 @@ namespace ApiCore.Controllers.Odata
 
             return epoch;
         }
-
-        // // GET: api/Epoch/5/Param
-        // [EnableQuery(PageSize = 1)]
-        // [HttpGet("{no}/params")]
-        // [SwaggerOperation(Tags = new []{"Core", "Epochs"})]
-        // public async Task<ActionResult<EpochParam>> GetEpochParam(int no)
-        // {
-        //     if (_context.EpochParam == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     var epochParam = await _context.EpochParam.Where(b => b.epoch_no == no).SingleOrDefaultAsync();
-
-        //     if (epochParam == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     return epochParam;
-        // }
     }
 }

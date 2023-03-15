@@ -61,15 +61,15 @@ namespace ApiCore.Controllers
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/EpochParam/5
         [EnableQuery(PageSize = 1)]
-        [HttpGet("api/core/epochs/{no}/params")]
+        [HttpGet("api/core/epochs/{epoch_no}/params")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Parameters"})]
-        public async Task<ActionResult<EpochParam>> GetEpochParam(int no)
+        public async Task<ActionResult<EpochParam>> GetEpochParam(int epoch_no)
         {
             if (_context.EpochParam == null)
             {
                 return NotFound();
             }
-            var epochParam = await _context.EpochParam.Where(b => b.epoch_no == no).SingleOrDefaultAsync();
+            var epochParam = await _context.EpochParam.Where(b => b.epoch_no == epoch_no).SingleOrDefaultAsync();
 
             if (epochParam == null)
             {

@@ -63,16 +63,16 @@ namespace ApiCore.Controllers
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/EpochStake/5
         [EnableQuery(PageSize = 20, EnsureStableOrdering = false)]
-        [HttpGet("api/core/epochs/{no}/stakes")]
+        [HttpGet("api/core/epochs/{epoch_no}/stakes")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? no)
+        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? epoch_no)
         {
             if (_context.EpochStake == null)
             {
                 return NotFound();
             }
 
-            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == no).ToListAsync();
+            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == epoch_no).ToListAsync();
 
             if (epochStake == null)
             {
@@ -114,7 +114,7 @@ namespace ApiCore.Controllers
 
         /// <summary>One epoch and one pool stake distributions.</summary>
         /// <remarks>Returns the stake distribution for one epoch given its number, and for one pool given its Bech32 pool hash.</remarks>
-        /// <param name="no">Epoch number</param>
+        /// <param name="epoch_no">Epoch number</param>
         /// <param name="pool_hash">Bech32 pool hash</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
@@ -125,15 +125,15 @@ namespace ApiCore.Controllers
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/EpochStake/5
         [EnableQuery(PageSize = 20)]
-        [HttpGet("api/core/epochs/{no}/stakes/pools/{pool_hash}")]
+        [HttpGet("api/core/epochs/{epoch_no}/stakes/pools/{pool_hash}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? no, string? pool_hash)
+        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long? epoch_no, string? pool_hash)
         {
             if (_context.EpochStake == null)
             {
                 return NotFound();
             }
-            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == no &&  b.pool_hash == pool_hash).ToListAsync();
+            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == epoch_no &&  b.pool_hash == pool_hash).ToListAsync();
 
             if (epochStake == null)
             {

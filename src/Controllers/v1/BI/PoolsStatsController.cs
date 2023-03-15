@@ -30,20 +30,24 @@ namespace ApiCore.Controllers
 
         /// <summary>All pools statistics per epoch.</summary>
         /// <remarks>Pools activity statistics per epoch number.</remarks>
+        /// <param name="epoch_no">Epoch number.</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         [EnableQuery(PageSize = 20)]
-        [HttpGet("api/bi/pools/stats")]
+        [HttpGet("api/bi/pools/stats/epochs/{epoch_no}")]
         [SwaggerOperation(Tags = new []{"BI", "Pools", "Stats" })]
-        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat()
+        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(long? epoch_no)
         {
           if (_context.PoolStat == null)
           {
               return NotFound();
           }
-            return await _context.PoolStat.OrderBy(b => b.epoch_no).ThenBy(b => b.pool_hash).ToListAsync();
+            return await _context.PoolStat.Where(b => b.epoch_no == epoch_no).OrderBy(b => b.pool_hash).ToListAsync();
         }
 
         /// <summary>One pool statistics per epoch.</summary>
@@ -52,7 +56,10 @@ namespace ApiCore.Controllers
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/bi/pools/{pool_hash}/stats")]
         [SwaggerOperation(Tags = new []{"BI", "Pools", "Stats" })]
