@@ -66,7 +66,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/addresses/{address}/info")]
         [SwaggerOperation(Tags = new[] { "Core", "Addresses", "Info" })]
-        public async Task<ActionResult<IEnumerable<AddressInfo>>> GetAddressInfo(string? address)
+        public async Task<ActionResult<IEnumerable<AddressInfo>>> GetAddressInfo(string address)
         {
             if (_context.AddressInfo == null)
             {

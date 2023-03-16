@@ -63,7 +63,7 @@ namespace ApiCore.Controllers.Odata
         [EnableQuery(PageSize = 20)]
         [HttpGet(template: "{address}")]
         [SwaggerOperation(Tags = new []{"Core", "Addresses", "Info" })]
-        public async Task<ActionResult<IEnumerable<AddressInfo>>> GetAddressInfo(string? address)
+        public async Task<ActionResult<IEnumerable<AddressInfo>>> GetAddressInfo(string address)
         {
             if (_context.AddressInfo == null)
             {

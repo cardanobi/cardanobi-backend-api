@@ -1024,7 +1024,7 @@
         }
       }
     },
-    "/api/core/epochs/api/core/epochs/latest": {
+    "/api/core/epochs/latest": {
       "get": {
         "tags": [
           "Core",
@@ -1107,7 +1107,7 @@
         }
       }
     },
-    "/api/core/epochs/{no}": {
+    "/api/core/epochs/{epoch_no}": {
       "get": {
         "tags": [
           "Core",
@@ -1118,19 +1118,12 @@
         "parameters": [
           {
             "name": "epoch_no",
-            "in": "query",
+            "in": "path",
             "description": "Epoch number",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
-            }
-          },
-          {
-            "name": "no",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -1221,6 +1214,7 @@
           {
             "name": "epoch_no",
             "in": "path",
+            "description": "Epoch number",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1358,6 +1352,7 @@
           {
             "name": "epoch_no",
             "in": "path",
+            "description": "Epoch number",
             "required": true,
             "schema": {
               "type": "integer",
@@ -1454,6 +1449,7 @@
           {
             "name": "epoch_no",
             "in": "path",
+            "description": "Epoch number",
             "required": true,
             "schema": {
               "type": "integer",

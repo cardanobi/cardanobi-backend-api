@@ -13,7 +13,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace ApiCore.Controllers
 {
-    [Route("api/core/epochs")]
     [ApiController]
     [Authorize(Policy="core-read")]
     [Produces("application/json")]
@@ -70,7 +69,7 @@ namespace ApiCore.Controllers
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Epoch
         [EnableQuery(PageSize = 20)]
-        [HttpGet]
+        [HttpGet("api/core/epochs")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs"})]
         public async Task<ActionResult<IEnumerable<Epoch>>> GetEpoch()
         {
@@ -94,7 +93,7 @@ namespace ApiCore.Controllers
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/Epoch/5
         [EnableQuery(PageSize = 1)]
-        [HttpGet("{no}")]
+        [HttpGet("api/core/epochs/{epoch_no}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs"})]
         public async Task<ActionResult<Epoch>> GetEpoch(int epoch_no)
         {

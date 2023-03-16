@@ -59,7 +59,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/bi/addresses/{stake_address}/stats")]
         [SwaggerOperation(Tags = new []{"BI", "Addresses", "Stats" })]
-        public async Task<ActionResult<IEnumerable<AddressStat>>> GetAddressStat(string? stake_address)
+        public async Task<ActionResult<IEnumerable<AddressStat>>> GetAddressStat(string stake_address)
         {
             if (_context.AddressStat == null)
             {
@@ -81,7 +81,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/bi/addresses/stats/epochs/{epoch_no}")]
         [SwaggerOperation(Tags = new []{"BI", "Addresses", "Stats" })]
-        public async Task<ActionResult<IEnumerable<AddressStat>>> GetAddressStat(long? epoch_no)
+        public async Task<ActionResult<IEnumerable<AddressStat>>> GetAddressStat(long epoch_no)
         {
             if (_context.AddressStat == null)
             {

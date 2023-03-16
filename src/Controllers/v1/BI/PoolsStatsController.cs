@@ -41,7 +41,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/bi/pools/stats/epochs/{epoch_no}")]
         [SwaggerOperation(Tags = new []{"BI", "Pools", "Stats" })]
-        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(long? epoch_no)
+        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(long epoch_no)
         {
           if (_context.PoolStat == null)
           {
@@ -63,7 +63,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/bi/pools/{pool_hash}/stats")]
         [SwaggerOperation(Tags = new []{"BI", "Pools", "Stats" })]
-        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(string? pool_hash)
+        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(string pool_hash)
         {
           if (_context.PoolStat == null)
           {

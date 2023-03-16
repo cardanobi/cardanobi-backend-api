@@ -62,7 +62,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/pools/{pool_id}/metadata")]
         [SwaggerOperation(Tags = new []{"Core", "Pools", "Metadata" })]
-        public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(long? pool_id)
+        public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(long pool_id)
         {
             if (_context.PoolMetadata == null)
             {
@@ -92,7 +92,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/pools/metadata/hashes/{meta_hash}")]
         [SwaggerOperation(Tags = new []{"Core", "Pools", "Metadata" })]
-        public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(string? meta_hash)
+        public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(string meta_hash)
         {
             if (_context.PoolMetadata == null)
             {

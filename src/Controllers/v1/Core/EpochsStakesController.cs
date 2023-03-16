@@ -114,6 +114,7 @@ namespace ApiCore.Controllers
                 return NotFound();
             }
             long latestEpochNo = _context.Epoch.Max(b => b.no);
+            _logger.LogInformation($"EpochsStakesController.GetLatestEpochStake: latestEpochNo {latestEpochNo}");
 
             var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == latestEpochNo &&  b.pool_hash == pool_hash).ToListAsync();
 

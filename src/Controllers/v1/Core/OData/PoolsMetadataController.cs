@@ -62,7 +62,7 @@ namespace ApiCore.Controllers.Odata
         [EnableQuery(PageSize = 20)]
         [HttpGet("{pool_id:long}")]
         [SwaggerOperation(Tags = new []{"Core", "Pools", "Metadata" })]
-        public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(long? pool_id)
+        public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(long pool_id)
         {
             if (_context.PoolMetadata == null)
             {
@@ -92,7 +92,7 @@ namespace ApiCore.Controllers.Odata
         // [EnableQuery(PageSize = 20)]
         // [HttpGet("{meta_hash:alpha}")]
         // [SwaggerOperation(Tags = new []{"Core", "Pools", "Metadata" })]
-        // public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(string? meta_hash)
+        // public async Task<ActionResult<IEnumerable<PoolMetadata>>> GetPoolMetadata(string meta_hash)
         // {
         //     if (_context.PoolMetadata == null)
         //     {
