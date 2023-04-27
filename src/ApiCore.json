@@ -299,6 +299,425 @@
         }
       }
     },
+    "/api/core/assets": {
+      "get": {
+        "tags": [
+          "Core",
+          "Assets"
+        ],
+        "summary": "All assets.",
+        "description": "Returns the list of multi assets minted on Cardano.",
+        "parameters": [
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order assets are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetListDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          },
+          "429": {
+            "description": "Too Many Requests: This API key has reached its rate limit."
+          }
+        }
+      }
+    },
+    "/api/core/assets/{fingerprint}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Assets"
+        ],
+        "summary": "One asset.",
+        "description": "Returns the details of one multi asset minted on Cardano given its fingerprint.",
+        "parameters": [
+          {
+            "name": "fingerprint",
+            "in": "path",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssetDetailsDTO"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          },
+          "429": {
+            "description": "Too Many Requests: This API key has reached its rate limit."
+          }
+        }
+      }
+    },
+    "/api/core/assets/{fingerprint}/history": {
+      "get": {
+        "tags": [
+          "Core",
+          "Assets",
+          "History"
+        ],
+        "summary": "Asset history.",
+        "description": "Returns the minting/burning history of one MultiAsset given its fingerprint.",
+        "parameters": [
+          {
+            "name": "fingerprint",
+            "in": "path",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetHistoryDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          },
+          "429": {
+            "description": "Too Many Requests: This API key has reached its rate limit."
+          }
+        }
+      }
+    },
+    "/api/core/assets/{fingerprint}/transactions": {
+      "get": {
+        "tags": [
+          "Core",
+          "Assets",
+          "Transactions"
+        ],
+        "summary": "Asset transactions.",
+        "description": "Returns details of transactions involving one MultiAsset given its fingerprint.",
+        "parameters": [
+          {
+            "name": "fingerprint",
+            "in": "path",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order transactions are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetTransactionDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          },
+          "429": {
+            "description": "Too Many Requests: This API key has reached its rate limit."
+          }
+        }
+      }
+    },
+    "/api/core/assets/{fingerprint}/addresses": {
+      "get": {
+        "tags": [
+          "Core",
+          "Assets",
+          "Addresses"
+        ],
+        "summary": "Asset addresses.",
+        "description": "Returns the list of addresses holding a balance in one specific MultiAsset given its fingerprint.",
+        "parameters": [
+          {
+            "name": "fingerprint",
+            "in": "path",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order addresses are returned - \"desc\" descending (default) quantity held - \"asc\" ascending quantity held",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetAddressDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          },
+          "429": {
+            "description": "Too Many Requests: This API key has reached its rate limit."
+          }
+        }
+      }
+    },
+    "/api/core/assets/policies/{policy_hash}": {
+      "get": {
+        "tags": [
+          "Core",
+          "Assets"
+        ],
+        "summary": "Asset list by policy.",
+        "description": "Returns the list of MultiAsset for a specific policy given its hash.",
+        "parameters": [
+          {
+            "name": "policy_hash",
+            "in": "path",
+            "description": "The MultiAsset policy hash.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AssetPolicyDTO"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
+          },
+          "401": {
+            "description": "Unauthorized: No valid API key provided."
+          },
+          "402": {
+            "description": "Quota Exceeded: This API key has reached its usage limit on request."
+          },
+          "403": {
+            "description": "Access Denied: The request is missing a valid API key or token."
+          },
+          "404": {
+            "description": "Not Found: The requested resource cannot be found."
+          },
+          "429": {
+            "description": "Too Many Requests: This API key has reached its rate limit."
+          }
+        }
+      }
+    },
     "/api/core/blocks/latest": {
       "get": {
         "tags": [
@@ -4395,6 +4814,203 @@
         },
         "additionalProperties": false
       },
+      "AssetAddressDTO": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "The output address holding a balance in the given Multi-Asset.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "The balance held at this address of the given MultiAsset.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetDetailsDTO": {
+        "type": "object",
+        "properties": {
+          "asset_id": {
+            "type": "integer",
+            "description": "The MultiAsset unique identifier.",
+            "format": "int64"
+          },
+          "fingerprint": {
+            "type": "string",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "nullable": true
+          },
+          "policy_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the MultiAsset policy hash.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The MultiAsset name.",
+            "nullable": true
+          },
+          "creation_time": {
+            "type": "string",
+            "description": "The MultiAsset creation time (first minting event time).",
+            "format": "date-time"
+          },
+          "total_supply": {
+            "type": "number",
+            "description": "The MultiAsset total circulating supply.",
+            "format": "double"
+          },
+          "mint_cnt": {
+            "type": "integer",
+            "description": "The number of mint events for this MultiAsset.",
+            "format": "int64"
+          },
+          "burn_cnt": {
+            "type": "integer",
+            "description": "The number of burn events for this MultiAsset.",
+            "format": "int64"
+          },
+          "first_mint_tx_hash": {
+            "type": "string",
+            "description": "The hash for the transaction that contains the first minting event for this MultiAsset.",
+            "nullable": true
+          },
+          "first_mint_keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The metadata keys used in the first mint event for this MultiAsset.",
+            "nullable": true
+          },
+          "last_mint_tx_hash": {
+            "type": "string",
+            "description": "The hash for the transaction that contains the last minting event for this MultiAsset.",
+            "nullable": true
+          },
+          "last_mint_keys": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The metadata keys used in the last mint event for this MultiAsset.",
+            "nullable": true
+          },
+          "first_mint_metadata": {
+            "type": "string",
+            "description": "The JSON payload of the first mint event for this MultiAsset.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetHistoryDTO": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "integer",
+            "description": "The Multi-Asset minting/buring event unique identifier.",
+            "format": "int64"
+          },
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the transaction containing this event.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "number",
+            "description": "The amount of the Multi Asset to mint (can be negative to \"burn\" assets).",
+            "format": "double"
+          },
+          "event_time": {
+            "type": "string",
+            "description": "The event creation time (time of the block containing it).",
+            "format": "date-time"
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number containing the minting/buring transaction for this event.",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetListDTO": {
+        "type": "object",
+        "properties": {
+          "asset_id": {
+            "type": "integer",
+            "description": "The MultiAsset unique identifier.",
+            "format": "int64"
+          },
+          "fingerprint": {
+            "type": "string",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "nullable": true
+          },
+          "policy_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the MultiAsset policy hash.",
+            "nullable": true
+          },
+          "total_supply": {
+            "type": "number",
+            "description": "The total supply of the Multi Asset.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetPolicyDTO": {
+        "type": "object",
+        "properties": {
+          "fingerprint": {
+            "type": "string",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "nullable": true
+          },
+          "total_supply": {
+            "type": "number",
+            "description": "The total supply of the Multi Asset.",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AssetTransactionDTO": {
+        "type": "object",
+        "properties": {
+          "tx_id": {
+            "type": "integer",
+            "description": "The transaction unique identifier.",
+            "format": "int64"
+          },
+          "hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the transaction.",
+            "nullable": true
+          },
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number.",
+            "format": "int32"
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number containing the minting/buring transaction for this event.",
+            "format": "int32"
+          },
+          "event_time": {
+            "type": "string",
+            "description": "The time (UTCTime) of the block containing this transaction.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "Block": {
         "type": "object",
         "properties": {
@@ -4412,8 +5028,7 @@
           "epoch_no": {
             "type": "integer",
             "description": "The epoch number.",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "slot_no": {
             "type": "integer",
@@ -4430,8 +5045,7 @@
           "block_no": {
             "type": "integer",
             "description": "The block number.",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "previous_id": {
             "type": "integer",

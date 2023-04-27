@@ -55,6 +55,8 @@ namespace ApiCore.Models
         public virtual DbSet<RedeemerData> RedeemerData { get; set; } = null!;
         public virtual DbSet<StakeAddress> StakeAddress { get; set; } = null!;
         public virtual DbSet<PoolOwner> PoolOwner { get; set; } = null!;
+        public virtual DbSet<MultiAssetCache> MultiAssetCache { get; set; } = null!;
+        public virtual DbSet<MultiAssetAddressCache> MultiAssetAddressCache { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -81,6 +83,8 @@ namespace ApiCore.Models
                 entity.ToView("epoch_stake_view");
             });
             modelBuilder.Entity<EpochStake>().HasKey(c => new { c.epoch_stake_id });
+
+            modelBuilder.Entity<MultiAssetAddressCache>().HasKey(c => new { c.asset_id, c.address });
 
             // Ignore derived fields for the relevant entities
             modelBuilder.Entity<EpochParam>().Ignore(e => e.nonce_hex);

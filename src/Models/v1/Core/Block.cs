@@ -25,7 +25,7 @@ namespace ApiCore.Models
         public byte[] hash { get; set; } = null!;
 
         /// <summary>The epoch number.</summary>
-        public int? epoch_no { get; set; }
+        public int epoch_no { get; set; }
 
         /// <summary>The slot number.</summary>
         public long? slot_no { get; set; }
@@ -34,7 +34,7 @@ namespace ApiCore.Models
         public int? epoch_slot_no { get; set; }
 
         /// <summary>The block number.</summary>
-        public int? block_no { get; set; }
+        public int block_no { get; set; }
 
         /// <summary>The Block table index of the previous block.</summary>
         public long? previous_id { get; set; }
