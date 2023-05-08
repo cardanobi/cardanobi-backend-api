@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Serilog;
-using Microsoft.Extensions.DependencyInjection;
-// using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 // builder.Services.AddDbContext<cardanobiContext>(options =>
@@ -221,9 +219,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
-        // TODO: move domain to appsettings!
-        // options.Authority = "https://preprod.cardanobi.io:5000";
-        options.Authority = "https://preprod.cardanobi.io:44010";
+        options.Authority = builder.Configuration["DuendeIdentitySettings:Authority"];
         // options.RequireHttpsMetadata = false; // to support non https request in dev
 
         options.TokenValidationParameters.ValidateAudience = false;
@@ -247,6 +243,17 @@ builder.Services.AddAuthorization(options =>
     })
 );
 
+builder.Services.AddAuthorization(options =>
+{
+    var allowedNetworkType = builder.Configuration["NetworkType"] ?? string.Empty;
+    if (string.IsNullOrEmpty(allowedNetworkType))
+    {
+        throw new Exception("Allowed network type cannot be null or empty.");
+    }
+    //Client claims key starts with client_
+    options.AddPolicy("GlobalAuthRule", policy => policy.RequireClaim("client_network-type", allowedNetworkType));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -269,6 +276,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // app.MapControllers().RequireAuthorization("ApiScope");
-app.MapControllers().RequireAuthorization();
+app.MapControllers().RequireAuthorization("GlobalAuthRule");
 
 app.Run();
