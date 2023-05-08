@@ -7,6 +7,7 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Serilog;
 using Microsoft.Extensions.DependencyInjection;
+// using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 // builder.Services.AddDbContext<cardanobiContext>(options =>
@@ -36,6 +37,7 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<Epoch>("Epochs");
     builder.EntitySet<EpochParam>("EpochsParams");
     builder.EntitySet<EpochStake>("EpochsStakes");
+    builder.EntitySet<EpochStakeView>("EpochsStakesViews");
     builder.EntitySet<PoolHash>("PoolsHashes");
     builder.EntitySet<PoolMetadata>("PoolsMetadata");
     builder.EntitySet<PoolOfflineData>("PoolsOfflineData");
@@ -74,6 +76,7 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<PoolOwner>("PoolOwners");
     builder.EntitySet<MultiAssetCache>("MultiAssetCache");
     builder.EntitySet<MultiAssetAddressCache>("MultiAssetAddressCache");
+    builder.EntitySet<AccountCache>("AccountCache");
     return builder.GetEdmModel();
 }
 
@@ -101,8 +104,27 @@ builder.Services.AddDbContextPool<cardanobiBIContext>(options =>
 );
 
 // builder.Services.AddControllers();
+// builder.Services.AddControllers()
+//                 .AddJsonOptions(options =>
+//                 {
+//                     // Customize the serializer settings
+//                     options.JsonSerializerOptions.PropertyNamingPolicy = null;
+//                     options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+//                     options.JsonSerializerOptions.IgnoreNullValues = false;
+//                     options.JsonSerializerOptions.WriteIndented = false;
+//                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+//                 });
+
+
 builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("api/core/odata", GetEdmModel()).Select().Filter().OrderBy().SetMaxTop(20).Count());
 builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("api/bi/odata", GetEdmModel()).Select().Filter().OrderBy().SetMaxTop(20).Count());
+
+
+// builder.Services.AddControllers().AddNewtonsoftJson(options => 
+//     {
+//         options.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+//         options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+//     });
 
 // // Add API versioning capabilities
 // builder.Services.AddApiVersioning(
@@ -200,7 +222,8 @@ builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer(options =>
     {
         // TODO: move domain to appsettings!
-        options.Authority = "https://preprod.cardanobi.io:5000";
+        // options.Authority = "https://preprod.cardanobi.io:5000";
+        options.Authority = "https://preprod.cardanobi.io:44010";
         // options.RequireHttpsMetadata = false; // to support non https request in dev
 
         options.TokenValidationParameters.ValidateAudience = false;

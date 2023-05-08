@@ -23,7 +23,7 @@ namespace ApiCore.Models
 
         /// <summary>The payment amount (in Lovelace).</summary>
         [Precision(20, 0)]
-        public decimal amount { get; set; }
+        public ulong amount { get; set; }
 
         /// <summary>The Tx table index for the transaction that contains this payment.</summary>
         public long tx_id { get; set; }

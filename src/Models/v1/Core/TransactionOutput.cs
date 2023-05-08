@@ -43,7 +43,7 @@ namespace ApiCore.Models
 
         /// <summary>The output value (in Lovelace) of the transaction output.</summary>
         [Precision(20, 0)]
-        public decimal value { get; set; }
+        public ulong value { get; set; }
 
         /// <summary>The hash of the transaction output datum. (NULL for Txs without scripts).</summary>
         public byte[]? data_hash { get; set; }

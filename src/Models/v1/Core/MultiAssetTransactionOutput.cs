@@ -16,7 +16,7 @@ namespace ApiCore.Models
 
         /// <summary>The Multi Asset transaction output amount (denominated in the Multi Asset).</summary>
         [Precision(20, 0)]
-        public decimal quantity { get; set; }
+        public ulong quantity { get; set; }
 
         /// <summary>The TxOut table index for the transaction that this Multi Asset transaction output.</summary>
         public long tx_out_id { get; set; }

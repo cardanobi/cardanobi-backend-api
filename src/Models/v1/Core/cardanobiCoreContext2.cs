@@ -20,6 +20,7 @@ namespace ApiCore.Models
         public virtual DbSet<Epoch> Epoch { get; set; } = null!;
         public virtual DbSet<EpochParam> EpochParam { get; set; } = null!;
         public virtual DbSet<EpochStake> EpochStake { get; set; } = null!;
+        public virtual DbSet<EpochStakeView> EpochStakeView { get; set; } = null!;
         public virtual DbSet<PoolHash> PoolHash { get; set; } = null!;
         public virtual DbSet<PoolMetadata> PoolMetadata { get; set; } = null!;
         public virtual DbSet<PoolOfflineData> PoolOfflineData { get; set; } = null!;
@@ -56,6 +57,8 @@ namespace ApiCore.Models
         public virtual DbSet<PoolOwner> PoolOwner { get; set; } = null!;
         public virtual DbSet<MultiAssetCache> MultiAssetCache { get; set; } = null!;
         public virtual DbSet<MultiAssetAddressCache> MultiAssetAddressCache { get; set; } = null!;
+        public virtual DbSet<AccountCache> AccountCache { get; set; } = null!;
+        public virtual DbSet<Reward> Reward { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -77,11 +80,11 @@ namespace ApiCore.Models
             {
                 entity.ToView("address_info_view");
             });
-            modelBuilder.Entity<EpochStake>(entity =>
+            modelBuilder.Entity<EpochStakeView>(entity =>
             {
                 entity.ToView("epoch_stake_view");
             });
-            modelBuilder.Entity<EpochStake>().HasKey(c => new { c.epoch_stake_id });
+            modelBuilder.Entity<EpochStakeView>().HasKey(c => new { c.epoch_stake_id });
 
             modelBuilder.Entity<MultiAssetAddressCache>().HasKey(c => new { c.asset_id, c.address });
 

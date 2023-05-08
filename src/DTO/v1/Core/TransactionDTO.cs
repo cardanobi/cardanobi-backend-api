@@ -10,7 +10,7 @@ namespace ApiCore.DTO
     {
         /// <summary>The Lovelace or Multi Asset denominated value of this input/output.</summary>
         [Precision(20, 0)]
-        public decimal value { get; set; }
+        public ulong value { get; set; }
 
         /// <summary>Lovelace or name of the Multi Asset denominating this value.</summary>
         public string unit { get; set; } = null!;
@@ -26,7 +26,7 @@ namespace ApiCore.DTO
 
         /// <summary>The output value (in Lovelace) of the transaction output.</summary>
         [Precision(20, 0)]
-        public decimal lovelace_value { get; set; }
+        public ulong lovelace_value { get; set; }
 
         /// <summary>The human readable encoding of the output address. Will be Base58 for Byron era addresses and Bech32 for Shelley era.</summary>
         [Column(TypeName = "character varying")]
@@ -37,7 +37,7 @@ namespace ApiCore.DTO
 
         /// <summary>The Multi Asset transaction output amount (denominated in the Multi Asset).</summary>
         [Precision(20, 0)]
-        public decimal asset_quantity { get; set; }
+        public ulong asset_quantity { get; set; }
 
         /// <summary>The MultiAsset name.</summary>
         // public byte[] asset_name { get; set; } = null!;
@@ -95,7 +95,7 @@ namespace ApiCore.DTO
 
         /// <summary>The output value (in Lovelace) of the transaction output.</summary>
         [Precision(20, 0)]
-        public decimal lovelace_value { get; set; }
+        public ulong lovelace_value { get; set; }
 
         /// <summary>The human readable encoding of the input address. Will be Base58 for Byron era addresses and Bech32 for Shelley era.</summary>
         [Column(TypeName = "character varying")]
@@ -106,7 +106,7 @@ namespace ApiCore.DTO
 
         /// <summary>The Multi Asset transaction output amount (denominated in the Multi Asset).</summary>
         [Precision(20, 0)]
-        public decimal asset_quantity { get; set; }
+        public ulong asset_quantity { get; set; }
 
         /// <summary>The MultiAsset name.</summary>
         // public byte[] asset_name { get; set; } = null!;

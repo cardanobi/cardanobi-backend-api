@@ -106,13 +106,13 @@ namespace ApiCore.Controllers
                         output_index = g.Key.index,
                         asset_name = g.Key.name != null ? Encoding.Default.GetString(g.Key.name) : "",
                         asset_fingerprint = g.Key.fingerprint,
-                        lovelace_value = g.Sum(b => b.txo.value),
-                        asset_quantity = g.Sum(b => b.mtog.quantity)
+                        lovelace_value = (ulong)g.Sum(b => (decimal)b.txo.value),
+                        asset_quantity = (ulong)g.Sum(b => (decimal)b.mtog.quantity)
                     }).ToList();
 
                 // Preparing the amounts summary (total lovelace value + total multi asset values )
                 List<TransactionAmountDTO> amounts = new List<TransactionAmountDTO>();
-                decimal lovelaceValue = 0;
+                ulong lovelaceValue = 0;
                 long lastGroup = -1;
                 int outputCount = 0;
 

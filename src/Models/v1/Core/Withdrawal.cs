@@ -21,7 +21,7 @@ namespace ApiCore.Models
 
         /// <summary>The withdrawal amount (in Lovelace).</summary>
         [Precision(20, 0)]
-        public decimal amount { get; set; }
+        public ulong amount { get; set; }
 
         /// <summary>The Redeemer table index that is related with this withdrawal.</summary>
         public long? redeemer_id { get; set; }

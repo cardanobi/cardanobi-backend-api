@@ -28,16 +28,16 @@ namespace ApiCore.Models
         public int epoch_no { get; set; }
 
         /// <summary>The slot number.</summary>
-        public long? slot_no { get; set; }
+        public long slot_no { get; set; }
 
         /// <summary>The slot number within an epoch (resets to zero at the start of each epoch).</summary>
-        public int? epoch_slot_no { get; set; }
+        public int epoch_slot_no { get; set; }
 
         /// <summary>The block number.</summary>
         public int block_no { get; set; }
 
         /// <summary>The Block table index of the previous block.</summary>
-        public long? previous_id { get; set; }
+        public long previous_id { get; set; }
 
         /// <summary>The SlotLeader table index of the creator of this block.</summary>
         public long slot_leader_id { get; set; }
@@ -60,13 +60,13 @@ namespace ApiCore.Models
 
         /// <summary>The VRF key of the creator of this block.</summary>
         [Column(TypeName = "character varying")]
-        public string? vrf_key { get; set; }
+        public string vrf_key { get; set; }
 
         /// <summary>The hash of the operational certificate of the block producer.</summary>
-        public byte[]? op_cert { get; set; }
+        public byte[] op_cert { get; set; }
 
         /// <summary>The value of the counter used to produce the operational certificate.</summary>
-        public long? op_cert_counter { get; set; }
+        public long op_cert_counter { get; set; }
 
         // Derived fields
         /// <summary>The hexadecimal encoding of the block hash.</summary>

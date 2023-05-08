@@ -18,12 +18,12 @@ namespace ApiCore.Controllers
     [Authorize(Policy = "core-read")]
     [Produces("application/json")]
     // [ApiExplorerSettings(GroupName = "EpochsStakes")]
-    public class EpochsStakesController : ControllerBase
+    public class EpochsStakesViewsController : ControllerBase
     {
         private readonly cardanobiCoreContext _context;
-        private readonly ILogger<EpochsStakesController> _logger;
+        private readonly ILogger<EpochsStakesViewsController> _logger;
 
-        public EpochsStakesController(cardanobiCoreContext context, ILogger<EpochsStakesController> logger)
+        public EpochsStakesViewsController(cardanobiCoreContext context, ILogger<EpochsStakesViewsController> logger)
         {
             _context = context;
             _logger = logger;
@@ -39,24 +39,24 @@ namespace ApiCore.Controllers
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // GET: api/EpochStake/5
+        // GET: api/EpochStakeView/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/epochs/stakes/pools/{pool_hash}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(string pool_hash)
+        public async Task<ActionResult<IEnumerable<EpochStakeView>>> GetEpochStakeView(string pool_hash)
         {
-            if (_context.EpochStake == null)
+            if (_context.EpochStakeView == null)
             {
                 return NotFound();
             }
-            var epochStake = await _context.EpochStake.Where(b => b.pool_hash == pool_hash).OrderBy(b => b.epoch_stake_epoch_no).ToListAsync();
+            var EpochStakeView = await _context.EpochStakeView.Where(b => b.pool_hash == pool_hash).OrderBy(b => b.epoch_stake_epoch_no).ToListAsync();
 
-            if (epochStake == null)
+            if (EpochStakeView == null)
             {
                 return NotFound();
             }
 
-            return epochStake;
+            return EpochStakeView;
         }
 
         /// <summary>One epoch and one pool stake distributions.</summary>
@@ -70,24 +70,24 @@ namespace ApiCore.Controllers
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // GET: api/EpochStake/5
+        // GET: api/EpochStakeView/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/epochs/{epoch_no}/stakes/pools/{pool_hash}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake(long epoch_no, string pool_hash)
+        public async Task<ActionResult<IEnumerable<EpochStakeView>>> GetEpochStakeView(long epoch_no, string pool_hash)
         {
-            if (_context.EpochStake == null)
+            if (_context.EpochStakeView == null)
             {
                 return NotFound();
             }
-            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == epoch_no &&  b.pool_hash == pool_hash).ToListAsync();
+            var EpochStakeView = await _context.EpochStakeView.Where(b => b.epoch_stake_epoch_no == epoch_no &&  b.pool_hash == pool_hash).ToListAsync();
 
-            if (epochStake == null)
+            if (EpochStakeView == null)
             {
                 return NotFound();
             }
 
-            return epochStake;
+            return EpochStakeView;
         }
 
         /// <summary>Latest epoch and one pool stake distributions.</summary>
@@ -100,30 +100,30 @@ namespace ApiCore.Controllers
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // GET: api/EpochStake/5
+        // GET: api/EpochStakeView/5
         [EnableQuery(PageSize = 20)]
         [HttpGet("api/core/epochs/latest/stakes/pools/{pool_hash}")]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetLatestEpochStake(string pool_hash)
+        public async Task<ActionResult<IEnumerable<EpochStakeView>>> GetLatestEpochStakeView(string pool_hash)
         {
             if (
-                _context.EpochStake == null ||
+                _context.EpochStakeView == null ||
                 _context.Epoch == null
                 )
             {
                 return NotFound();
             }
             long latestEpochNo = _context.Epoch.Max(b => b.no);
-            _logger.LogInformation($"EpochsStakesController.GetLatestEpochStake: latestEpochNo {latestEpochNo}");
+            _logger.LogInformation($"EpochsStakesViewsController.GetLatestEpochStakeView: latestEpochNo {latestEpochNo}");
 
-            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == latestEpochNo &&  b.pool_hash == pool_hash).ToListAsync();
+            var EpochStakeView = await _context.EpochStakeView.Where(b => b.epoch_stake_epoch_no == latestEpochNo &&  b.pool_hash == pool_hash).ToListAsync();
 
-            if (epochStake == null)
+            if (EpochStakeView == null)
             {
                 return NotFound();
             }
 
-            return epochStake;
+            return EpochStakeView;
         }
     }
 }

@@ -21,6 +21,6 @@ namespace ApiCore.Models
         public string address { get; set; } = null!;
 
         /// <summary>The balance held at this address of the given MultiAsset.</summary>
-        public decimal quantity { get; set; }
+        public ulong quantity { get; set; }
     }
 }

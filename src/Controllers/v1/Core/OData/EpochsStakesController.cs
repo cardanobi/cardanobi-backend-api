@@ -17,11 +17,11 @@ namespace ApiCore.Controllers.Odata
     [Authorize(Policy = "core-read")]
     [Produces("application/json")]
     // [ApiExplorerSettings(GroupName = "OData/EpochsStakes")]
-    public class EpochsStakesController : ODataController
+    public class EpochsStakesViewsController : ODataController
     {
         private readonly cardanobiCoreContext _context;
 
-        public EpochsStakesController(cardanobiCoreContext context)
+        public EpochsStakesViewsController(cardanobiCoreContext context)
         {
             _context = context;
         }
@@ -40,24 +40,24 @@ namespace ApiCore.Controllers.Odata
         [EnableQuery(PageSize = 20)]
         [HttpGet]
         [SwaggerOperation(Tags = new []{"Core", "Epochs", "Stakes" })]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EpochStake>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<EpochStakeView>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<IEnumerable<EpochStake>>> GetEpochStake([FromQuery] long? epoch_no, [FromQuery] string? pool_hash)
+        public async Task<ActionResult<IEnumerable<EpochStakeView>>> GetEpochStakeView([FromQuery] long? epoch_no, [FromQuery] string? pool_hash)
         {
-            if (_context.EpochStake == null)
+            if (_context.EpochStakeView == null)
             {
                 return NotFound();
             }
             if (epoch_no is null || pool_hash is null) return BadRequest("epoch_no and pool_hash should not be null!");
 
-            var epochStake = await _context.EpochStake.Where(b => b.epoch_stake_epoch_no == epoch_no &&  b.pool_hash == pool_hash).ToListAsync();
+            var EpochStakeView = await _context.EpochStakeView.Where(b => b.epoch_stake_epoch_no == epoch_no &&  b.pool_hash == pool_hash).ToListAsync();
 
-            if (epochStake == null)
+            if (EpochStakeView == null)
             {
                 return NotFound();
             }
 
-            return epochStake;
+            return EpochStakeView;
         }
     }
 }
