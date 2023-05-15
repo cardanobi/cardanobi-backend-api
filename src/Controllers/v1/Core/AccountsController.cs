@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text.Json;
+using System.Text;
 // using Newtonsoft.Json;
 
 namespace ApiCore.Controllers
@@ -741,91 +742,91 @@ namespace ApiCore.Controllers
         }
 
 
-//         /// <summary>Account assets holdings.</summary>
-//         /// <remarks>Returns all assets held by one account given its stake address.</remarks>
-//         /// <param name="stake_address">Bech32 Stake address</param>
-//         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
-//         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-//         /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
-//         /// <response code="200">OK: Successful request.</response>
-//         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
-//         /// <response code="401">Unauthorized: No valid API key provided.</response>
-//         /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
-//         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
-//         /// <response code="404">Not Found: The requested resource cannot be found.</response>
-//         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-//         // GET: api/Block
-//         [EnableQuery(PageSize = 100)]
-//         [HttpGet("api/core/accounts/{stake_address}/assets")]
-//         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Assets"})]
-//         public async Task<IActionResult> GetAccountAsset(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
-//         {
-//             if (
-//                 _context.Withdrawal == null ||
-//                 _context.StakeAddress == null || 
-//                 _context.Transaction == null
-//                 )
-//             {
-//                 return NotFound();
-//             }
+        /// <summary>Account assets holdings.</summary>
+        /// <remarks>Returns all assets held by one account given its stake address.</remarks>
+        /// <param name="stake_address">Bech32 Stake address</param>
+        /// <param name="page_no">Page number to retrieve - defaults to 1</param>
+        /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
+        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
+        // GET: api/Block
+        [EnableQuery(PageSize = 100)]
+        [HttpGet("api/core/accounts/{stake_address}/assets")]
+        [SwaggerOperation(Tags = new []{"Core", "Accounts", "Assets"})]
+        public async Task<IActionResult> GetAccountAsset(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        {
+            if (
+                _context.MultiAssetAddressCache == null ||
+                _context.MultiAsset == null || 
+                _context.TransactionOutput == null ||
+                _context.StakeAddress == null
+                )
+            {
+                return NotFound();
+            }
 
-//             string orderDir = order == null ? "desc" : order;
-//             long pageSize = page_size == null ? 20 : Math.Min(100, Math.Max(1,(long)page_size));
-//             long pageNo = page_no == null ? 1 : Math.Max(1,(long)page_no);
+            string orderDir = order == null ? "desc" : order;
+            long pageSize = page_size == null ? 20 : Math.Min(100, Math.Max(1,(long)page_size));
+            long pageNo = page_no == null ? 1 : Math.Max(1,(long)page_no);
 
-//             IEnumerable<AccountAssetDTO> assets = null;
+            IEnumerable<AccountAssetDTO> assets = null;
 
-// select encode(ma.policy::bytea, 'hex') as policy_hex,ma.fingerprint,ma.name, sum(caac.quantity)
-// from "_cbi_asset_addresses_cache" caac
-// inner join (select distinct txo.address
-// 	from tx_out txo 
-// 	inner join stake_address sa on txo.stake_address_id=sa.id
-// 	where sa."view" = 'stake_test1urz84tnkqjx37tqfk02a58yhusajp2qgfyuz5nekqvrm97qdql4ha') addr on addr.address = caac.address 
-// inner join multi_asset ma on ma.id = caac.asset_id 
-// group by encode(ma.policy::bytea, 'hex'), ma.fingerprint, ma.name
-// order by ma.name;
+            if (orderDir == "desc") 
+            {
+                assets = await (
+                    from maac in _context.MultiAssetAddressCache
+                    join ma in _context.MultiAsset on maac.asset_id equals ma.id
+                    join sub in ((from txo in _context.TransactionOutput
+                                    join sa in _context.StakeAddress on txo.stake_address_id equals sa.id
+                                    where sa.view == stake_address
+                                    select new { txo.address }
+                                ).Distinct()) on maac.address equals sub.address
+                    group new { ma, maac } by new { ma.policy, ma.fingerprint, ma.name } into g
+                    orderby g.Key.name descending
+                    select new AccountAssetDTO()
+                    {
+                        policy_hex = Convert.ToHexString(g.Key.policy).ToLower(),
+                        fingerprint = g.Key.fingerprint,
+                        name = g.Key.name != null ? Encoding.Default.GetString(g.Key.name) : "",
+                        quantity = (ulong)g.Sum(b => (decimal)b.maac.quantity)
+                    }).Skip((int)((pageNo-1)*pageSize)).Take((int)pageSize).ToListAsync();
+            } else {
+                assets = await (
+                    from maac in _context.MultiAssetAddressCache
+                    join ma in _context.MultiAsset on maac.asset_id equals ma.id
+                    join sub in ((from txo in _context.TransactionOutput
+                                    join sa in _context.StakeAddress on txo.stake_address_id equals sa.id
+                                    where sa.view == stake_address
+                                    select new { txo.address }
+                                ).Distinct()) on maac.address equals sub.address
+                    group new { ma, maac } by new { ma.policy, ma.fingerprint, ma.name } into g
+                    orderby g.Key.name ascending
+                    select new AccountAssetDTO()
+                    {
+                        policy_hex = Convert.ToHexString(g.Key.policy).ToLower(),
+                        fingerprint = g.Key.fingerprint,
+                        name = g.Key.name != null ? Encoding.Default.GetString(g.Key.name) : "",
+                        quantity = (ulong)g.Sum(b => (decimal)b.maac.quantity)
+                    }).Skip((int)((pageNo-1)*pageSize)).Take((int)pageSize).ToListAsync();
+            }
 
-//             if (orderDir == "desc") 
-//             {
-//                 assets = await (
-//                     from maac in _context.MultiAssetAddressCache
-//                     join ma in _context.MultiAsset on maac.asset_id equals ma.id
-//                     join sub in ((from txo in _context.TransactionOutput
-//                                     join sa in _context.StakeAddress on txo.stake_address_id equals sa.id
-//                                     where sa.view == stake_address
-//                                     select new { txo.address }
-//                                 ).Distinct()) on maac.address equals sub.address
-//                     where maac.view == stake_address
-//                     orderby txo.address descending
-//                     select new AccountAssetDTO()
-//                     {
-//                         address = txo.address,
-//                         address_has_script = txo.address_has_script
-//                     }).Distinct().OrderByDescending(x => x.address).Skip((int)((pageNo-1)*pageSize)).Take((int)pageSize).ToListAsync();
-//             } else {
-//                 addresses = await (
-//                     from txo in _context.TransactionOutput
-//                     join sa in _context.StakeAddress on txo.stake_address_id equals sa.id
-//                     where sa.view == stake_address
-//                     orderby txo.address ascending
-//                     select new AccountAddressDTO()
-//                     {
-//                         address = txo.address,
-//                         address_has_script = txo.address_has_script
-//                     }).Distinct().OrderBy(x => x.address).Skip((int)((pageNo-1)*pageSize)).Take((int)pageSize).ToListAsync();
-//             }
+            if (assets == null)
+            {
+                return NotFound();
+            }
 
-//             if (assets == null)
-//             {
-//                 return NotFound();
-//             }
+            // Serialize the history object to a JSON string using System.Text.Json
+            var jsonString = JsonSerializer.Serialize(assets);
 
-//             // Serialize the history object to a JSON string using System.Text.Json
-//             var jsonString = JsonSerializer.Serialize(assets);
-
-//             // Return the JSON string as a ContentResult with the appropriate content type
-//             // TODO this is temporary until we find out the reason for the result ordering to be messed up as soon as we include reward.amount in the response!
-//             return Content(jsonString, "application/json");
-//         }
+            // Return the JSON string as a ContentResult with the appropriate content type
+            // TODO this is temporary until we find out the reason for the result ordering to be messed up as soon as we include reward.amount in the response!
+            return Content(jsonString, "application/json");
+        }
     }
 }

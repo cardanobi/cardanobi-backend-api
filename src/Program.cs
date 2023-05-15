@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using ApiCore.Models;
+using ApiCore.DTO;
 using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.OData.Edm;
@@ -75,6 +76,11 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<MultiAssetCache>("MultiAssetCache");
     builder.EntitySet<MultiAssetAddressCache>("MultiAssetAddressCache");
     builder.EntitySet<AccountCache>("AccountCache");
+    builder.EntitySet<Reward>("Reward");
+    builder.EntitySet<ExtraKeyyWitness>("ExtraKeyyWitness");
+    builder.EntitySet<CBIPoll>("CBIPolls");
+    builder.EntitySet<CBIPoolParam>("CBIPoolParams");
+    // builder.EntitySet<PollVoteDTO>("PollVoteDTO");
     return builder.GetEdmModel();
 }
 

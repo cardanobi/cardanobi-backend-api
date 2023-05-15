@@ -6849,7 +6849,8 @@
             "nullable": true
           },
           "summary": {
-            "$ref": "#/components/schemas/PollSummaryDTO"
+            "$ref": "#/components/schemas/PollSummaryDTO",
+            "description": "The detailed summary of a poll."
           },
           "votes": {
             "type": "array",
@@ -6926,13 +6927,16 @@
         "type": "object",
         "properties": {
           "votes": {
-            "$ref": "#/components/schemas/PollSummaryVotesDTO"
+            "$ref": "#/components/schemas/PollSummaryVotesDTO",
+            "description": "The poll's summary by vote count."
           },
           "stakes": {
-            "$ref": "#/components/schemas/PollSummaryStakesDTO"
+            "$ref": "#/components/schemas/PollSummaryStakesDTO",
+            "description": "The poll's summary by stake size."
           },
           "delegators": {
-            "$ref": "#/components/schemas/PollSummaryDelegatorsDTO"
+            "$ref": "#/components/schemas/PollSummaryDelegatorsDTO",
+            "description": "The poll's summary by number of delegators."
           }
         },
         "additionalProperties": false

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using ApiCore.DTO;
 
 namespace ApiCore.Models
 {
@@ -59,6 +60,10 @@ namespace ApiCore.Models
         public virtual DbSet<MultiAssetAddressCache> MultiAssetAddressCache { get; set; } = null!;
         public virtual DbSet<AccountCache> AccountCache { get; set; } = null!;
         public virtual DbSet<Reward> Reward { get; set; } = null!;
+        public virtual DbSet<ExtraKeyyWitness> ExtraKeyyWitness { get; set; } = null!;
+        public virtual DbSet<CBIPoll> CBIPoll { get; set; } = null!;
+        public virtual DbSet<CBIPoolParam> CBIPoolParam { get; set; } = null!;
+        public virtual DbSet<PollVoteDTO> PollVoteDTO { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -88,6 +93,8 @@ namespace ApiCore.Models
 
             modelBuilder.Entity<MultiAssetAddressCache>().HasKey(c => new { c.asset_id, c.address });
 
+            modelBuilder.Entity<PollVoteDTO>().HasNoKey();
+
             // Ignore derived fields for the relevant entities
             modelBuilder.Entity<EpochParam>().Ignore(e => e.nonce_hex);
             modelBuilder.Entity<PoolHash>().Ignore(e => e.hash_hex);
@@ -109,6 +116,7 @@ namespace ApiCore.Models
             modelBuilder.Entity<RedeemerData>().Ignore(e => e.bytes_hex);
             modelBuilder.Entity<StakeAddress>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<StakeAddress>().Ignore(e => e.script_hash_hex);
+            modelBuilder.Entity<ExtraKeyyWitness>().Ignore(e => e.hash_hex);
 
             OnModelCreatingPartial(modelBuilder);
         }

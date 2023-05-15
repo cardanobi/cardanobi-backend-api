@@ -59,6 +59,9 @@ namespace ApiCore.Models
         public virtual DbSet<MultiAssetAddressCache> MultiAssetAddressCache { get; set; } = null!;
         public virtual DbSet<AccountCache> AccountCache { get; set; } = null!;
         public virtual DbSet<Reward> Reward { get; set; } = null!;
+        public virtual DbSet<ExtraKeyyWitness> ExtraKeyyWitness { get; set; } = null!;
+        public virtual DbSet<CBIPoll> CBIPoll { get; set; } = null!;
+        public virtual DbSet<CBIPoolParam> CBIPoolParam { get; set; } = null!;
         
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -110,6 +113,7 @@ namespace ApiCore.Models
             modelBuilder.Entity<RedeemerData>().Ignore(e => e.bytes_hex);
             modelBuilder.Entity<StakeAddress>().Ignore(e => e.hash_hex);
             modelBuilder.Entity<StakeAddress>().Ignore(e => e.script_hash_hex);
+            modelBuilder.Entity<ExtraKeyyWitness>().Ignore(e => e.hash_hex);
 
             OnModelCreatingPartial(modelBuilder);
         }
