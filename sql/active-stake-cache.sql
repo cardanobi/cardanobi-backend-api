@@ -47,8 +47,7 @@ declare
 	      from
 	        epoch_stake
 	      where
-	        epoch_stake.epoch_no >= coalesce(_last_active_stake_processed_epoch,0)
-	          and
+	        epoch_stake.epoch_no >= coalesce(_last_active_stake_processed_epoch,0) and
 	        epoch_stake.epoch_no <= _current_epoch_no
 	      group by
 	        epoch_stake.epoch_no
@@ -68,8 +67,7 @@ declare
 	        epoch_stake
 	        inner join pool_hash on pool_hash.id = epoch_stake.pool_id
 	      where
-	        epoch_stake.epoch_no >= coalesce(_last_active_stake_processed_epoch,0)
-	          and
+	        epoch_stake.epoch_no >= coalesce(_last_active_stake_processed_epoch,0) and
 	        epoch_stake.epoch_no <= _current_epoch_no
 	      group by
 	        pool_hash.view,
@@ -93,8 +91,7 @@ declare
 	        inner join pool_hash on pool_hash.id = epoch_stake.pool_id
 	        inner join stake_address on stake_address.id = epoch_stake.addr_id
 	      where
-	        epoch_stake.epoch_no > coalesce(_last_active_stake_processed_epoch,0)
-	          and
+	        epoch_stake.epoch_no > coalesce(_last_active_stake_processed_epoch,0) and
 	        epoch_stake.epoch_no <= _current_epoch_no
 	      group by
 	        stake_address.id,
@@ -106,6 +103,25 @@ declare
 	      epoch_no
 	    ) do update
 	      set amount = excluded.amount;
+
+        /* _cbi_pools_stats */
+        insert into _cbi_pool_stats
+            select casca.epoch_no, ph.id, count(1) as delegators_count, coalesce(sum(casca.amount), 0) as delegated_stakes
+                from 
+                    _cbi_active_stake_cache_account casca
+                    inner join pool_hash ph on ph.view = casca.pool_id 
+            where
+                casca.epoch_no > coalesce(_last_active_stake_processed_epoch,0) and
+                casca.epoch_no <= _current_epoch_no
+            group by 
+                casca.epoch_no, ph.id
+        on conflict (
+            epoch_no,
+            pool_hash_id,
+            epoch_no
+            ) do update
+            set delegator_count = excluded.delegator_count,
+                delegated_stakes = excluded.delegated_stakes;
 	
 	    -- only keep last 5 epochs
 	    delete from _cbi_active_stake_cache_account
@@ -126,3 +142,5 @@ $$;
 call public.cbi_active_stake_cache_update();
 
 select * from _cbi_cache_handler_state;
+
+delete from _cbi_cache_handler_state where id = 1;

@@ -64,6 +64,15 @@ as $$
 			  amount lovelace not null,
 			  primary key (stake_address, pool_id, epoch_no)
 			);
+
+			-- _cbi_pools_stats
+			create table if not exists public._cbi_pool_stats (
+				epoch_no bigint not null,
+				pool_hash_id int8 not null,
+				delegator_count int8,
+				delegated_stakes int8,
+				primary key (epoch_no, pool_hash_id)
+			);
 		
 			-- _cbi_stake_distribution_cache	
 			create table if not exists public._cbi_stake_distribution_cache (
@@ -112,6 +121,7 @@ select * from _cbi_active_stake_cache_pool;
 select * from _cbi_active_stake_cache_epoch;
 select * from _cbi_active_stake_cache_account;
 select * from _cbi_stake_distribution_cache;
+select * from _cbi_pool_stats;
 
 insert into "_cbi_cache_handler_state"(table_name, last_tx_id) values('toto',123);
 

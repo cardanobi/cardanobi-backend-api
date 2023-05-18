@@ -156,36 +156,80 @@ namespace ApiCore.Controllers
 
             Task<List<PollVoteDTO>> t_votes = Task<List<PollVoteDTO>>.Run(() =>
             {
+                // string sql = $@"
+                // WITH myconstants (poll_end_epoch_no, current_epoch_no) as (
+                //     select (select end_epoch_no from _cbi_polls where question_hash = '\x{poll_hash}'::hash32type::bytea), (select max(no) from epoch)
+                // )   
+                // select 
+                //     pod.ticker_name, cpp.pool_id,
+                //     b.epoch_no as epoch_no_vote,
+                //     encode(tx.hash::bytea, 'hex') as tx_hash_hex,
+                //     encode(ekw.hash::bytea, 'hex') as extra_sign_hash, 
+                //     tm.json as response_json,
+                //     cpp.cold_vkey,
+                //     pod.json as pool_offline_data_json,
+                //     (select count(1) from _cbi_active_stake_cache_account casca
+                //         where casca.pool_id = cpp.pool_id 
+                //             and casca.epoch_no = least(poll_end_epoch_no, current_epoch_no)) as delegator_count,
+                //     (select coalesce(sum(casca.amount), 0) from _cbi_active_stake_cache_account casca
+                //     where casca.pool_id = cpp.pool_id 
+                //         and casca.epoch_no = least(poll_end_epoch_no, current_epoch_no)) as delegated_stakes
+                // from myconstants, tx_metadata tm
+                // inner join extra_key_witness ekw on ekw.tx_id = tm.tx_id
+                // inner join tx on tx.id=tm.tx_id
+                // inner join ""_cbi_pool_params"" cpp on cpp.cold_vkey = encode(ekw.hash::bytea, 'hex')
+                // inner join pool_hash ph on ph.""view"" = cpp.pool_id 
+                // inner join block b on b.id = tx.block_id 
+                // left join pool_offline_data pod on pod.pool_id = ph.id
+                // where tm.key ='94'
+                // and tm.json ->> '2' = @pollHashParameter::text
+                // and (pod.pmr_id is null or pod.pmr_id = (select max(pod2.pmr_id) from pool_offline_data pod2 where pod2.pool_id = ph.id))
+                // and (b.epoch_no < poll_end_epoch_no)
+                // order by tm.tx_id";
+
                 string sql = $@"
                 WITH myconstants (poll_end_epoch_no, current_epoch_no) as (
-                    select (select end_epoch_no from _cbi_polls where question_hash = '\x{poll_hash}'::hash32type::bytea), (select max(no) from epoch)
-                )   
-                select 
-                    pod.ticker_name, cpp.pool_id,
-                    b.epoch_no as epoch_no_vote,
-                    encode(tx.hash::bytea, 'hex') as tx_hash_hex,
-                    encode(ekw.hash::bytea, 'hex') as extra_sign_hash, 
-                    tm.json as response_json,
-                    cpp.cold_vkey,
-                    pod.json as pool_offline_data_json,
-                    (select count(1) from _cbi_active_stake_cache_account casca
-                        where casca.pool_id = cpp.pool_id 
-                            and casca.epoch_no = least(poll_end_epoch_no, current_epoch_no)) as delegators_count,
-                    (select coalesce(sum(casca.amount), 0) from _cbi_active_stake_cache_account casca
-                    where casca.pool_id = cpp.pool_id 
-                        and casca.epoch_no = least(poll_end_epoch_no, current_epoch_no)) as delegated_stakes
-                from myconstants, tx_metadata tm
-                inner join extra_key_witness ekw on ekw.tx_id = tm.tx_id
-                inner join tx on tx.id=tm.tx_id
-                inner join ""_cbi_pool_params"" cpp on cpp.cold_vkey = encode(ekw.hash::bytea, 'hex')
-                inner join pool_hash ph on ph.""view"" = cpp.pool_id 
-                inner join block b on b.id = tx.block_id 
-                left join pool_offline_data pod on pod.pool_id = ph.id
-                where tm.key ='94'
-                and tm.json ->> '2' = @pollHashParameter::text
-                and (pod.pmr_id is null or pod.pmr_id = (select max(pod2.pmr_id) from pool_offline_data pod2 where pod2.pool_id = ph.id))
-                and (b.epoch_no < poll_end_epoch_no)
-                order by tm.tx_id";
+                    select (select end_epoch_no from _cbi_polls where question_hash='\x{poll_hash}'), (select max(no) from epoch)
+                ),
+                    pool_votes as (
+                        select 
+                            tm.tx_id,
+                            ph.id,
+                            cpp.pool_id,
+                            b.epoch_no as epoch_no_vote,
+                            encode(tx.hash::bytea, 'hex') as tx_hash_hex,
+                            encode(ekw.hash::bytea, 'hex') as extra_sign_hash,
+                            tm.json as response_json,
+                            cpp.cold_vkey
+                        from myconstants, tx_metadata tm
+                        inner join extra_key_witness ekw on ekw.tx_id = tm.tx_id
+                        inner join tx on tx.id=tm.tx_id
+                        inner join ""_cbi_pool_params"" cpp on cpp.cold_vkey = encode(ekw.hash::bytea, 'hex')
+                        inner join pool_hash ph on ph.""view"" = cpp.pool_id
+                        inner join block b on b.id = tx.block_id
+                        where tm.key ='94'
+                        and tm.json ->> '2' = @pollHashParameter::text
+                        and (b.epoch_no < poll_end_epoch_no)
+                    ),
+                    pool_stats_cache as (
+                        select pv.id,cps.delegator_count,cps.delegated_stakes
+                        from myconstants, pool_votes pv
+                        inner join _cbi_pool_stats cps on cps.pool_hash_id = pv.id
+                        where cps.epoch_no = least(poll_end_epoch_no, current_epoch_no)
+                    ),
+                    pool_offline_data_cache as (
+                        select pv.id, pod.ticker_name, pod.json
+                        from pool_offline_data pod
+                        inner join pool_votes pv on pv.id = pod.pool_id 
+                        where pod.pmr_id = (select max(pod2.pmr_id) from pool_offline_data pod2 where pod2.pool_id = pod.pool_id)
+                    )
+                        select podc.ticker_name,pv.*,
+                            coalesce(psc.delegator_count, 0) as delegator_count, coalesce(psc.delegated_stakes, 0) as delegated_stakes,
+                            podc.json as pool_offline_data_json
+                        from pool_votes pv
+                        left join pool_stats_cache psc on psc.id = pv.id
+                        left join pool_offline_data_cache podc on podc.id = pv.id
+                        order by pv.tx_id;";
 
                 // byte[] pollHashBytes = Encoding.Default.GetBytes(poll_hash);
                 // var pollHashParameter = new NpgsqlParameter<byte[]>("@pollHash", pollHashBytes);
@@ -241,14 +285,14 @@ namespace ApiCore.Controllers
                 vote.response_json = v.response_json;
                 vote.extra_sign_hash = v.extra_sign_hash;
                 vote.cold_vkey = v.cold_vkey;
-                vote.delegators_count = v.delegators_count;
+                vote.delegator_count = v.delegator_count;
                 vote.delegated_stakes = v.delegated_stakes;
 
                 voteCount++;
                 voteTally[voteID]++;
 
-                delegatorCount += vote.delegators_count;
-                voteTallyDelegators[voteID] += vote.delegators_count;
+                delegatorCount += vote.delegator_count;
+                voteTallyDelegators[voteID] += vote.delegator_count;
 
                 stakeCount += vote.delegated_stakes;
                 voteTallyStakes[voteID] += vote.delegated_stakes;

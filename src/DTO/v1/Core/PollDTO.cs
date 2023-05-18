@@ -81,7 +81,7 @@ namespace ApiCore.DTO
         public string? pool_offline_data_json { get; set; }
 
         /// <summary>The number of delegators currently delegating to this pool.</summary>
-        public int delegators_count { get; set; }
+        public int delegator_count { get; set; }
 
         /// <summary>The current delegated stakes for this pool (in Lovelace).</summary>
         public ulong delegated_stakes { get; set; }
@@ -114,7 +114,7 @@ namespace ApiCore.DTO
         public string cold_vkey { get; set; }
 
         /// <summary>The number of delegators currently delegating to this pool.</summary>
-        public int delegators_count { get; set; }
+        public int delegator_count { get; set; }
 
         /// <summary>The current delegated stakes for this pool (in Lovelace).</summary>
         public ulong delegated_stakes { get; set; }
