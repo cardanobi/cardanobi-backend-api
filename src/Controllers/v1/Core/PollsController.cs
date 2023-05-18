@@ -15,11 +15,13 @@ using System.Text.Json;
 using System.Text;
 // using Newtonsoft.Json;
 using System.Text.Json.Nodes;
+using Npgsql;
 
 namespace ApiCore.Controllers
 {
     [ApiController]
     // [Authorize(Policy="core-read")]
+    [AllowAnonymous]
     [Produces("application/json")]
     public class PollsController : ControllerBase
     {
@@ -124,7 +126,7 @@ namespace ApiCore.Controllers
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
         // GET: api/AccountCache/5
         [EnableQuery(PageSize = 1)]
-        [HttpGet("api/core/polls/{poll_hash}")]
+        [HttpGet("api/core/polls/{poll_hash:regex(^[[a-fA-F0-9]]{{64}}$)}")]
         [SwaggerOperation(Tags = new []{"Core", "Polls"})]
         public async Task<ActionResult<PollDTO>> GetPoll(string poll_hash)
         {
@@ -154,33 +156,9 @@ namespace ApiCore.Controllers
 
             Task<List<PollVoteDTO>> t_votes = Task<List<PollVoteDTO>>.Run(() =>
             {
-//                 string sql = $@"select 
-//     pod.ticker_name, cpp.pool_id,
-//     encode(tx.hash::bytea, 'hex') as tx_hash_hex,
-//     encode(ekw.hash::bytea, 'hex') as extra_sign_hash, 
-//     tm.json as response_json,
-//     cpp.cold_vkey,
-//     pod.json as pool_offline_data_json,
-//     (select count(1) from _cbi_active_stake_cache_account casca
-// 		where casca.pool_id = cpp.pool_id 
-// 			and casca.epoch_no = (select max(no) from epoch)) as delegators_count,
-// 	(select coalesce(sum(casca.amount), 0) from _cbi_active_stake_cache_account casca
-// 	where casca.pool_id = cpp.pool_id 
-// 		and casca.epoch_no = (select max(no) from epoch)) as delegated_stakes
-// from tx_metadata tm
-// inner join extra_key_witness ekw on ekw.tx_id = tm.tx_id
-// inner join tx on tx.id=tm.tx_id
-// inner join ""_cbi_pool_params"" cpp on cpp.cold_vkey = encode(ekw.hash::bytea, 'hex')
-// inner join pool_hash ph on ph.""view"" = cpp.pool_id 
-// left join pool_offline_data pod on pod.pool_id = ph.id
-// where tm.key ='94'
-// and tm.json ->> '2' = '0x{poll_hash}'
-// and (pod.pmr_id is null or pod.pmr_id = (select max(pod2.pmr_id) from pool_offline_data pod2 where pod2.pool_id = ph.id))
-// order by tm.tx_id";
-
                 string sql = $@"
                 WITH myconstants (poll_end_epoch_no, current_epoch_no) as (
-                    select (select end_epoch_no from _cbi_polls where question_hash='\x{poll_hash}'), (select max(no) from epoch)
+                    select (select end_epoch_no from _cbi_polls where question_hash = '\x{poll_hash}'::hash32type::bytea), (select max(no) from epoch)
                 )   
                 select 
                     pod.ticker_name, cpp.pool_id,
@@ -204,12 +182,16 @@ namespace ApiCore.Controllers
                 inner join block b on b.id = tx.block_id 
                 left join pool_offline_data pod on pod.pool_id = ph.id
                 where tm.key ='94'
-                and tm.json ->> '2' = '0x{poll_hash}'
+                and tm.json ->> '2' = @pollHashParameter::text
                 and (pod.pmr_id is null or pod.pmr_id = (select max(pod2.pmr_id) from pool_offline_data pod2 where pod2.pool_id = ph.id))
-                and (b.epoch_no < (select end_epoch_no from _cbi_polls where question_hash='\x{poll_hash}'))
+                and (b.epoch_no < poll_end_epoch_no)
                 order by tm.tx_id";
 
-                var votes = _context2.PollVoteDTO.FromSqlRaw(sql).ToList();
+                // byte[] pollHashBytes = Encoding.Default.GetBytes(poll_hash);
+                // var pollHashParameter = new NpgsqlParameter<byte[]>("@pollHash", pollHashBytes);
+                var pollHashParameter2 = new NpgsqlParameter<string>("@pollHashParameter", "0x" + poll_hash);
+
+                var votes = _context2.PollVoteDTO.FromSqlRaw(sql, pollHashParameter2).ToList();
 
                 return votes;
             });
