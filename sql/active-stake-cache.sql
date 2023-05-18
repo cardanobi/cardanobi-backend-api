@@ -102,11 +102,11 @@ declare
 	      pool_id,
 	      epoch_no
 	    ) do update
-	      set amount = excluded.amount;
+	        set amount = excluded.amount;
 
         /* _cbi_pools_stats */
         insert into _cbi_pool_stats
-            select casca.epoch_no, ph.id, count(1) as delegators_count, coalesce(sum(casca.amount), 0) as delegated_stakes
+            select casca.epoch_no, ph.id, count(1) as delegator_count, coalesce(sum(casca.amount), 0) as delegated_stakes
                 from 
                     _cbi_active_stake_cache_account casca
                     inner join pool_hash ph on ph.view = casca.pool_id 
@@ -119,7 +119,7 @@ declare
             epoch_no,
             pool_hash_id,
             epoch_no
-            ) do update
+        ) do update
             set delegator_count = excluded.delegator_count,
                 delegated_stakes = excluded.delegated_stakes;
 	
