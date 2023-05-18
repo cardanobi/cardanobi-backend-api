@@ -124,8 +124,8 @@ declare
                 delegated_stakes = excluded.delegated_stakes;
 	
 	    -- only keep last 5 epochs
-	    delete from _cbi_active_stake_cache_account
-	      where epoch_no <= (_current_epoch_no - 4);
+	    -- delete from _cbi_active_stake_cache_account
+	    --   where epoch_no <= (_current_epoch_no - 4);
       
  		--update the handler table
 		if _last_active_stake_processed_epoch is null then

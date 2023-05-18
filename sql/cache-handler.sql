@@ -73,6 +73,9 @@ as $$
 				delegated_stakes int8,
 				primary key (epoch_no, pool_hash_id)
 			);
+
+			create index if not exists _cbi_casca_idx_stake_address_epoch_no on public._cbi_active_stake_cache_account (stake_address, epoch_no);
+			create index if not exists _cbi_casca_idx_pool_id_epoch_no on public._cbi_active_stake_cache_account (pool_id, epoch_no);
 		
 			-- _cbi_stake_distribution_cache	
 			create table if not exists public._cbi_stake_distribution_cache (
