@@ -270,34 +270,42 @@ namespace ApiCore.Controllers
             ulong[] voteTallyStakes = new ulong[choices.Length];        
             float[] voteTallyStakesPct = new float[choices.Length];
 
+            HashSet<string> uniqueVotes = new HashSet<string>();
+
             foreach (PollVoteDTO v in t_votes.Result)
             {
-                PollVotePubDTO vote = new PollVotePubDTO();
-                JsonNode jnPoolMeta = v.pool_offline_data_json == null ? null:JsonNode.Parse(v.pool_offline_data_json);
-                JsonNode jnPollResponse = JsonNode.Parse(v.response_json);
+                // only consider the first vote to be valid, change this if it is decided to allow for vote amendements one day
+                if (!uniqueVotes.Contains(v.pool_id))
+                {
+                    PollVotePubDTO vote = new PollVotePubDTO();
+                    JsonNode jnPoolMeta = v.pool_offline_data_json == null ? null:JsonNode.Parse(v.pool_offline_data_json);
+                    JsonNode jnPollResponse = JsonNode.Parse(v.response_json);
 
-                vote.ticker_name = v.ticker_name;
-                vote.pool_name = jnPoolMeta == null ? "":jnPoolMeta["name"].ToJsonString().Replace("\"","");
-                vote.pool_id = v.pool_id;
-                vote.tx_hash_hex = v.tx_hash_hex;
-                int voteID = int.Parse(jnPollResponse["3"].ToJsonString());
-                vote.response = choices[voteID];
-                vote.response_json = v.response_json;
-                vote.extra_sign_hash = v.extra_sign_hash;
-                vote.cold_vkey = v.cold_vkey;
-                vote.delegator_count = v.delegator_count;
-                vote.delegated_stakes = v.delegated_stakes;
+                    vote.ticker_name = v.ticker_name;
+                    vote.pool_name = jnPoolMeta == null ? "":jnPoolMeta["name"].ToJsonString().Replace("\"","");
+                    vote.pool_id = v.pool_id;
+                    vote.tx_hash_hex = v.tx_hash_hex;
+                    int voteID = int.Parse(jnPollResponse["3"].ToJsonString());
+                    vote.response = choices[voteID];
+                    vote.response_json = v.response_json;
+                    vote.extra_sign_hash = v.extra_sign_hash;
+                    vote.cold_vkey = v.cold_vkey;
+                    vote.delegator_count = v.delegator_count;
+                    vote.delegated_stakes = v.delegated_stakes;
 
-                voteCount++;
-                voteTally[voteID]++;
+                    voteCount++;
+                    voteTally[voteID]++;
 
-                delegatorCount += vote.delegator_count;
-                voteTallyDelegators[voteID] += vote.delegator_count;
+                    delegatorCount += vote.delegator_count;
+                    voteTallyDelegators[voteID] += vote.delegator_count;
 
-                stakeCount += vote.delegated_stakes;
-                voteTallyStakes[voteID] += vote.delegated_stakes;
+                    stakeCount += vote.delegated_stakes;
+                    voteTallyStakes[voteID] += vote.delegated_stakes;
 
-                t_poll.Result.votes.Add(vote);
+                    t_poll.Result.votes.Add(vote);
+
+                    uniqueVotes.Add(v.pool_id);
+                }
             }
 
             for( int k=0; k<choices.Length; k++) 
