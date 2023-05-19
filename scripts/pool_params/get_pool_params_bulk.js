@@ -133,6 +133,9 @@ if (tableExists[0].count == 0) {
     console.log("Table already exists!");
 }
 
+// Note: to prepare the pool_params.json file please run the following
+// cardano-cli query ledger-state --mainnet > mydump.json
+// cat mydump.json | jq '.stateBefore.esLState.delegationState.pstate."pParams pState"' >pool_params.json
 
 let magic = 1;
 var poolParamsFile = "/home/cardano/pool_params.json"
