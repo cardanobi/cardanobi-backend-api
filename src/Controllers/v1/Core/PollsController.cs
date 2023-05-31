@@ -348,9 +348,9 @@ namespace ApiCore.Controllers
 
             for( int k=0; k<choices.Length; k++) 
             {
-                voteTallyPct[k] = (float)voteTally[k] / (float)voteCount;
-                voteTallyDelegatorsPct[k] = (float)voteTallyDelegators[k] / (float)delegatorCount;
-                voteTallyStakesPct[k] = (float)voteTallyStakes[k] / (float)stakeCount;
+                voteTallyPct[k] = voteCount > 0 ? (float)voteTally[k] / (float)voteCount : 0;
+                voteTallyDelegatorsPct[k] = delegatorCount > 0 ? (float)voteTallyDelegators[k] / (float)delegatorCount : 0;
+                voteTallyStakesPct[k] = stakeCount > 0 ? (float)voteTallyStakes[k] / (float)stakeCount : 0;
             }
             // Processing poll summaries
             PollSummaryDTO sumPoll = new PollSummaryDTO();
