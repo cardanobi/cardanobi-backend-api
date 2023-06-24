@@ -323,6 +323,7 @@ $$;
 
 
 call public.cbi_active_stake_cache_update();
+
 call public.cbi_stake_distribution_cache_update();
 
 select count(*) from _cbi_stake_distribution_cache;
@@ -346,6 +347,13 @@ select * from _cbi_stake_distribution_cache limit 20;
 
 select * from _cbi_stake_distribution_cache
 where is_registered is false and registered_since_epoch_no is not null;
+
+select * from _cbi_stake_distribution_cache
+where pool_id = 'pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r';
+
+select * from _cbi_stake_distribution_cache
+where pool_id = 'pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r'
+and stake_address = 'stake_test1uq86p033vvv7mxxl29w8p35ardqhu0tl2gl2ym5xzlqpxzsrar5z7';
 
 select * from _cbi_stake_distribution_cache
 where is_registered is true and pool_id is not null
