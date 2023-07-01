@@ -84,7 +84,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which order the rewards are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -96,7 +96,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/rewards")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Rewards"})]
-        public  async Task<IActionResult> GetAccountRewards(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public  async Task<ActionResult<AccountRewardDTO>> GetAccountRewards(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.Reward == null ||
@@ -184,7 +184,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which order the staking events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -196,7 +196,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/staking")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Staking"})]
-        public async Task<IActionResult> GetAccountStaking(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public async Task<ActionResult<AccountStakingDTO>> GetAccountStaking(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.EpochStake == null ||
@@ -261,7 +261,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which order the delegation events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -273,7 +273,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/delegations")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Delegations"})]
-        public async Task<IActionResult> GetAccountDelegation(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public async Task<ActionResult<AccountDelegationDTO>> GetAccountDelegation(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.Reward == null ||
@@ -348,7 +348,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which order the registration events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -360,7 +360,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/registrations")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Registrations"})]
-        public async Task<IActionResult> GetAccountRegistration(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public async Task<ActionResult<AccountRegistrationDTO>> GetAccountRegistration(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.StakeRegistration == null ||
@@ -471,7 +471,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which order the withdrawal events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -483,7 +483,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/withdrawals")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Withdrawals"})]
-        public async Task<IActionResult> GetAccountWithdrawal(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public async Task<ActionResult<AccountWithdrawalDTO>> GetAccountWithdrawal(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.Withdrawal == null ||
@@ -546,7 +546,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which order the MIR events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -558,7 +558,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/mirs")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "MIRs"})]
-        public async Task<IActionResult> GetAccountMIR(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public async Task<ActionResult<AccountMIRDTO>> GetAccountMIR(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.Treasury == null ||
@@ -675,7 +675,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which alphabetical order addresses are returned - "desc" descending (default) - "asc" ascending</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -687,7 +687,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/addresses")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Addresses"})]
-        public async Task<IActionResult> GetAccountAddress(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public async Task<ActionResult<AccountAddressDTO>> GetAccountAddress(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.TransactionOutput == null ||
@@ -747,7 +747,7 @@ namespace ApiCore.Controllers
         /// <param name="stake_address">Bech32 Stake address</param>
         /// <param name="page_no">Page number to retrieve - defaults to 1</param>
         /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        /// <param name="order">Prescribes in which order the minting/burning events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
+        /// <param name="order">Prescribes in which alphabetical order the asset holdings are returned - "desc" descending (default) - "asc" ascending</param>
         /// <response code="200">OK: Successful request.</response>
         /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
         /// <response code="401">Unauthorized: No valid API key provided.</response>
@@ -759,7 +759,7 @@ namespace ApiCore.Controllers
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/accounts/{stake_address}/assets")]
         [SwaggerOperation(Tags = new []{"Core", "Accounts", "Assets"})]
-        public async Task<IActionResult> GetAccountAsset(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
+        public async Task<ActionResult<AccountAssetDTO>> GetAccountAsset(string stake_address, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
             if (
                 _context.MultiAssetAddressCache == null ||

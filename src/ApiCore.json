@@ -106,7 +106,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which order the rewards are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
             "schema": {
               "type": "string"
             }
@@ -114,7 +114,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountRewardDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -177,7 +184,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which order the staking events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
             "schema": {
               "type": "string"
             }
@@ -185,7 +192,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountStakingDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -248,7 +262,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which order the delegation events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
             "schema": {
               "type": "string"
             }
@@ -256,7 +270,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountDelegationDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -319,7 +340,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which order the registration events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
             "schema": {
               "type": "string"
             }
@@ -327,7 +348,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountRegistrationDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -390,7 +418,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which order the withdrawal events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
             "schema": {
               "type": "string"
             }
@@ -398,7 +426,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountWithdrawalDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -461,7 +496,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which order the MIR events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
             "schema": {
               "type": "string"
             }
@@ -469,7 +504,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountMIRDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -532,7 +574,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which alphabetical order addresses are returned - \"desc\" descending (default) - \"asc\" ascending",
             "schema": {
               "type": "string"
             }
@@ -540,7 +582,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountAddressDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -603,7 +652,7 @@
           {
             "name": "order",
             "in": "query",
-            "description": "Prescribes in which order the minting/burning events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
+            "description": "Prescribes in which alphabetical order the asset holdings are returned - \"desc\" descending (default) - \"asc\" ascending",
             "schema": {
               "type": "string"
             }
@@ -611,7 +660,14 @@
         ],
         "responses": {
           "200": {
-            "description": "OK: Successful request."
+            "description": "OK: Successful request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountAssetDTO"
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
@@ -5502,6 +5558,83 @@
   },
   "components": {
     "schemas": {
+      "AccountAddressDTO": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "description": "The human readable encoding of the associated address. Will be Base58 for Byron era addresses and Bech32 for Shelley era.",
+            "nullable": true
+          },
+          "address_has_script": {
+            "type": "boolean",
+            "description": "Flag which shows if this address is locked by a script."
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountAssetDTO": {
+        "type": "object",
+        "properties": {
+          "policy_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the MultiAsset policy hash.",
+            "nullable": true
+          },
+          "fingerprint": {
+            "type": "string",
+            "description": "The CIP14 fingerprint for the MultiAsset.",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The MultiAsset name.",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "The balance of the given MultiAsset held by the account.",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountDelegationDTO": {
+        "type": "object",
+        "properties": {
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number in which the given delegation was active.",
+            "format": "int64"
+          },
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the delegation transaction.",
+            "nullable": true
+          },
+          "pool_id": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool being delegated to.",
+            "nullable": true
+          },
+          "slot_no": {
+            "type": "integer",
+            "description": "The slot number for this delegation.",
+            "format": "int64"
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number for this delegation.",
+            "format": "int64"
+          },
+          "block_time": {
+            "type": "string",
+            "description": "The block time (UTCTime) for this delegation.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
       "AccountInfoDTO": {
         "type": "object",
         "properties": {
@@ -5571,6 +5704,130 @@
             "description": "The available ADA rewards for this account.",
             "format": "double",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountMIRDTO": {
+        "type": "object",
+        "properties": {
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number in which the given MIR occured.",
+            "format": "int64"
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number for this MIR.",
+            "format": "int64"
+          },
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the MIR transaction.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "description": "The MIR amount (in Lovelace).",
+            "format": "int64"
+          },
+          "mir_type": {
+            "type": "string",
+            "description": "The source of the MIR payment (treasury or reserve).",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountRegistrationDTO": {
+        "type": "object",
+        "properties": {
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number in which the given registration event occured.",
+            "format": "int64"
+          },
+          "block_no": {
+            "type": "integer",
+            "description": "The block number for this registration event.",
+            "format": "int64"
+          },
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the registration transaction.",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "description": "The state of the given account following this registration event.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountRewardDTO": {
+        "type": "object",
+        "properties": {
+          "earned_epoch": {
+            "type": "integer",
+            "description": "The epoch in which the reward was earned. For pool and leader rewards spendable in epoch N, this will be N - 2, for treasury and reserves N - 1 and for refund N.",
+            "format": "int64"
+          },
+          "spendable_epoch": {
+            "type": "integer",
+            "description": "The epoch in which the reward is actually distributed and can be spent.",
+            "format": "int64"
+          },
+          "type": {
+            "type": "string",
+            "description": "The source of the rewards; pool member, pool leader, treasury or reserves payment and pool deposits refunds",
+            "nullable": true
+          },
+          "pool_id_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of hash for the pool the stake address was delegated to when the reward is earned or for the pool that there is a deposit refund. Will be NULL for payments from the treasury or the reserves.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "description": "The reward amount (in Lovelace).",
+            "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountStakingDTO": {
+        "type": "object",
+        "properties": {
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number in which the given stake was active.",
+            "format": "int32"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pool_id": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool being delegated to.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AccountWithdrawalDTO": {
+        "type": "object",
+        "properties": {
+          "tx_hash_hex": {
+            "type": "string",
+            "description": "The hexadecimal encoding of the hash identifier of the withdrawal transaction.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "integer",
+            "description": "The withdrawal amount (in Lovelace).",
+            "format": "int64"
           }
         },
         "additionalProperties": false
@@ -7038,7 +7295,7 @@
             "description": "The hexadecimal encoding of the pool verification key hash for the pool that cast this vote.",
             "nullable": true
           },
-          "delegators_count": {
+          "delegator_count": {
             "type": "integer",
             "description": "The number of delegators currently delegating to this pool.",
             "format": "int32"
