@@ -55,4 +55,4 @@ This will allow you to run ```cardano-node```, ```cardano-db-sync```, ```postgre
 
 ## Contributions
 
-CardanoBI is fully open-source and everyone is welcome to contribute. Please reach out to us via twitter, email (info@cardanobi.io) or by submitting a PR. :heart:
+CardanoBI is fully open-source and everyone is welcome to contribute. Please reach out to us via twitter (@CardanoBI), email (info@cardanobi.io) or by submitting a PR. :heart:
