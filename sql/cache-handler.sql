@@ -93,6 +93,17 @@ as $$
 			  withdrawals numeric,
 			  rewards_available numeric
 			);
+
+			-- _cbi_address_info_cache	
+			create table if not exists public._cbi_address_info_cache (
+			  address varchar,
+			  stake_address_id int8,
+			  stake_address varchar,
+			  script_hash text
+			);
+
+			CREATE UNIQUE INDEX _cbi_address_info_cache_1 ON public._cbi_address_info_cache USING btree (address);
+			CREATE INDEX _cbi_address_info_cache_2 ON public._cbi_address_info_cache USING btree (stake_address);
 		end if;
 	end;
 $$;

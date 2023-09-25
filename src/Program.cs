@@ -101,11 +101,11 @@ builder.Services.AddDbContextPool<cardanobiCoreContext3>(options =>
         .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
 );
-builder.Services.AddDbContextPool<cardanobiBIContext>(options => 
-    options
-        .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
-        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-);
+// builder.Services.AddDbContextPool<cardanobiBIContext>(options => 
+//     options
+//         .UseNpgsql(builder.Configuration.GetConnectionString("DbSyncPgsqlDatabase"))
+//         .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+// );
 
 // builder.Services.AddControllers();
 // builder.Services.AddControllers()
@@ -259,6 +259,24 @@ builder.Services.AddAuthorization(options =>
     //Client claims key starts with client_
     options.AddPolicy("GlobalAuthRule", policy => policy.RequireClaim("client_network-type", allowedNetworkType));
 });
+
+// var certPath = builder.Configuration["Kestrel:Endpoints:Https:Certificate:Path"];
+// var keyPath = builder.Configuration["Kestrel:Endpoints:Https:Certificate:KeyPath"];
+
+// Log.Information($"Cert Path: {certPath}");
+// Log.Information($"Key Path: {keyPath}");
+
+// builder.WebHost.ConfigureKestrel(serverOptions =>
+// {
+//     // serverOptions.ListenAnyIP(80);  // Listen for HTTP connections
+//     // serverOptions.ListenAnyIP(4001, listenOptions =>
+//     serverOptions.ListenLocalhost(4001, listenOptions =>
+//     {
+//         var certPath = builder.Configuration["Kestrel:Endpoints:Https:Certificate:Path"];
+//         var keyPath = builder.Configuration["Kestrel:Endpoints:Https:Certificate:KeyPath"];
+//         listenOptions.UseHttps(certPath, keyPath);
+//     });
+// });
 
 var app = builder.Build();
 

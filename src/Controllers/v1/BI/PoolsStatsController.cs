@@ -21,9 +21,9 @@ namespace ApiCore.Controllers
     // [ApiExplorerSettings(GroupName = "EpochsStakes")]
     public class PoolsStatsController : ControllerBase
     {
-        private readonly cardanobiBIContext _context;
+        private readonly cardanobiCoreContext _context;
 
-        public PoolsStatsController(cardanobiBIContext context)
+        public PoolsStatsController(cardanobiCoreContext context)
         {
             _context = context;
         }

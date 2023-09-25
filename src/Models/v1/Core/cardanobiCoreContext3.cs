@@ -17,6 +17,8 @@ namespace ApiCore.Models
         {
         }
 
+        // Core Domain
+
         public virtual DbSet<Epoch> Epoch { get; set; } = null!;
         public virtual DbSet<EpochParam> EpochParam { get; set; } = null!;
         public virtual DbSet<EpochStake> EpochStake { get; set; } = null!;
@@ -62,7 +64,10 @@ namespace ApiCore.Models
         public virtual DbSet<ExtraKeyyWitness> ExtraKeyyWitness { get; set; } = null!;
         public virtual DbSet<CBIPoll> CBIPoll { get; set; } = null!;
         public virtual DbSet<CBIPoolParam> CBIPoolParam { get; set; } = null!;
-        
+
+        // BI Domain
+        public virtual DbSet<PoolStat> PoolStat { get; set; } = null!;
+        public virtual DbSet<AddressStat> AddressStat { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -80,9 +85,11 @@ namespace ApiCore.Models
                 .HasPostgresEnum("scripttype", new[] { "multisig", "timelock", "plutusV1", "plutusV2" })
                 .HasPostgresEnum("syncstatetype", new[] { "lagging", "following" });
 
+            // Core Domain
+
             modelBuilder.Entity<AddressInfo>(entity =>
             {
-                entity.ToView("address_info_view");
+                entity.ToView("_cbi_address_info_cache");
             });
             modelBuilder.Entity<EpochStakeView>(entity =>
             {
@@ -115,6 +122,20 @@ namespace ApiCore.Models
             modelBuilder.Entity<StakeAddress>().Ignore(e => e.script_hash_hex);
             modelBuilder.Entity<ExtraKeyyWitness>().Ignore(e => e.hash_hex);
 
+            // BI Domain
+            
+            modelBuilder.Entity<PoolStat>(entity =>
+                   {
+                       entity.ToView("pool_stat_view");
+                   });
+            modelBuilder.Entity<PoolStat>().HasKey(c => new { c.epoch_no, c.pool_hash });
+
+            modelBuilder.Entity<AddressStat>(entity =>
+                   {
+                       entity.ToView("_cbi_address_stats_cache");
+                   });
+            modelBuilder.Entity<AddressStat>().HasKey(c => new { c.epoch_no, c.address, c.stake_address_id });
+            
             OnModelCreatingPartial(modelBuilder);
         }
 

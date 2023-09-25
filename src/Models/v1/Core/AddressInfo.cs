@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ApiCore.Models
 {
     // [Keyless]
-    [Table("address_info_view")]
+    [Table("_cbi_address_info_cache")]
     public partial class AddressInfo
     {
         /// <summary>The address.</summary>
