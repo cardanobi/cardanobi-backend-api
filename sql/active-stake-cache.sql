@@ -142,5 +142,6 @@ $$;
 call public.cbi_active_stake_cache_update();
 
 select * from _cbi_cache_handler_state;
+select max(no)  from epoch;
 
 delete from _cbi_cache_handler_state where id = 1;

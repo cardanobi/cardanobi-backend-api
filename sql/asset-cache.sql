@@ -47,7 +47,7 @@ declare
 				  min(mtm.tx_id) as first_mint_tx_id, 
 				  max(mtm.tx_id) as last_mint_tx_id
 				from ma_tx_mint mtm
-				where mtm.tx_id > 0
+				where mtm.tx_id > _handler_last_tx_id
 				  and mtm.quantity > 0
 				group by mtm.ident
 		    ),
@@ -124,5 +124,6 @@ select * from ma_tx_mint mtm where mtm.tx_id =618796;
 select * from "_cbi_asset_cache" cac where cac.asset_id =115459;
 select * from multi_asset ma where ma.id=115459;
 
-select array_agg(distinct ident) from ma_tx_mint where tx_id > 618881;
+select count(*) from ma_tx_mint where tx_id > 70468039;
+select array_agg(distinct ident) from ma_tx_mint where tx_id > 70468039;
 select array_agg(distinct ident) from ma_tx_mint where tx_id > (select last_tx_id from "_cbi_cache_handler_state" cchs where cchs.table_name='_cbi_asset_cache');

@@ -329,6 +329,12 @@ call public.cbi_stake_distribution_cache_update();
 select count(*) from _cbi_stake_distribution_cache;
 select count(*) from stake_address;
 
+SELECT query
+FROM pg_stat_activity
+WHERE pid = 528359;
+
+select * from _cbi_stake_distribution_cache limit 10;
+
 select * from _cbi_cache_handler_state;
 
 delete from _cbi_cache_handler_state
@@ -348,6 +354,15 @@ select * from _cbi_stake_distribution_cache limit 20;
 select * from _cbi_stake_distribution_cache
 where is_registered is false and registered_since_epoch_no is not null;
 
+/*mainnet*/
+select * from _cbi_stake_distribution_cache
+where pool_id = 'pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc';
+
+select * from _cbi_active_stake_cache_pool
+where pool_id = 'pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc'
+order by epoch_no desc limit 10;
+
+/*preprod*/
 select * from _cbi_stake_distribution_cache
 where pool_id = 'pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r';
 
