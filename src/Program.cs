@@ -120,8 +120,8 @@ builder.Services.AddDbContextPool<cardanobiCoreContext3>(options =>
 //                 });
 
 
-builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("api/core/odata", GetEdmModel()).Select().Filter().OrderBy().SetMaxTop(20).Count());
-builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("api/bi/odata", GetEdmModel()).Select().Filter().OrderBy().SetMaxTop(20).Count());
+builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("api/core/odata", GetEdmModel()).Select().Filter().OrderBy().SetMaxTop(100).Count());
+builder.Services.AddControllers().AddOData(opt => opt.AddRouteComponents("api/bi/odata", GetEdmModel()).Select().Filter().OrderBy().SetMaxTop(100).Count());
 
 
 // builder.Services.AddControllers().AddNewtonsoftJson(options => 

@@ -128,7 +128,7 @@ namespace ApiCore.Models
             
             modelBuilder.Entity<PoolStat>(entity =>
                    {
-                       entity.ToView("pool_stat_view");
+                       entity.ToView("_cbi_pool_stats_cache");
                    });
             modelBuilder.Entity<PoolStat>().HasKey(c => new { c.epoch_no, c.pool_hash });
 

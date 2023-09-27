@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ApiCore.Models
 {
     // [Keyless]
-    [Table("pool_stat_view")]
+    [Table("_cbi_pool_stats_cache")]
     // [PrimaryKey(nameof(State), nameof(LicensePlate))]
     public partial class PoolStat
     {
@@ -22,5 +22,8 @@ namespace ApiCore.Models
 
         /// <summary>The transaction count.</summary>
         public long? tx_count { get; set; }
+
+        /// <summary>The block count.</summary>
+        public long? block_count { get; set; }
     }
 }
