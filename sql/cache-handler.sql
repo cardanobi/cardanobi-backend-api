@@ -58,33 +58,39 @@ as $$
 		
 			-- _cbi_active_stake_cache_account
 			create table if not exists public._cbi_active_stake_cache_account (
-			  stake_address varchar not null,
-			  pool_id varchar not null,
-			  epoch_no bigint not null,
-			  amount lovelace not null,
-			  primary key (stake_address, pool_id, epoch_no)
+			--   stake_address varchar not null,
+			--   pool_id varchar not null,
+			  stake_address_id int8 not null,
+			  pool_hash_id int8 not null,
+			  epoch_no int8 not null,
+			  amount lovelace default 0,
+			  primary key (stake_address_id, pool_hash_id, epoch_no)
 			);
 
-			-- _cbi_pools_stats
-			create table if not exists public._cbi_pool_stats (
-				epoch_no bigint not null,
+			create index if not exists _cbi_casca_idx_stake_address_epoch_no on public._cbi_active_stake_cache_account (stake_address_id, epoch_no);
+			create index if not exists _cbi_casca_idx_pool_id_epoch_no on public._cbi_active_stake_cache_account (pool_hash_id, epoch_no);
+
+			-- _cbi_poolstats_cache
+			create table if not exists public."_cbi_pool_stats_cache" (
+				epoch_no int8 not null,
 				pool_hash_id int8 not null,
-				delegator_count int8,
-				delegated_stakes int8,
-				primary key (epoch_no, pool_hash_id)
+				delegator_count int8 default 0,
+				delegated_stakes int8 default 0,
+				tx_count int8 default 0,
+				block_count int8 default 0,
+				constraint "_cbi_pool_stats_cache_unique" PRIMARY KEY (epoch_no, pool_hash_id)
 			);
-
-			create index if not exists _cbi_casca_idx_stake_address_epoch_no on public._cbi_active_stake_cache_account (stake_address, epoch_no);
-			create index if not exists _cbi_casca_idx_pool_id_epoch_no on public._cbi_active_stake_cache_account (pool_id, epoch_no);
+			create index idx_cbi_pool_stats_pool_hash_id ON public._cbi_pool_stats_cache USING btree (pool_hash_id);
 		
 			-- _cbi_stake_distribution_cache	
 			create table if not exists public._cbi_stake_distribution_cache (
-			  stake_address varchar primary key,
-			  stake_id bigserial,
+			--   stake_address varchar primary key,
+			  stake_address_id int8 primary key,
 			  is_registered boolean,
 			  last_reg_dereg_tx varchar,
 			  last_reg_dereg_epoch_no numeric,
-			  pool_id varchar,
+			--   pool_id varchar,
+			  pool_hash_id int8,
 			  delegated_since_epoch_no numeric,
 			  last_deleg_tx varchar,
 			  total_balance numeric,
@@ -93,6 +99,10 @@ as $$
 			  withdrawals numeric,
 			  rewards_available numeric
 			);
+
+			create index if not exists _cbi_casca_idx_pool_hash_id on public._cbi_stake_distribution_cache (pool_hash_id);
+
+			create index if not exists _cbi_casca_idx_stake_address_id_pool_hash_id on public._cbi_stake_distribution_cache (stake_address_id, pool_hash_id);
 
 			-- _cbi_address_info_cache	
 			create table if not exists public._cbi_address_info_cache (
@@ -140,3 +150,24 @@ select * from _cbi_pool_stats;
 insert into "_cbi_cache_handler_state"(table_name, last_tx_id) values('toto',123);
 
 delete from _cbi_cache_handler_state where table_name = 'toto';
+
+
+
+drop table _cbi_active_stake_cache_account;
+
+create table if not exists public._cbi_active_stake_cache_account (
+--   stake_address varchar not null,
+--   pool_id varchar not null,
+	stake_address_id int8 not null,
+	pool_hash_id int8 not null,
+	epoch_no int8 not null,
+	amount lovelace default 0,
+	primary key (stake_address_id, pool_hash_id, epoch_no)
+);
+
+create index if not exists _cbi_casca_idx_stake_address_epoch_no on public._cbi_active_stake_cache_account (stake_address_id, epoch_no);
+create index if not exists _cbi_casca_idx_pool_id_epoch_no on public._cbi_active_stake_cache_account (pool_hash_id, epoch_no);
+
+select * from _cbi_active_stake_cache_account;
+
+select * from _cbi_stake_distribution_cache limit 10;

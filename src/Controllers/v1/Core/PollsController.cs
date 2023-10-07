@@ -50,13 +50,12 @@ namespace ApiCore.Controllers
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // GET: api/AccountCache/5
         [EnableQuery(PageSize = 100)]
         [HttpGet("api/core/polls")]
         [SwaggerOperation(Tags = new[] { "Core", "Polls" })]
         public async Task<ActionResult<PollOverviewDTO>> GetPoll([FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
         {
-            if (_context.AccountCache == null)
+            if (_context.CBIPoll == null || _context.TransactionMetadata == null || _context.Transaction == null)
             {
                 return NotFound();
             }
@@ -124,17 +123,16 @@ namespace ApiCore.Controllers
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // GET: api/AccountCache/5
         [EnableQuery(PageSize = 1)]
         [HttpGet("api/core/polls/{poll_hash:regex(^[[a-fA-F0-9]]{{64}}$)}")]
         [SwaggerOperation(Tags = new []{"Core", "Polls"})]
         public async Task<ActionResult<PollDTO>> GetPoll(string poll_hash)
         {
-            if (_context.AccountCache == null)
+            if (_context.CBIPoll == null || _context.TransactionMetadata == null || _context.Transaction == null)
             {
                 return NotFound();
             }
-
+            
             Task<PollDTO?> t_poll = Task<PollDTO>.Run(() =>
             {
                 var poll = (
@@ -183,7 +181,7 @@ namespace ApiCore.Controllers
                 //     pool_stats_cache as (
                 //         select pv.id,cps.delegator_count,cps.delegated_stakes
                 //         from myconstants, pool_votes pv
-                //         inner join _cbi_pool_stats cps on cps.pool_hash_id = pv.id
+                //         inner join _cbi_pool_stats_cache cps on cps.pool_hash_id = pv.id
                 //         where cps.epoch_no = least(poll_end_epoch_no, current_epoch_no)
                 //     ),
                 //     pool_offline_data_cache as (
@@ -252,7 +250,7 @@ namespace ApiCore.Controllers
                     pool_stats_cache as (
                         select pv.id,cps.delegator_count,cps.delegated_stakes
                         from myconstants, pool_votes_all pv
-                        inner join _cbi_pool_stats cps on cps.pool_hash_id = pv.id
+                        inner join _cbi_pool_stats_cache cps on cps.pool_hash_id = pv.id
                         where cps.epoch_no = least(poll_end_epoch_no, current_epoch_no)
                     ),
                     pool_offline_data_cache as (

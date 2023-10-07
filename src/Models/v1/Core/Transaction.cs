@@ -55,5 +55,8 @@ namespace ApiCore.Models
         // Derived fields
         /// <summary>The hexadecimal encoding of the hash identifier of the transaction.</summary>
         public string hash_hex { get { return Convert.ToHexString(hash).ToLower(); } set { } }
+
+        [ForeignKey("block_id")]
+        public virtual Block Block { get; set; }
     }
 }

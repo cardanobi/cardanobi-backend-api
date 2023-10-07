@@ -30,5 +30,11 @@ namespace ApiCore.Models
 
         /// <summary>The Redeemer table index that is related with this certificate.</summary>
         public long? redeemer_id { get; set; }
+
+        [ForeignKey("addr_id")]
+        public virtual StakeAddress StakeAddress { get; set; }
+        
+        [ForeignKey("tx_id")]
+        public virtual Transaction Transaction { get; set; }
     }
 }

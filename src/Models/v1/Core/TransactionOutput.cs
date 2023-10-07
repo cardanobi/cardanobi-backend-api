@@ -57,5 +57,11 @@ namespace ApiCore.Models
         // Derived fields
         /// <summary>The hexadecimal encoding of the hash of the transaction output datum.</summary>
         public string data_hash_hex { get { return Convert.ToHexString(data_hash).ToLower(); } set { } }
+        
+        [ForeignKey("stake_address_id")]
+        public virtual StakeAddress StakeAddress { get; set; }
+
+        [ForeignKey("tx_id")]
+        public virtual Transaction Transaction { get; set; }
     }
 }

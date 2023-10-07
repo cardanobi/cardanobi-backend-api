@@ -7,25 +7,27 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using ApiCore.Models;
+using ApiCore.DTO;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Mvc.Filters;
+
 
 namespace ApiCore.Controllers
 {
-    // [Route("api/core/epochs/stakes")]
     [ApiController]
     [Authorize(Policy = "bi-read")]
-    // [AllowAnonymous]
     [Produces("application/json")]
-    // [ApiExplorerSettings(GroupName = "EpochsStakes")]
     public class PoolsStatsController : ControllerBase
     {
         private readonly cardanobiCoreContext _context;
+        private readonly ILogger<PoolsStatsController> _logger;
 
-        public PoolsStatsController(cardanobiCoreContext context)
+        public PoolsStatsController(cardanobiCoreContext context, ILogger<PoolsStatsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <summary>All pools statistics per epoch.</summary>
@@ -38,16 +40,33 @@ namespace ApiCore.Controllers
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        [EnableQuery(PageSize = 100)]
+        // [EnableQuery(PageSize = 100)]
+        [CustomEnableQueryAttribute("$orderby=epoch_no", PageSize = 100)]
         [HttpGet("api/bi/pools/stats/epochs/{epoch_no}")]
-        [SwaggerOperation(Tags = new[] { "BI", "Pools", "Stats" })]
-        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(long epoch_no)
+        [SwaggerOperation(Tags = new[] { "BI", "Epochs", "Stats" })]
+        public async Task<ActionResult<IEnumerable<PoolStatDTO>>> GetPoolStat(long epoch_no)
         {
-            if (_context.PoolStat == null)
+            var query = _context.PoolStat
+                .Include(ps => ps.PoolHash)
+                .Where(ps => ps.epoch_no == epoch_no)
+                .Select(ps => new PoolStatDTO
+                {
+                    epoch_no = ps.epoch_no,
+                    pool_hash = ps.PoolHash.view,
+                    tx_count = ps.tx_count,
+                    block_count = ps.block_count,
+                    delegator_count = ps.delegator_count,
+                    delegated_stakes = ps.delegated_stakes
+                });
+
+            var epochStats = await query.ToListAsync();
+
+            if (epochStats == null || epochStats.Count == 0)
             {
                 return NotFound();
             }
-            return await _context.PoolStat.Where(b => b.epoch_no == epoch_no).OrderBy(b => b.pool_hash).ToListAsync();
+
+            return epochStats;
         }
 
         /// <summary>One pool statistics per epoch.</summary>
@@ -60,56 +79,80 @@ namespace ApiCore.Controllers
         /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
         /// <response code="404">Not Found: The requested resource cannot be found.</response>
         /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        [EnableQuery(PageSize = 100)]
+        // [EnableQuery(PageSize = 100)]
+        [CustomEnableQueryAttribute("$orderby=epoch_no", PageSize = 100)]
         [HttpGet("api/bi/pools/{pool_hash}/stats")]
-        [SwaggerOperation(Tags = new []{"BI", "Pools", "Stats" })]
-        public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(string pool_hash)
+        [SwaggerOperation(Tags = new[] { "BI", "Pools", "Stats" })]
+        public async Task<ActionResult<IEnumerable<PoolStatDTO>>> GetPoolStat(string pool_hash)
         {
-          if (_context.PoolStat == null)
-          {
-              return NotFound();
-          }
-            return await _context.PoolStat.Where(b => b.pool_hash == pool_hash).ToListAsync();
+            var query = _context.PoolStat
+                .Include(ps => ps.PoolHash)
+                .Where(ps => ps.PoolHash.view == pool_hash)
+                .Select(ps => new PoolStatDTO
+                {
+                    epoch_no = ps.epoch_no,
+                    pool_hash = ps.PoolHash.view,
+                    tx_count = ps.tx_count,
+                    block_count = ps.block_count,
+                    delegator_count = ps.delegator_count,
+                    delegated_stakes = ps.delegated_stakes
+                });
+
+            var poolStats = await query.ToListAsync();
+
+            if (poolStats == null || poolStats.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return poolStats;
         }
 
-        // /// <summary>One pool statistics per epoch.</summary>
-        // /// <remarks>Pool activity statistics for a given pool per epoch number.</remarks>
-        // /// <param name="pool_hash">The Bech32 encoding of a given pool hash</param>
-        // /// <param name="epoch_no_min">Epoch range lower bound</param>
-        // /// <param name="epoch_no_max">Epoch range upper bound</param>
-        // /// <param name="page_no">Page number to retrieve - defaults to 1</param>
-        // /// <param name="page_size">Number of results per page - defaults to 20 - max 100</param>
-        // /// <param name="order">Prescribes in which order the delegation events are returned - "desc" descending (default) from newest to oldest - "asc" ascending from oldest to newest</param>
-        // /// <response code="200">OK: Successful request.</response>
-        // /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
-        // /// <response code="401">Unauthorized: No valid API key provided.</response>
-        // /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
-        // /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
-        // /// <response code="404">Not Found: The requested resource cannot be found.</response>
-        // /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
-        // [EnableQuery(PageSize = 20)]
-        // [HttpGet("api/bi/pools/{pool_hash}/stats")]
-        // [SwaggerOperation(Tags = new[] { "BI", "Pools", "Stats" })]
-        // public async Task<ActionResult<IEnumerable<PoolStat>>> GetPoolStat(string pool_hash, [FromQuery] long? epoch_no_min, [FromQuery] long? epoch_no_max, [FromQuery] long? page_no, [FromQuery] long? page_size, [FromQuery] string? order)
-        // {
-        //     if (_context.PoolStat == null)
-        //     {
-        //         return NotFound();
-        //     }
+        /// <summary>One pool lifetime statistics.</summary>
+        /// <remarks>Pool lifetime activity statistics for a given pool.</remarks>
+        /// <param name="pool_hash">The Bech32 encoding of a given pool hash</param>
+        /// <response code="200">OK: Successful request.</response>
+        /// <response code="400">Bad Request: The request was unacceptable, often due to missing a required parameter.</response>
+        /// <response code="401">Unauthorized: No valid API key provided.</response>
+        /// <response code="402">Quota Exceeded: This API key has reached its usage limit on request.</response>
+        /// <response code="403">Access Denied: The request is missing a valid API key or token.</response>
+        /// <response code="404">Not Found: The requested resource cannot be found.</response>
+        /// <response code="429">Too Many Requests: This API key has reached its rate limit.</response>
+        // [EnableQuery(PageSize = 100)]
+        [EnableQueryAttribute(PageSize = 1)]
+        [HttpGet("api/bi/pools/{pool_hash}/stats/lifetime")]
+        [SwaggerOperation(Tags = new[] { "BI", "Pools", "Lifetime Stats" })]
+        public async Task<ActionResult<PoolStatLifetimeDTO>> GetPoolLifetimeStat(string pool_hash)
+        {
+            var poolStats = await _context.PoolStat
+                .Include(ps => ps.PoolHash)
+                .Where(ps => ps.PoolHash.view == pool_hash)
+                .Select(ps => new
+                {
+                    ps.tx_count,
+                    ps.block_count,
+                    ps.delegator_count,
+                    ps.delegated_stakes
+                })
+                .ToListAsync();
 
-        //     string orderDir = order == null ? "desc" : order;
-        //     long pageSize = page_size == null ? 20 : Math.Min(100, Math.Max(1, (long)page_size));
-        //     long pageNo = page_no == null ? 1 : Math.Max(1, (long)page_no);
+            if (poolStats == null || poolStats.Count == 0)
+            {
+                return NotFound();
+            }
 
-        //     long epochNoMin = epoch_no_min == null ? 0 : Math.Max(0, (long)epoch_no_min);
-        //     long epochNoMax = epoch_no_max == null ? 1000000 : Math.Max(epochNoMin, (long)epoch_no_max);
+            var lifetimeStats = new PoolStatLifetimeDTO
+            {
+                pool_hash = pool_hash,
+                tx_count_lifetime = poolStats.Sum(ps => ps.tx_count),
+                block_count_lifetime = poolStats.Sum(ps => ps.block_count),
+                delegator_count_lifetime = poolStats.Sum(ps => ps.delegator_count),
+                delegated_stakes_lifetime = poolStats.Sum(ps => ps.delegated_stakes),
+                delegator_count_lifetime_avg = poolStats.Average(ps => ps.delegator_count),
+                delegated_stakes_lifetime_avg = poolStats.Average(ps => ps.delegated_stakes)
+            };
 
-        //     if (orderDir == "desc")
-        //     {
-        //         return await _context.PoolStat.Where(b => b.pool_hash == pool_hash && b.epoch_no >= epochNoMin && b.epoch_no <= epochNoMax).OrderByDescending(b => b.epoch_no).Skip((int)((pageNo-1)*pageSize)).Take((int)pageSize).ToListAsync();
-        //     } 
-            
-        //     return await _context.PoolStat.Where(b => b.pool_hash == pool_hash && b.epoch_no >= epochNoMin && b.epoch_no <= epochNoMax).OrderBy(b => b.epoch_no).Skip((int)((pageNo-1)*pageSize)).Take((int)pageSize).ToListAsync();
-        // }
+            return lifetimeStats;
+        }
     }
 }

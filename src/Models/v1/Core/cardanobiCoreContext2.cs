@@ -132,7 +132,7 @@ namespace ApiCore.Models
                    {
                        entity.ToView("_cbi_pool_stats_cache");
                    });
-            modelBuilder.Entity<PoolStat>().HasKey(c => new { c.epoch_no, c.pool_hash });
+            modelBuilder.Entity<PoolStat>().HasKey(c => new { c.epoch_no, c.pool_hash_id });
 
             modelBuilder.Entity<AddressStat>(entity =>
                    {

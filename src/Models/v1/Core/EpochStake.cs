@@ -29,5 +29,11 @@ namespace ApiCore.Models
 
         /// <summary>The epoch number.</summary>
         public int epoch_no { get; set; }
+
+        [ForeignKey("addr_id")]
+        public virtual StakeAddress StakeAddress { get; set; }
+
+        [ForeignKey("pool_id")]
+        public virtual PoolHash PoolHash { get; set; }
     }
 }

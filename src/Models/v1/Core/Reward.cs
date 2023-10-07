@@ -34,5 +34,11 @@ namespace ApiCore.Models
 
         /// <summary>The PoolHash table index for the pool the stake address was delegated to when the reward is earned or for the pool that there is a deposit refund. Will be NULL for payments from the treasury or the reserves.</summary>
         public long? pool_id { get; set; }
+
+        [ForeignKey("addr_id")]
+        public virtual StakeAddress StakeAddress { get; set; }
+
+        [ForeignKey("pool_id")]
+        public virtual PoolHash PoolHash { get; set; }
     }
 }

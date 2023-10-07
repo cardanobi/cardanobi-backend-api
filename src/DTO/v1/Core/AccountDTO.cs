@@ -112,6 +112,9 @@ namespace ApiCore.DTO
 
     public partial class AccountWithdrawalDTO
     {
+        /// <summary>The block number for this withdrawal transaction.</summary>
+        public long block_no { get; set; }
+
         /// <summary>The hexadecimal encoding of the hash identifier of the withdrawal transaction.</summary>
         public string tx_hash_hex { get; set; }
 

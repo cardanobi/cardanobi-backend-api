@@ -82,8 +82,8 @@ declare
 		/* _cbi_active_stake_cache_account */	     
 		insert into _cbi_active_stake_cache_account
 	      select
-	        stake_address.view as stake_address,
-	        pool_hash.view as pool_id,
+	        stake_address.id as stake_address_id,
+	        pool_hash.id as pool_hash_id,
 	        epoch_stake.epoch_no as epoch_no,
 	        sum(epoch_stake.amount) as amount
 	      from
@@ -98,30 +98,11 @@ declare
 	        pool_hash.id,
 	        epoch_stake.epoch_no
 	    on conflict (
-	      stake_address,
-	      pool_id,
+	      stake_address_id,
+	      pool_hash_id,
 	      epoch_no
 	    ) do update
 	        set amount = excluded.amount;
-
-        /* _cbi_pools_stats */
-        insert into _cbi_pool_stats
-            select casca.epoch_no, ph.id, count(1) as delegator_count, coalesce(sum(casca.amount), 0) as delegated_stakes
-                from 
-                    _cbi_active_stake_cache_account casca
-                    inner join pool_hash ph on ph.view = casca.pool_id 
-            where
-                casca.epoch_no > coalesce(_last_active_stake_processed_epoch,0) and
-                casca.epoch_no <= _current_epoch_no
-            group by 
-                casca.epoch_no, ph.id
-        on conflict (
-            epoch_no,
-            pool_hash_id,
-            epoch_no
-        ) do update
-            set delegator_count = excluded.delegator_count,
-                delegated_stakes = excluded.delegated_stakes;
 	
 	    -- only keep last 5 epochs
 	    -- delete from _cbi_active_stake_cache_account
@@ -142,6 +123,19 @@ $$;
 call public.cbi_active_stake_cache_update();
 
 select * from _cbi_cache_handler_state;
+select * from _cbi_cache_handler_state where table_name = '_cbi_active_stake_cache_*';
+
+delete from _cbi_cache_handler_state where table_name = '_cbi_active_stake_cache_*';
+
 select max(no)  from epoch;
 
 delete from _cbi_cache_handler_state where id = 1;
+
+select * from _cbi_active_stake_cache_account limit 10;
+
+---start from scratch
+truncate table _cbi_active_stake_cache_epoch;
+truncate table _cbi_active_stake_cache_pool;
+truncate table _cbi_active_stake_cache_account;
+
+delete from _cbi_cache_handler_state where table_name = '_cbi_active_stake_cache_*';

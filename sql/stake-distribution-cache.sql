@@ -102,25 +102,26 @@ declare
 			accounts_info as (
 				select 
 					sa.id as stake_address_id,
-					sa.view as stake_address,
+					-- sa.view as stake_address,
 					coalesce(lrd.max_reg_tx_id, 0) >= coalesce(lrd.max_dereg_tx_id, 0) as is_registered,
 					encode(last_reg_derep_tx.hash::bytea, 'hex') as last_reg_dereg_tx,
 					max_reg_dereg_eopch_no as last_reg_dereg_epoch_no,
-					ph.view as delegated_pool_bech32,
-					ph.id as pool_hash_id,
+					-- ph.view as delegated_pool_bech32,
+					-- ph.id as pool_hash_id,
+					ld.pool_hash_id,
 					encode(last_deleg_tx.hash::bytea, 'hex') as last_deleg_tx,
 					ld.active_epoch_no as delegated_since_epoch_no
 				from stake_address sa
 					left join latest_reg_dereg lrd on sa.id = lrd.addr_id
 					left join tx last_reg_derep_tx on last_reg_derep_tx.id = lrd.max_reg_dereg_tx_id
 					left join latest_delegation ld on sa.id = ld.addr_id and ld.active_epoch_no >= coalesce(lrd.max_dereg_epoch_no, 0)
-					left join pool_hash ph on ld.pool_hash_id = ph.id
+					-- left join pool_hash ph on ld.pool_hash_id = ph.id
 					left join tx last_deleg_tx on last_deleg_tx.id = ld.tx_id
 			),
 		    account_active_stake as (
 		      select ai.stake_address_id, casca.amount
 		      from "_cbi_active_stake_cache_account" casca 
-		        inner join accounts_info ai on ai.stake_address = casca.stake_address
+		        inner join accounts_info ai on ai.stake_address_id = casca.stake_address_id
 		        where casca.epoch_no = _current_epoch_no
 		    ),
 		    account_delta_tx_ins as (
@@ -192,15 +193,17 @@ declare
 					inner join latest_withdrawal_txs lwt on tx.id = lwt.tx_id
 			)			
 	
-		insert into _cbi_stake_distribution_cache(stake_address, stake_id, is_registered, last_reg_dereg_tx, last_reg_dereg_epoch_no, pool_id, delegated_since_epoch_no, last_deleg_tx, total_balance, utxo, rewards, withdrawals, rewards_available)
+		-- insert into _cbi_stake_distribution_cache(stake_address, stake_id, is_registered, last_reg_dereg_tx, last_reg_dereg_epoch_no, pool_id, delegated_since_epoch_no, last_deleg_tx, total_balance, utxo, rewards, withdrawals, rewards_available)
+		insert into _cbi_stake_distribution_cache(stake_address_id, is_registered, last_reg_dereg_tx, last_reg_dereg_epoch_no, pool_hash_id, delegated_since_epoch_no, last_deleg_tx, total_balance, utxo, rewards, withdrawals, rewards_available)
 		--let's now handle accounts delegated to a pool
 	    select
-	      ai.stake_address,
+	    --   ai.stake_address,
 	      ai.stake_address_id,
           ai.is_registered,
 		  ai.last_reg_dereg_tx,
 		  ai.last_reg_dereg_epoch_no,
-	      ai.delegated_pool_bech32 as pool_id,
+	    --   ai.delegated_pool_bech32 as pool_id,
+		  ai.pool_hash_id,
 		  ai.delegated_since_epoch_no,
 		  ai.last_deleg_tx,
 	      coalesce(aas.amount, 0) + coalesce(ado.amount, 0) - coalesce(adi.amount, 0) + coalesce(adr.rewards, 0) - coalesce(adw.withdrawals, 0) as total_balance,
@@ -228,12 +231,13 @@ declare
 		union
 		--let's now handle all other accounts (newly created, not delegated, unregistered)
 		select
-			ai.stake_address,
+			-- ai.stake_address,
 			ai.stake_address_id,
 			ai.is_registered,
 			ai.last_reg_dereg_tx,
 			ai.last_reg_dereg_epoch_no,
-			ai.delegated_pool_bech32 as pool_id,
+			-- ai.delegated_pool_bech32 as pool_id,
+			ai.pool_hash_id,
 			ai.delegated_since_epoch_no,
 			ai.last_deleg_tx,
 			case when (coalesce(rewards_t.rewards, 0) - coalesce(withdrawals_t.withdrawals, 0)) < 0 then
@@ -300,14 +304,19 @@ declare
 			group by treasury.addr_id
 		) treasury_t on treasury_t.addr_id = ai.stake_address_id
 		where ai.pool_hash_id is null
-		on conflict (stake_address) do
+		on conflict (stake_address_id) do
 	      update
-	        set pool_id = excluded.pool_id,
-	          total_balance = excluded.total_balance,
-	          utxo = excluded.utxo,
-	          rewards = excluded.rewards,
-	          withdrawals = excluded.withdrawals,
-	          rewards_available = excluded.rewards_available;
+	        set is_registered = excluded.is_registered,
+				last_reg_dereg_tx = excluded.last_reg_dereg_tx,
+				last_reg_dereg_epoch_no = excluded.last_reg_dereg_epoch_no,
+				pool_hash_id = excluded.pool_hash_id,
+				delegated_since_epoch_no = excluded.delegated_since_epoch_no,
+				last_deleg_tx = excluded.last_deleg_tx,
+				total_balance = excluded.total_balance,
+				utxo = excluded.utxo,
+				rewards = excluded.rewards,
+				withdrawals = excluded.withdrawals,
+				rewards_available = excluded.rewards_available;
 
  		--update the handler table
 		if _last_processed_block_no = 0 then
@@ -325,6 +334,10 @@ $$;
 call public.cbi_active_stake_cache_update();
 
 call public.cbi_stake_distribution_cache_update();
+
+select * from _cbi_cache_handler_state where table_name='_cbi_stake_distribution_cache';
+
+delete from _cbi_cache_handler_state where table_name='_cbi_stake_distribution_cache';
 
 select count(*) from _cbi_stake_distribution_cache;
 select count(*) from stake_address;
@@ -363,8 +376,16 @@ where pool_id = 'pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc'
 order by epoch_no desc limit 10;
 
 /*preprod*/
-select * from _cbi_stake_distribution_cache
-where pool_id = 'pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r';
+select csdc.* 
+from _cbi_stake_distribution_cache csdc
+inner join pool_hash ph on ph.id=csdc.pool_hash_id
+where ph.view = 'pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r'
+order by csdc.total_balance desc;
+
+select count(1)
+from _cbi_stake_distribution_cache csdc
+inner join pool_hash ph on ph.id=csdc.pool_hash_id
+where ph.view = 'pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r';
 
 select * from _cbi_stake_distribution_cache
 where pool_id = 'pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r'

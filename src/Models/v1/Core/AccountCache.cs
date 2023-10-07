@@ -9,13 +9,14 @@ namespace ApiCore.Models
     [Table("_cbi_stake_distribution_cache")]
     public partial class AccountCache
     {
-        /// <summary>The Bech32 encoded version of the account's stake address</summary>
-        [Key]
-        [Column(TypeName = "character varying")]
-        public string stake_address { get; set; } = null!;
+        // /// <summary>The Bech32 encoded version of the account's stake address</summary>
+        // [Key]
+        // [Column(TypeName = "character varying")]
+        // public string stake_address { get; set; } = null!;
 
         /// <summary>The account's stake address unique identifier.</summary>
-        public long stake_id { get; set; }
+        [Key]
+        public long stake_address_id { get; set; }
 
         /// <summary>Boolean flag indicating if the stake address is registered (true) or deregistered (false) on-chain.</summary>
         public bool? is_registered { get; set; }
@@ -27,9 +28,12 @@ namespace ApiCore.Models
         /// <summary>Epoch number when the stake address was last registered/deregistered.</summary>
         public decimal? last_reg_dereg_epoch_no { get; set; }
 
-        /// <summary>The Bech32 encoding of the pool hash this account is delegated to.</summary>
-        [Column(TypeName = "character varying")]
-        public string? pool_id { get; set; }
+        // /// <summary>The Bech32 encoding of the pool hash this account is delegated to.</summary>
+        // [Column(TypeName = "character varying")]
+        // public string? pool_id { get; set; }
+
+        /// <summary>The pool hash unique identifier.</summary>
+        public long? pool_hash_id { get; set; }
 
         /// <summary>The hexadecimal encoding of the hash identifier of the last delegation transaction for this stake address.</summary>
         [Column(TypeName = "character varying")]
@@ -52,5 +56,12 @@ namespace ApiCore.Models
 
         /// <summary>The available ADA rewards for this account.</summary>
         public decimal? rewards_available { get; set; }
+
+
+        [ForeignKey("stake_address_id")]
+        public virtual StakeAddress StakeAddress { get; set; }
+
+        [ForeignKey("pool_hash_id")]
+        public virtual PoolHash PoolHash { get; set; }
     }
 }
