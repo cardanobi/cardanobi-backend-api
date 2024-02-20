@@ -44,6 +44,7 @@ declare
         inner join tx_out on tx.id = tx_out.tx_id
         left join stake_address sa on tx_out.stake_address_id = sa.id 
         where tx.id > _last_processed_tx_id and tx.id <= _last_tx_id
+		and length(tx_out.address)<255 --to not account for pre-shelley addresses with random lengths
         group by block.epoch_no, tx_out.address, sa.id
         on conflict on constraint _cbi_address_stats_cache_unique do
             update
@@ -67,6 +68,8 @@ call cbi_address_stats_cache_update();
 
 select * from _cbi_cache_handler_state;
 select * from _cbi_cache_handler_state where table_name = '_cbi_address_stats_cache';
+--75808739	
+--86029649
 
 delete from _cbi_cache_handler_state where table_name = '_cbi_address_stats_cache';
 

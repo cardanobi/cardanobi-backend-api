@@ -368,8 +368,12 @@ select * from _cbi_stake_distribution_cache
 where is_registered is false and registered_since_epoch_no is not null;
 
 /*mainnet*/
-select * from _cbi_stake_distribution_cache
-where pool_id = 'pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc';
+select csdc.*
+from _cbi_stake_distribution_cache csdc
+inner join pool_hash ph on ph.id=csdc.pool_hash_id
+where ph.view = 'pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc'
+order by csdc.total_balance desc;
+
 
 select * from _cbi_active_stake_cache_pool
 where pool_id = 'pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc'

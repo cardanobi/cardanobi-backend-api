@@ -126,13 +126,20 @@ truncate table _cbi_pool_stats_cache;
 select count(*) from _cbi_pool_stats_cache;
 select * from _cbi_pool_stats_cache limit 10;
 
-14123
+
 
 ---query ADACT preprod
 select cpsc.* 
 from _cbi_pool_stats_cache cpsc
 inner join pool_hash ph on ph.id=cpsc.pool_hash_id
 where ph.view='pool132jxjzyw4awr3s75ltcdx5tv5ecv6m042306l630wqjckhfm32r'
+order by epoch_no desc;
+
+---query ADACT mainnet
+select cpsc.* 
+from _cbi_pool_stats_cache cpsc
+inner join pool_hash ph on ph.id=cpsc.pool_hash_id
+where ph.view='pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc'
 order by epoch_no desc;
 
 

@@ -298,3 +298,6 @@ __pycache__/
 .env
 .env.test
 */*.env
+
+# technical files
+*.lock

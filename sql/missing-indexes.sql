@@ -23,6 +23,6 @@ CREATE UNIQUE INDEX idx_multi_asset_fingerprint ON public.multi_asset USING btre
 -- CREATE UNIQUE INDEX IF NOT EXISTS unique_stake_deregistration ON public.stake_deregistration USING btree (tx_id, cert_index);
 -- CREATE UNIQUE INDEX IF NOT EXISTS unique_stake_registration ON public.stake_registration USING btree (tx_id, cert_index);
 -- CREATE UNIQUE INDEX IF NOT EXISTS unique_treasury ON public.treasury USING btree (addr_id, tx_id, cert_index);
--- CREATE UNIQUE INDEX IF NOT EXISTS unique_txin ON tx_in USING btree (tx_out_id, tx_out_index);
+CREATE UNIQUE INDEX IF NOT EXISTS unique_txin ON tx_in USING btree (tx_out_id, tx_out_index);
 -- CREATE UNIQUE INDEX IF NOT EXISTS unique_tx_metadata ON public.tx_metadata USING btree (key, tx_id);
 -- CREATE UNIQUE INDEX IF NOT EXISTS unique_withdrawal ON public.withdrawal USING btree (addr_id, tx_id);

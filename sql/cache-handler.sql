@@ -132,6 +132,9 @@ as $$
 	end;
 $$;
 
+drop table _cbi_pool_stats_cache;
+drop table _cbi_pool_stats;
+drop table _cbi_active_stake_cache_account;
 drop table _cbi_stake_distribution_cache;
 
 

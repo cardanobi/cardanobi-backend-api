@@ -44,6 +44,7 @@ declare
         from tx_out 
         left join stake_address sa on tx_out.stake_address_id=sa.id
 		where tx_out.tx_id>_last_processed_tx_id and  tx_out.tx_id<=_last_tx_id
+		and length(tx_out.address)<255 --to not account for pre-shelley addresses with random lengths
 		on conflict (address) do
 	      update
 	        set stake_address_id = excluded.stake_address_id,

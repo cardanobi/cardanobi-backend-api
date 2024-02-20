@@ -139,3 +139,15 @@ truncate table _cbi_active_stake_cache_pool;
 truncate table _cbi_active_stake_cache_account;
 
 delete from _cbi_cache_handler_state where table_name = '_cbi_active_stake_cache_*';
+
+
+---query results
+--mainnet
+
+select sa.view, ph.view, casca.amount
+from _cbi_active_stake_cache_account casca
+inner join pool_hash ph on ph.id=casca.pool_hash_id
+inner join stake_address sa on sa.id=casca.stake_address_id
+where casca.epoch_no=(select max(no) from epoch)
+and ph.view='pool1y24nj4qdkg35nvvnfawukauggsxrxuy74876cplmxsee29w5axc'
+order by casca.amount desc;
