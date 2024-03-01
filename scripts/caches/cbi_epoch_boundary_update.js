@@ -115,8 +115,6 @@ const environment = 'mainnet';
 
 
 const processEpochBoundary = async () => {
-    const startTime = Date.now();
-
     try {
         log("EPOCH BOUNDARY UPDATE - START");
 
@@ -198,23 +196,35 @@ const processEpochBoundary = async () => {
             }
         } while (rowCountStableFor < 10);
 
+        const startTime = Date.now();
+
         // Begin execution of sequence of queries
         log("Executing cbi_active_stake_cache_update");
-        // await clientCBI.query("call public.cbi_active_stake_cache_update();");
-        log("Finished executing cbi_active_stake_cache_update");
-
+        const activeStakeStartTime = Date.now();
+        await clientCBI.query("call public.cbi_active_stake_cache_update();");
+        const activeStakeEndTime = Date.now();
+        const activeStakeTimeTaken = (activeStakeEndTime - activeStakeStartTime) / 60000; // Convert time taken to minutes
+        log(`Finished executing cbi_active_stake_cache_update. Time taken: ${activeStakeTimeTaken.toFixed(2)} minutes`);
+    
         log("Executing cbi_stake_distribution_cache_update");
-        // await clientCBI.query("call public.cbi_stake_distribution_cache_update();");
-        log("Finished executing cbi_stake_distribution_cache_update");
-
+        const stakeDistStartTime = Date.now();
+        await clientCBI.query("call public.cbi_stake_distribution_cache_update();");
+        const stakeDistEndTime = Date.now();
+        const stakeDistTimeTaken = (stakeDistEndTime - stakeDistStartTime) / 60000; // Convert time taken to minutes
+        log(`Finished executing cbi_stake_distribution_cache_update. Time taken: ${stakeDistTimeTaken.toFixed(2)} minutes`);
+    
         log("Executing cbi_pool_stats_cache_update");
-        // await clientCBI.query("call public.cbi_pool_stats_cache_update();");
-        log("Finished executing cbi_pool_stats_cache_update");
-
+        const poolStatsStartTime = Date.now();
+        await clientCBI.query("call public.cbi_pool_stats_cache_update();");
+        const poolStatsEndTime = Date.now();
+        const poolStatsTimeTaken = (poolStatsEndTime - poolStatsStartTime) / 60000; // Convert time taken to minutes
+        log(`Finished executing cbi_pool_stats_cache_update. Time taken: ${poolStatsTimeTaken.toFixed(2)} minutes`);
+    
         // End of sequence of queries
         const endTime = Date.now();
-        const timeTaken = (endTime - startTime) / 1000; // Convert time taken to seconds
-        log(`Finished sequence of EPOCH BOUNDARY queries. Time taken: ${timeTaken.toFixed(2)} seconds`);
+        const totalSequenceTimeTaken = (endTime - startTime) / 60000; // Convert total time taken to minutes
+        log(`Finished sequence of EPOCH BOUNDARY queries. Total time taken: ${totalSequenceTimeTaken.toFixed(2)} minutes`);
+    
 
         log("EPOCH BOUNDARY UPDATE - END");
 
