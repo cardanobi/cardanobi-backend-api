@@ -46,10 +46,10 @@ const logFilePath = process.env.CBI_EPOCH_BOUNDARY_UPDATE_LOG_FILE_PATH || 'cbi_
 
 const log = (message, ...additionalArgs) => {
     const timestamp = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-    
+
     // Check if the message is an object and stringify it if so
     const formattedMessage = typeof message === 'object' ? JSON.stringify(message, null, 2) : message;
-    
+
     // Process additional arguments if they exist, turning objects into strings
     const additionalMessages = additionalArgs.map(arg =>
         typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg
@@ -107,7 +107,7 @@ function secondsUntilEpochEnd(environment) {
 
 
 // Example usage
-const environment = 'mainnet'; 
+const environment = 'mainnet';
 
 // console.log(EPOCH_LENGTHS);
 // console.log(GENESIS_START_TIMES);
@@ -151,24 +151,42 @@ const processEpochBoundary = async () => {
         } while (!newEpochCreated);
 
         // 1.3 Check for the completion of epoch boundary processing
-        do {
-            // Count rows for the previous epoch
-            const previousEpochResult = await clientCBI.query(`select count(*) from epoch_stake where epoch_no=${currentEpochNo}`);
-            previousEpochCount = parseInt(previousEpochResult.rows[0].count);
+        // Compute the row count for the previous epoch once, before the loop
+        const previousEpochResult = await clientCBI.query(`select count(*) from epoch_stake where epoch_no=${currentEpochNo}`);
+        previousEpochCount = parseInt(previousEpochResult.rows[0].count);
 
+        let stabilityTime = 0; // Track stability duration
+        let lastNewEpochCount = -1; // Initialize to -1 to ensure it's different in the first iteration
+
+        do {
             // Count rows for the new epoch
-            const newEpochResult = await clientCBI.query(`select count(*) from epoch_stake where epoch_no=${nextEpochNo}`);
-            newEpochCount = parseInt(newEpochResult.rows[0].count);
+            const newEpochResult = await clientCBI.query(`select count(*) from epoch_stake where epoch_no=${currentEpochNo + 1}`);
+            const newEpochCount = parseInt(newEpochResult.rows[0].count);
 
             log(`EPOCH_STAKE row count for previous epoch: ${previousEpochCount}, for new epoch: ${newEpochCount}`);
+            log(`isDataComplete: ${isDataComplete}, stabilityTime: ${stabilityTime}`);
 
             if (newEpochCount > previousEpochCount) {
                 isDataComplete = true;
+            } else if (newEpochCount === lastNewEpochCount) {
+                // If the row count has not changed, increment the stability time
+                stabilityTime += 10;
             } else {
+                // If the row count has changed, reset the stability time counter
+                stabilityTime = 0;
+            }
+
+            lastNewEpochCount = newEpochCount; // Update lastNewEpochCount for the next iteration
+
+            // Check if the data has been stable for 20 minutes
+            if (stabilityTime >= 20) {
+                isDataComplete = true;
+            } else if (!isDataComplete) {
                 log("Waiting 10 more minutes for epoch boundary data to stabilize.");
                 await new Promise(resolve => setTimeout(resolve, 10 * 60 * 1000)); // Wait for 10 minutes
             }
         } while (!isDataComplete);
+
 
         // 1.4 Ensure that the epoch_stake table's row count for the current epoch has remained constant for 10 minutes
         let lastRowCount = 0;
@@ -205,26 +223,26 @@ const processEpochBoundary = async () => {
         const activeStakeEndTime = Date.now();
         const activeStakeTimeTaken = (activeStakeEndTime - activeStakeStartTime) / 60000; // Convert time taken to minutes
         log(`Finished executing cbi_active_stake_cache_update. Time taken: ${activeStakeTimeTaken.toFixed(2)} minutes`);
-    
+
         log("Executing cbi_stake_distribution_cache_update");
         const stakeDistStartTime = Date.now();
         await clientCBI.query("call public.cbi_stake_distribution_cache_update();");
         const stakeDistEndTime = Date.now();
         const stakeDistTimeTaken = (stakeDistEndTime - stakeDistStartTime) / 60000; // Convert time taken to minutes
         log(`Finished executing cbi_stake_distribution_cache_update. Time taken: ${stakeDistTimeTaken.toFixed(2)} minutes`);
-    
+
         log("Executing cbi_pool_stats_cache_update");
         const poolStatsStartTime = Date.now();
         await clientCBI.query("call public.cbi_pool_stats_cache_update();");
         const poolStatsEndTime = Date.now();
         const poolStatsTimeTaken = (poolStatsEndTime - poolStatsStartTime) / 60000; // Convert time taken to minutes
         log(`Finished executing cbi_pool_stats_cache_update. Time taken: ${poolStatsTimeTaken.toFixed(2)} minutes`);
-    
+
         // End of sequence of queries
         const endTime = Date.now();
         const totalSequenceTimeTaken = (endTime - startTime) / 60000; // Convert total time taken to minutes
         log(`Finished sequence of EPOCH BOUNDARY queries. Total time taken: ${totalSequenceTimeTaken.toFixed(2)} minutes`);
-    
+
 
         log("EPOCH BOUNDARY UPDATE - END");
 
