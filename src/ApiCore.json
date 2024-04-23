@@ -84,32 +84,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which order the rewards are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -118,7 +92,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountRewardDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountRewardDTO"
+                  }
                 }
               }
             }
@@ -162,32 +139,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which order the staking events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -196,7 +147,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountStakingDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountStakingDTO"
+                  }
                 }
               }
             }
@@ -240,32 +194,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which order the delegation events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -274,7 +202,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountDelegationDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountDelegationDTO"
+                  }
                 }
               }
             }
@@ -318,32 +249,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which order the registration events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -352,7 +257,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountRegistrationDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountRegistrationDTO"
+                  }
                 }
               }
             }
@@ -396,32 +304,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which order the withdrawal events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -430,7 +312,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountWithdrawalDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountWithdrawalDTO"
+                  }
                 }
               }
             }
@@ -474,32 +359,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which order the MIR events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -508,7 +367,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountMIRDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountMIRDTO"
+                  }
                 }
               }
             }
@@ -552,32 +414,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which alphabetical order addresses are returned - \"desc\" descending (default) - \"asc\" ascending",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -586,7 +422,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountAddressDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountAddressDTO"
+                  }
                 }
               }
             }
@@ -630,32 +469,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "page_no",
-            "in": "query",
-            "description": "Page number to retrieve - defaults to 1",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "description": "Number of results per page - defaults to 20 - max 100",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Prescribes in which alphabetical order the asset holdings are returned - \"desc\" descending (default) - \"asc\" ascending",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
@@ -664,7 +477,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccountAssetDTO"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AccountAssetDTO"
+                  }
                 }
               }
             }
@@ -800,21 +616,65 @@
         }
       }
     },
-    "/api/bi/addresses/{stake_address}/stats": {
+    "/api/bi/addresses/{address}/stats": {
       "get": {
         "tags": [
           "BI",
           "Addresses",
           "Stats"
         ],
-        "summary": "One stake address stats per epoch.",
-        "description": "Returns statistics for one given stake address and for all epochs.",
+        "summary": "One address stats per epoch.",
+        "description": "Returns statistics for one given address (Enterprise, Payment or Staking), for all epochs or an epoch range.",
         "parameters": [
           {
-            "name": "stake_address",
+            "name": "address",
             "in": "path",
-            "description": "Stake address",
+            "description": "An Enterprise address, a Payment address or a Staking address (e.g. an account)",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "epoch_no_min",
+            "in": "query",
+            "description": "Epoch range lower bound",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "epoch_no_max",
+            "in": "query",
+            "description": "Epoch range upper bound",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order the delegation events are returned - \"desc\" descending (default) from newest to oldest - \"asc\" ascending from oldest to newest",
             "schema": {
               "type": "string"
             }
@@ -828,126 +688,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AddressStat"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
-          },
-          "401": {
-            "description": "Unauthorized: No valid API key provided."
-          },
-          "402": {
-            "description": "Quota Exceeded: This API key has reached its usage limit on request."
-          },
-          "403": {
-            "description": "Access Denied: The request is missing a valid API key or token."
-          },
-          "404": {
-            "description": "Not Found: The requested resource cannot be found."
-          },
-          "429": {
-            "description": "Too Many Requests: This API key has reached its rate limit."
-          }
-        }
-      }
-    },
-    "/api/bi/addresses/stats/epochs/{epoch_no}": {
-      "get": {
-        "tags": [
-          "BI",
-          "Addresses",
-          "Stats"
-        ],
-        "summary": "All stake addresses stats for one epoch.",
-        "description": "Returns all stake addresses statistics for one given epoch.",
-        "parameters": [
-          {
-            "name": "epoch_no",
-            "in": "path",
-            "description": "Epoch number",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK: Successful request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AddressStat"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request: The request was unacceptable, often due to missing a required parameter."
-          },
-          "401": {
-            "description": "Unauthorized: No valid API key provided."
-          },
-          "402": {
-            "description": "Quota Exceeded: This API key has reached its usage limit on request."
-          },
-          "403": {
-            "description": "Access Denied: The request is missing a valid API key or token."
-          },
-          "404": {
-            "description": "Not Found: The requested resource cannot be found."
-          },
-          "429": {
-            "description": "Too Many Requests: This API key has reached its rate limit."
-          }
-        }
-      }
-    },
-    "/api/bi/odata/addressesstats": {
-      "get": {
-        "tags": [
-          "BI",
-          "Addresses",
-          "Stats"
-        ],
-        "summary": "One stake address stats per epoch.",
-        "description": "Returns statistics for one given stake address and for all epochs.",
-        "parameters": [
-          {
-            "name": "stake_address",
-            "in": "query",
-            "description": "Stake address",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "epoch_no",
-            "in": "query",
-            "description": "Epoch number",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK: Successful request.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AddressStat"
+                    "$ref": "#/components/schemas/AddressStatDTO"
                   }
                 }
               }
@@ -2601,6 +2342,32 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order stakes are returned - \"desc\" descending (default) from newest epochs to oldest - \"asc\" ascending from oldest epochs to newest",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2611,7 +2378,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/EpochStakeView"
+                    "$ref": "#/components/schemas/ActivePoolStakePerEpochDTO"
                   }
                 }
               }
@@ -2666,6 +2433,32 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order stakes are returned - \"desc\" descending (default) from largest to smallest stake amount - \"asc\" ascending from smallest to largest stake amount",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2676,7 +2469,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/EpochStakeView"
+                    "$ref": "#/components/schemas/ActivePoolStakePerPoolPerEpochDTO"
                   }
                 }
               }
@@ -2721,6 +2514,32 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order stakes are returned - \"desc\" descending (default) from largest to smallest stake amount - \"asc\" ascending from smallest to largest stake amount",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2731,7 +2550,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/EpochStakeView"
+                    "$ref": "#/components/schemas/ActivePoolStakePerEpochDTO"
                   }
                 }
               }
@@ -2784,6 +2603,32 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page_no",
+            "in": "query",
+            "description": "Page number to retrieve - defaults to 1",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "description": "Number of results per page - defaults to 20 - max 100",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Prescribes in which order stakes are returned - \"desc\" descending (default) from largest to smallest stake amount - \"asc\" ascending from smallest to largest stake amount",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -2794,7 +2639,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/EpochStakeView"
+                    "$ref": "#/components/schemas/ActivePoolStakePerPoolPerEpochDTO"
                   }
                 }
               }
@@ -4432,7 +4277,7 @@
       "get": {
         "tags": [
           "BI",
-          "Pools",
+          "Epochs",
           "Stats"
         ],
         "summary": "All pools statistics per epoch.",
@@ -4457,7 +4302,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PoolStat"
+                    "$ref": "#/components/schemas/PoolStatDTO"
                   }
                 }
               }
@@ -4512,7 +4357,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PoolStat"
+                    "$ref": "#/components/schemas/PoolStatDTO"
                   }
                 }
               }
@@ -4539,29 +4384,21 @@
         }
       }
     },
-    "/api/bi/odata/poolsstats": {
+    "/api/bi/pools/{pool_hash}/stats/lifetime": {
       "get": {
         "tags": [
           "BI",
           "Pools",
-          "Stats"
+          "Lifetime Stats"
         ],
-        "summary": "All pools statistics per epoch.",
-        "description": "Pools activity statistics per epoch number.",
+        "summary": "One pool lifetime statistics.",
+        "description": "Pool lifetime activity statistics for a given pool.",
         "parameters": [
           {
-            "name": "epoch_no",
-            "in": "query",
-            "description": "Epoch number",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
             "name": "pool_hash",
-            "in": "query",
+            "in": "path",
             "description": "The Bech32 encoding of a given pool hash",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -4573,10 +4410,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PoolStat"
-                  }
+                  "$ref": "#/components/schemas/PoolStatLifetimeDTO"
                 }
               }
             }
@@ -5819,6 +5653,11 @@
       "AccountWithdrawalDTO": {
         "type": "object",
         "properties": {
+          "block_no": {
+            "type": "integer",
+            "description": "The block number for this withdrawal transaction.",
+            "format": "int64"
+          },
           "tx_hash_hex": {
             "type": "string",
             "description": "The hexadecimal encoding of the hash identifier of the withdrawal transaction.",
@@ -5828,6 +5667,41 @@
             "type": "integer",
             "description": "The withdrawal amount (in Lovelace).",
             "format": "int64"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActivePoolStakePerEpochDTO": {
+        "type": "object",
+        "properties": {
+          "epoch_no": {
+            "type": "integer",
+            "description": "The epoch number.",
+            "format": "int64"
+          },
+          "stake_address": {
+            "type": "string",
+            "description": "The stake addres.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActivePoolStakePerPoolPerEpochDTO": {
+        "type": "object",
+        "properties": {
+          "stake_address": {
+            "type": "string",
+            "description": "The stake addres.",
+            "nullable": true
+          },
+          "amount": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -5859,7 +5733,7 @@
         },
         "additionalProperties": false
       },
-      "AddressStat": {
+      "AddressStatDTO": {
         "type": "object",
         "properties": {
           "epoch_no": {
@@ -5868,9 +5742,14 @@
             "format": "int32",
             "nullable": true
           },
+          "address": {
+            "type": "string",
+            "description": "The enterprise or payment address.",
+            "nullable": true
+          },
           "stake_address": {
             "type": "string",
-            "description": "The stake address.",
+            "description": "The stake addres.",
             "nullable": true
           },
           "tx_count": {
@@ -6478,51 +6357,6 @@
           "nonce_hex": {
             "type": "string",
             "description": "The nonce value for this epoch in hexadecimal form.",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "EpochStakeView": {
-        "type": "object",
-        "properties": {
-          "epoch_stake_id": {
-            "type": "integer",
-            "description": "The epoch stake unique identifier.",
-            "format": "int64",
-            "nullable": true
-          },
-          "epoch_stake_amount": {
-            "type": "number",
-            "description": "The amount (in Lovelace) being staked.",
-            "format": "double",
-            "nullable": true
-          },
-          "epoch_stake_epoch_no": {
-            "type": "integer",
-            "description": "The epoch number.",
-            "format": "int32",
-            "nullable": true
-          },
-          "pool_hash": {
-            "type": "string",
-            "description": "The Bech32 encoding of the pool hash.",
-            "nullable": true
-          },
-          "stake_address": {
-            "type": "string",
-            "description": "The Bech32 encoded version of the stake address hash.",
-            "nullable": true
-          },
-          "stake_address_script_hash_hex": {
-            "type": "string",
-            "description": "The hexadecimal encoding of the script hash, in case this address is locked by a script.",
-            "nullable": true
-          },
-          "stake_address_id": {
-            "type": "integer",
-            "description": "The stake address unique identifier.",
-            "format": "int64",
             "nullable": true
           }
         },
@@ -7556,7 +7390,7 @@
         },
         "additionalProperties": false
       },
-      "PoolStat": {
+      "PoolStatDTO": {
         "type": "object",
         "properties": {
           "epoch_no": {
@@ -7574,6 +7408,71 @@
             "type": "integer",
             "description": "The transaction count.",
             "format": "int64",
+            "nullable": true
+          },
+          "block_count": {
+            "type": "integer",
+            "description": "The block count.",
+            "format": "int64",
+            "nullable": true
+          },
+          "delegator_count": {
+            "type": "integer",
+            "description": "The delegator count.",
+            "format": "int64",
+            "nullable": true
+          },
+          "delegated_stakes": {
+            "type": "integer",
+            "description": "The delegated stake for the given epoch and given pool (active stake).",
+            "format": "int64",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PoolStatLifetimeDTO": {
+        "type": "object",
+        "properties": {
+          "pool_hash": {
+            "type": "string",
+            "description": "The Bech32 encoding of the pool hash.",
+            "nullable": true
+          },
+          "tx_count_lifetime": {
+            "type": "integer",
+            "description": "The lifetime transaction count.",
+            "format": "int64",
+            "nullable": true
+          },
+          "block_count_lifetime": {
+            "type": "integer",
+            "description": "The lifetime block count.",
+            "format": "int64",
+            "nullable": true
+          },
+          "delegator_count_lifetime": {
+            "type": "integer",
+            "description": "The lifetime delegator count.",
+            "format": "int64",
+            "nullable": true
+          },
+          "delegated_stakes_lifetime": {
+            "type": "number",
+            "description": "The lifetime delegated stake for the given pool (lifetime active stake).",
+            "format": "double",
+            "nullable": true
+          },
+          "delegator_count_lifetime_avg": {
+            "type": "number",
+            "description": "The lifetime average delegator count.",
+            "format": "double",
+            "nullable": true
+          },
+          "delegated_stakes_lifetime_avg": {
+            "type": "number",
+            "description": "The lifetime average delegated stake for the given pool (lifetime average active stake).",
+            "format": "double",
             "nullable": true
           }
         },
@@ -7768,6 +7667,9 @@
             "type": "string",
             "description": "The hexadecimal encoding of the hash identifier of the transaction.",
             "nullable": true
+          },
+          "block": {
+            "$ref": "#/components/schemas/Block"
           }
         },
         "additionalProperties": false
