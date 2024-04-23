@@ -66,6 +66,10 @@ namespace ApiCore.Models
         public virtual DbSet<CBIPoll> CBIPoll { get; set; } = null!;
         public virtual DbSet<CBIPoolParam> CBIPoolParam { get; set; } = null!;
         public virtual DbSet<PollVoteDTO> PollVoteDTO { get; set; } = null!;
+        public virtual DbSet<ActiveStakeCacheEpoch> ActiveStakeCacheEpoch { get; set; } = null!;
+        public virtual DbSet<ActiveStakeCachePool> ActiveStakeCachePool { get; set; } = null!;
+        public virtual DbSet<ActiveStakeCacheAccount> ActiveStakeCacheAccount { get; set; } = null!;
+    
 
         // BI Domain
         public virtual DbSet<PoolStat> PoolStat { get; set; } = null!;

@@ -80,6 +80,9 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<ExtraKeyyWitness>("ExtraKeyyWitness");
     builder.EntitySet<CBIPoll>("CBIPolls");
     builder.EntitySet<CBIPoolParam>("CBIPoolParams");
+    builder.EntitySet<ActiveStakeCacheEpoch>("ActiveStakeCacheEpoch");
+    builder.EntitySet<ActiveStakeCachePool>("ActiveStakeCachePool");
+    builder.EntitySet<ActiveStakeCacheAccount>("ActiveStakeCacheAccount");
     // builder.EntitySet<PollVoteDTO>("PollVoteDTO");
     return builder.GetEdmModel();
 }
