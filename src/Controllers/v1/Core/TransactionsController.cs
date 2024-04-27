@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Text;
+using Npgsql;
 
 namespace ApiCore.Controllers
 {
@@ -226,8 +227,8 @@ namespace ApiCore.Controllers
             }
 
             var transaction = await (
-                from tx in _context.Transaction
-                join b in _context.Block on tx.block_id equals b.id
+                from tx in _context.Transaction.AsNoTracking()
+                join b in _context.Block.AsNoTracking() on tx.block_id equals b.id
                 where tx.hash == Convert.FromHexString(transaction_hash)
                 select new TransactionUtxoDTO()
                 {
@@ -253,14 +254,14 @@ namespace ApiCore.Controllers
             Task<List<TransactionOutputProjectionDTO>> t_main_outputs = Task<List<TransactionOutputProjectionDTO>>.Run(() =>
             {
                 var main_outputs = (
-                    from txo in _context.TransactionOutput
-                    join da in _context.Datum on txo.inline_datum_id equals da.id into daGroup
+                    from txo in _context.TransactionOutput.AsNoTracking()
+                    join da in _context.Datum.AsNoTracking() on txo.inline_datum_id equals da.id into daGroup
                     from dag in daGroup.DefaultIfEmpty()
-                    join sc in _context.Script on txo.reference_script_id equals sc.id into scGroup
+                    join sc in _context.Script.AsNoTracking() on txo.reference_script_id equals sc.id into scGroup
                     from scg in scGroup.DefaultIfEmpty()
-                    join mto in _context.MultiAssetTransactionOutput on txo.id equals mto.tx_out_id into mtoGroup
+                    join mto in _context.MultiAssetTransactionOutput.AsNoTracking() on txo.id equals mto.tx_out_id into mtoGroup
                     from mtog in mtoGroup.DefaultIfEmpty()
-                    join ma in _context.MultiAsset on mtog.ident equals ma.id into maGroup
+                    join ma in _context.MultiAsset.AsNoTracking() on mtog.ident equals ma.id into maGroup
                     from mag in maGroup.DefaultIfEmpty()
                     where txo.tx_id == transaction.id
                     select new TransactionOutputProjectionDTO()
@@ -284,14 +285,14 @@ namespace ApiCore.Controllers
             Task<List<TransactionOutputProjectionDTO>> t_collateral_outputs = Task<List<TransactionOutputProjectionDTO>>.Run(() =>
             {
                 var collateral_outputs = (
-                    from cto in _context2.CollateralTransactionOutput
-                    join da in _context2.Datum on cto.inline_datum_id equals da.id into daGroup
+                    from cto in _context2.CollateralTransactionOutput.AsNoTracking()
+                    join da in _context2.Datum.AsNoTracking() on cto.inline_datum_id equals da.id into daGroup
                     from dag in daGroup.DefaultIfEmpty()
-                    join sc in _context2.Script on cto.reference_script_id equals sc.id into scGroup
+                    join sc in _context2.Script.AsNoTracking() on cto.reference_script_id equals sc.id into scGroup
                     from scg in scGroup.DefaultIfEmpty()
-                    join mto in _context2.MultiAssetTransactionOutput on cto.id equals mto.tx_out_id into mtoGroup
+                    join mto in _context2.MultiAssetTransactionOutput.AsNoTracking() on cto.id equals mto.tx_out_id into mtoGroup
                     from mtog in mtoGroup.DefaultIfEmpty()
-                    join ma in _context2.MultiAsset on mtog.ident equals ma.id into maGroup
+                    join ma in _context2.MultiAsset.AsNoTracking() on mtog.ident equals ma.id into maGroup
                     from mag in maGroup.DefaultIfEmpty()
                     where cto.tx_id == transaction.id
                     select new TransactionOutputProjectionDTO()
@@ -385,7 +386,7 @@ namespace ApiCore.Controllers
                     from mtog in mtoGroup.DefaultIfEmpty()
                     join ma in _context.MultiAsset on mtog.ident equals ma.id into maGroup
                     from mag in maGroup.DefaultIfEmpty()
-                    where txo.index == tx_in.tx_out_index && tx.id == transaction.id
+                    where txo.index == tx_in.tx_out_index && tx.hash == Convert.FromHexString(transaction_hash)
                     select new TransactionInputProjectionDTO()
                     {
                         output_index = txo.index,
@@ -408,16 +409,16 @@ namespace ApiCore.Controllers
             Task<List<TransactionInputProjectionDTO>> t_collateral_inputs = Task<List<TransactionInputProjectionDTO>>.Run(() =>
             {
                 var collateral_inputs = (
-                    from txo in _context2.TransactionOutput
-                    join ctx_in in _context2.CollateralTransactionInput on txo.tx_id equals ctx_in.tx_out_id
-                    join tx in _context2.Transaction on txo.tx_id equals tx.id
-                    join da in _context2.Datum on txo.inline_datum_id equals da.id into daGroup
+                    from txo in _context2.TransactionOutput.AsNoTracking()
+                    join ctx_in in _context2.CollateralTransactionInput.AsNoTracking() on txo.tx_id equals ctx_in.tx_out_id
+                    join tx in _context2.Transaction.AsNoTracking() on txo.tx_id equals tx.id
+                    join da in _context2.Datum.AsNoTracking() on txo.inline_datum_id equals da.id into daGroup
                     from dag in daGroup.DefaultIfEmpty()
-                    join sc in _context2.Script on txo.reference_script_id equals sc.id into scGroup
+                    join sc in _context2.Script.AsNoTracking() on txo.reference_script_id equals sc.id into scGroup
                     from scg in scGroup.DefaultIfEmpty()
-                    join mto in _context2.MultiAssetTransactionOutput on txo.id equals mto.tx_out_id into mtoGroup
+                    join mto in _context2.MultiAssetTransactionOutput.AsNoTracking() on txo.id equals mto.tx_out_id into mtoGroup
                     from mtog in mtoGroup.DefaultIfEmpty()
-                    join ma in _context2.MultiAsset on mtog.ident equals ma.id into maGroup
+                    join ma in _context2.MultiAsset.AsNoTracking() on mtog.ident equals ma.id into maGroup
                     from mag in maGroup.DefaultIfEmpty()
                     where txo.index == ctx_in.tx_out_index && ctx_in.tx_in_id == transaction.id
                     select new TransactionInputProjectionDTO()
@@ -442,16 +443,16 @@ namespace ApiCore.Controllers
             Task<List<TransactionInputProjectionDTO>> t_reference_inputs = Task<List<TransactionInputProjectionDTO>>.Run(() =>
             {
                 var reference_inputs = (
-                    from txo in _context3.TransactionOutput
-                    join rtx_in in _context3.ReferenceTransactionInput on txo.tx_id equals rtx_in.tx_out_id
-                    join tx in _context3.Transaction on txo.tx_id equals tx.id
-                    join da in _context3.Datum on txo.inline_datum_id equals da.id into daGroup
+                    from txo in _context3.TransactionOutput.AsNoTracking()
+                    join rtx_in in _context3.ReferenceTransactionInput.AsNoTracking() on txo.tx_id equals rtx_in.tx_out_id
+                    join tx in _context3.Transaction.AsNoTracking() on txo.tx_id equals tx.id
+                    join da in _context3.Datum.AsNoTracking() on txo.inline_datum_id equals da.id into daGroup
                     from dag in daGroup.DefaultIfEmpty()
-                    join sc in _context3.Script on txo.reference_script_id equals sc.id into scGroup
+                    join sc in _context3.Script.AsNoTracking() on txo.reference_script_id equals sc.id into scGroup
                     from scg in scGroup.DefaultIfEmpty()
-                    join mto in _context3.MultiAssetTransactionOutput on txo.id equals mto.tx_out_id into mtoGroup
+                    join mto in _context3.MultiAssetTransactionOutput.AsNoTracking() on txo.id equals mto.tx_out_id into mtoGroup
                     from mtog in mtoGroup.DefaultIfEmpty()
-                    join ma in _context3.MultiAsset on mtog.ident equals ma.id into maGroup
+                    join ma in _context3.MultiAsset.AsNoTracking() on mtog.ident equals ma.id into maGroup
                     from mag in maGroup.DefaultIfEmpty()
                     where txo.index == rtx_in.tx_out_index && rtx_in.tx_in_id == transaction.id
                     select new TransactionInputProjectionDTO()
@@ -474,6 +475,7 @@ namespace ApiCore.Controllers
             });
 
             Task.WaitAll(t_main_inputs, t_collateral_inputs, t_reference_inputs);
+            // Task.WaitAll(t_collateral_inputs, t_reference_inputs);
 
             // get results from these
             var main_inputs = t_main_inputs.Result;
@@ -484,6 +486,7 @@ namespace ApiCore.Controllers
             List<TransactionInputDTO> inputs = new List<TransactionInputDTO>();
 
             foreach (TransactionInputProjectionDTO pi in main_inputs.Concat(collateral_inputs).Concat(reference_inputs)) 
+            // foreach (TransactionInputProjectionDTO pi in collateral_inputs.Concat(reference_inputs)) 
             {
                 var existingInput = inputs.FirstOrDefault(u => u.tx_hash_hex.Equals(pi.hash_hex));
                 if (existingInput == null) 

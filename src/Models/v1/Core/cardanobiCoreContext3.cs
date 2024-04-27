@@ -139,6 +139,25 @@ namespace ApiCore.Models
                    });
             modelBuilder.Entity<AddressStat>().HasKey(c => new { c.epoch_no, c.address, c.stake_address_id });
             
+            modelBuilder.Entity<ActiveStakeCacheEpoch>(entity =>
+            {
+                entity.HasKey(e => e.epoch_no).HasName("_cbi_active_stake_cache_epoch_pkey");
+
+                entity.Property(e => e.epoch_no).ValueGeneratedNever();
+            });
+
+            modelBuilder.Entity<ActiveStakeCachePool>(entity =>
+            {
+                entity.HasKey(e => new { e.pool_id, e.epoch_no }).HasName("_cbi_active_stake_cache_pool_pkey");
+            });
+
+            modelBuilder.Entity<ActiveStakeCacheAccount>(entity =>
+            {
+                entity.HasKey(e => new { e.stake_address_id, e.pool_hash_id, e.epoch_no }).HasName("_cbi_active_stake_cache_account_pkey");
+
+                entity.Property(e => e.amount).HasDefaultValueSql("0");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
